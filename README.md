@@ -32,3 +32,8 @@ git push origin master
 
 /docs - contains documentation
 /tests 
+
+
+** Build Instructions **
+g++ -o projectHMS src/*.cpp -Iinclude
+./projectHMS
