@@ -18,17 +18,18 @@ Project for Object-Oriented Software Development Using C++
 
 
 ## File Structure
-/src - contains cpp files used for implementation
-->main.cpp
-    |-userInterface
-        ->userInterface.cpp
-
-/include - contains header files used for classes
-    |-userInterface
-        ->userInterface.h
-
-/docs - contains documentation
-/tests 
+- `/src` - contains cpp files used for implementation
+- `main.cpp`
+- `/userInterface`
+ - `userInterface.cpp`
+   
+- `/include` - contains header files used for classes
+- `/userInterface`
+ - `userInterface.h`
+   
+- `/docs` - contains documentation
+  
+- `/tests` - contains test files
 
 ## Build Instructions
 - g++ userInterface.cpp -o userInterface
