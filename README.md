@@ -21,11 +21,11 @@ Project for Object-Oriented Software Development Using C++
 - `/src` - contains cpp files used for implementation
 - `main.cpp`
 - `/userInterface`
- - `userInterface.cpp`
+  - `userInterface.cpp`
    
 - `/include` - contains header files used for classes
 - `/userInterface`
- - `userInterface.h`
+  - `userInterface.h`
    
 - `/docs` - contains documentation
   
