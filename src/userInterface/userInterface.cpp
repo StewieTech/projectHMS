@@ -88,25 +88,60 @@ void displayMenu() {
 }
 
 // void userInput(::vector<Patient*>& patients, list<Appointment>& appointments)
-// void userInput(list<Appointment>& appointments)
-// { 
-//     int choice;
-//     string name;
+void userInput(list<Appointment>& appointments)
+{ 
+    int choice;
+    string name;
+    string medicalStaff;
+    string appointmentTime;
+    string procedures;
+    string patientMatched; // FINISH FUNCTION
 
+    do {
+        cin >> choice;
 
-//     do {
-//         cin >> choice;
+        switch (choice) {
+            case 1:
+            // Schedule Appointment
+            cout<< "Enter the name of the patient: ";
+            cin.ignore();
+            getline(cin, name);
 
-//         switch (choice) {
-//             case 1:
-//             // Schedule Appointment
-//             cout<< "Endter the name of the patient: ";
+            
+            patientMatched = "create patient search function" ; //FINISH HERE
+            if (patientMatched != "nullptr ") { 
 
-//         }
-//     }
-// }
+                cout << "Enter the name of the mediacal staff: " ; 
+                
+                getline(cin, medicalStaff);
+
+                cout << "Enter the Time of the Appointment: ";
+                getline(cin, appointmentTime);
+
+                cout << "Enter the procedure: ";
+                getline(cin, procedures);
+            
+
+            try {
+                appointmentSchedule(appointments, Appointment(patientMatched, medicalStaff,appointmentTime, procedures));
+                cout << "Your appointment has been scheduled !" << endl;
+            } catch (const AppointmentConflictException& e) {
+                cout << "Exception: " << e.what() << endl;
+            }        
+        } else {
+            cout << "Sorry, we did not find the patient" << endl;
+        }
+        break;
+
+        }
+    } while (choice != 0);
+}
+
 
 int main() {
+    list<Appointment> appointments;
+
     displayMenu();
+    userInput(appointments);
     return 0 ;
 }
