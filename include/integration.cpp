@@ -1,6 +1,6 @@
-#include "patient.h"
-#include "medicalStaff.h"
-#include "appointment.h" 
+#include "Patient.h"
+#include "MedicalStaff.h"
+#include "Appointment.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -51,7 +51,7 @@ void addNewPatient(vector<Patient*>& patients, Patient* newPatient) {
 Patient* searchPatientById(const vector<Patient*>& patients, const int patientId) {
     auto it = find_if(patients.begin(), patients.end(), [patientId](const Patient* patient) {
         return patient->getId() == patientId;
-        });
+    });
 
     if (it != patients.end()) {
         return *it;
@@ -65,6 +65,10 @@ void displayAllPatients(const vector<Patient*>& patients) {
         cout << patient->displayInfo() << endl;
         // Assuming there's a getHealthHistory() function in the Patient class
         cout << patient->getHealthHistory() << endl;
+        // Display patient's appointment information
+        if (patient->getAppointment()) {
+            cout << "Appointment Time: " << patient->getAppointment()->getAppointmentTime() << endl;
+        }
         cout << "--------------------------\n";
     }
 }
