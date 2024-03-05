@@ -18,10 +18,20 @@ void displayAllPatients(const vector<Patient*>& patients);
 
 int main() {
     vector<Patient*> patients;
+    vector<MedicalStaff*> medicalStaff;
+    vector<Appointment*> appointments;
 
     // Example: Adding new patients
     addNewPatient(patients, new Inpatient("John Doe", 35, 'M', 101, "Room 101"));
     addNewPatient(patients, new Outpatient("Jane Doe", 25, 'F', "2024-02-15", "Dr. Smith"));
+
+    // Example: Adding medical staff
+    medicalStaff.push_back(new Doctor("Dr. Smith", "Cardiologist", true, "License123"));
+    medicalStaff.push_back(new Nurse("Nurse Johnson", "RN", true, 12345));
+
+    // Example: Creating appointments
+    appointments.push_back(new Appointment("2024-02-20", patients[0], medicalStaff[0]));
+    appointments.push_back(new Appointment("2024-02-21", patients[1], medicalStaff[1]));
 
     // Example: Searching for a patient by ID
     Patient* foundPatient = searchPatientById(patients, 101);
@@ -32,12 +42,20 @@ int main() {
         cout << "Patient not found.\n";
     }
 
-    // Example: Displaying all patients
+    // Displaying all patients
     displayAllPatients(patients);
 
     // Clean up memory
     for (auto& patient : patients) {
         delete patient;
+    }
+
+    for (auto& staff : medicalStaff) {
+        delete staff;
+    }
+
+    for (auto& appointment : appointments) {
+        delete appointment;
     }
 
     return 0;
@@ -68,37 +86,8 @@ void displayAllPatients(const vector<Patient*>& patients) {
         // Display patient's appointment information
         if (patient->getAppointment()) {
             cout << "Appointment Time: " << patient->getAppointment()->getAppointmentTime() << endl;
+            cout << "Assigned Medical Staff: " << patient->getAppointment()->getMedicalStaff()->getName() << endl;
         }
         cout << "--------------------------\n";
     }
-}
-
-// Doctor class functions
-Doctor::Doctor(string name, string specialization, bool availability, string licenseNumber)
-    : MedicalStaff(name, specialization, availability), licenseNumber(licenseNumber) {}
-
-void Doctor::displayInfo() const {
-    MedicalStaff::displayInfo();
-    cout << "License Number: " << licenseNumber << endl;
-}
-
-void Doctor::assignToAppointment(Appointment* appointment) {
-    // Implementation to assign a doctor to an appointment
-    // This can involve updating the doctor's schedule, etc.
-    cout << "Doctor " << name << " assigned to appointment." << endl;
-}
-
-// Nurse class functions
-Nurse::Nurse(string name, string specialization, bool availability, int employeeId)
-    : MedicalStaff(name, specialization, availability), employeeId(employeeId) {}
-
-void Nurse::displayInfo() const {
-    MedicalStaff::displayInfo();
-    cout << "Employee ID: " << employeeId << endl;
-}
-
-void Nurse::assignToAppointment(Appointment* appointment) {
-    // Implementation to assign a nurse to an appointment
-    // This can involve updating the nurse's schedule, etc.
-    cout << "Nurse " << name << " assigned to appointment." << endl;
 }
