@@ -1,19 +1,30 @@
 #ifndef APPOINTMENT_H
 #define APPOINTMENT_H
 
-class Patient;  // Forward declaration to avoid circular dependencies
+#include <string>
+#include "Patient.h"
+#include "MedicalStaff.h"
 
 class Appointment {
 public:
     Appointment();  // Constructor
-    // Add other member functions and attributes as needed
+    Appointment(const std::string& appointmentTime, Patient* patient, MedicalStaff* staff);
 
-    // Friend function declaration
-    friend void setPatientAppointment(Patient* patient, Appointment* appointment);
+    // Accessors
+    const std::string& getAppointmentTime() const;
+    Patient* getPatient() const;
+    MedicalStaff* getMedicalStaff() const;
+
+    // Modifiers
+    void setAppointmentTime(const std::string& appointmentTime);
+    void setPatient(Patient* patient);
+    void setMedicalStaff(MedicalStaff* staff);
 
 private:
-    // Define the attributes of the Appointment class
-    // For example, patient information, medical staff, appointment time, etc.
+    std::string appointmentTime;
+    Patient* patient;       // Pointer to the patient associated with the appointment
+    MedicalStaff* staff;    // Pointer to the medical staff associated with the appointment
+    // You can add more attributes like location, etc., as needed
 };
 
 #endif // APPOINTMENT_H
