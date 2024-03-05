@@ -18,10 +18,10 @@ public:
     virtual string displayInfo() const;
     virtual int getId() const;  // Hypothetical function to retrieve ID
 
-    // Additional member functions
-    void updateInfo(int newAge, char newGender);
-    void addMedicalProcedure(string procedureName);
-    string getHealthHistory() const;
+    // Member functions 
+    void updateInfo(int newAge, char newGender); //update patient info function
+    void addMedicalProcedure(string procedureName); //add medical procedure function
+    string getHealthHistory() const; //function to get health history
 
     // Function to set the appointment
     void setAppointment(Appointment* appointment);
