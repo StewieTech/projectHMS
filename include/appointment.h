@@ -24,7 +24,6 @@ private:
     std::string appointmentTime;
     Patient* patient;       // Pointer to the patient associated with the appointment
     MedicalStaff* staff;    // Pointer to the medical staff associated with the appointment
-    // You can add more attributes like location, etc., as needed
 };
 
 #endif // APPOINTMENT_H
