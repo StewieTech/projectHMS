@@ -12,8 +12,6 @@ public:
 
     bool isAvailable() const;
 
-    // Other member functions as needed
-
 protected:
     string name;
     string specialization;
@@ -40,4 +38,4 @@ private:
     int employeeId;
 };
 
-#endif // MEDICALSTAFF_H
+#endif MEDICALSTAFF_H
