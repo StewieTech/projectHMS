@@ -18,20 +18,22 @@ void displayAllPatients(const vector<Patient*>& patients);
 
 int main() {
     vector<Patient*> patients;
-    vector<MedicalStaff*> medicalStaff;
-    vector<Appointment*> appointments;
 
     // Example: Adding new patients
-    addNewPatient(patients, new Inpatient("John Doe", 35, 'M', 101, "Room 101"));
-    addNewPatient(patients, new Outpatient("Jane Doe", 25, 'F', "2024-02-15", "Dr. Smith"));
+    Patient* johnDoe = new Inpatient("John Doe", 35, 'M', 101, "Room 101");
+    Patient* janeDoe = new Outpatient("Jane Doe", 25, 'F', "2024-02-15", "Dr. Smith");
 
-    // Example: Adding medical staff
-    medicalStaff.push_back(new Doctor("Dr. Smith", "Cardiologist", true, "License123"));
-    medicalStaff.push_back(new Nurse("Nurse Johnson", "RN", true, 12345));
+    // Creating appointments
+    Appointment* johnsAppointment = new Appointment("2024-02-16 10:00", johnDoe, nullptr);
+    Appointment* janesAppointment = new Appointment("2024-02-17 14:30", janeDoe, nullptr);
 
-    // Example: Creating appointments
-    appointments.push_back(new Appointment("2024-02-20", patients[0], medicalStaff[0]));
-    appointments.push_back(new Appointment("2024-02-21", patients[1], medicalStaff[1]));
+    // Assigning appointments to patients
+    johnDoe->setAppointment(johnsAppointment);
+    janeDoe->setAppointment(janesAppointment);
+
+    // Adding patients to the list
+    addNewPatient(patients, johnDoe);
+    addNewPatient(patients, janeDoe);
 
     // Example: Searching for a patient by ID
     Patient* foundPatient = searchPatientById(patients, 101);
@@ -42,20 +44,12 @@ int main() {
         cout << "Patient not found.\n";
     }
 
-    // Displaying all patients
+    // Example: Displaying all patients
     displayAllPatients(patients);
 
     // Clean up memory
     for (auto& patient : patients) {
         delete patient;
-    }
-
-    for (auto& staff : medicalStaff) {
-        delete staff;
-    }
-
-    for (auto& appointment : appointments) {
-        delete appointment;
     }
 
     return 0;
@@ -81,12 +75,10 @@ Patient* searchPatientById(const vector<Patient*>& patients, const int patientId
 void displayAllPatients(const vector<Patient*>& patients) {
     for (const auto& patient : patients) {
         cout << patient->displayInfo() << endl;
-        // Assuming there's a getHealthHistory() function in the Patient class
         cout << patient->getHealthHistory() << endl;
         // Display patient's appointment information
         if (patient->getAppointment()) {
             cout << "Appointment Time: " << patient->getAppointment()->getAppointmentTime() << endl;
-            cout << "Assigned Medical Staff: " << patient->getAppointment()->getMedicalStaff()->getName() << endl;
         }
         cout << "--------------------------\n";
     }
