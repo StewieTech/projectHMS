@@ -30,6 +30,8 @@ protected:
     string name;
     int age;
     char gender;
+    string insurer;
+    string insuranceNum;
     int id;  // Assuming each patient has a unique ID
     vector<string> medicalProcedures;  // Store a list of medical procedures
     Appointment* appointment;  // Pointer to the patient's appointment
