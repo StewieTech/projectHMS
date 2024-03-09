@@ -7,7 +7,7 @@ using namespace std;
 
 class MedicalStaff {
 public:
-    MedicalStaff(string name, string specialization, bool availability);
+    MedicalStaff(string name, string specialization, bool availability, employeeID);
 
     virtual void displayInfo() const;  
 
