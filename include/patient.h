@@ -40,10 +40,6 @@ public:
 	void setName(string n);
 	void setAge (int i);
 	void setGender(char g);
-	void setInsurer(string i);
-	void setInsuranceNum(string i);
-	void setHp(int h);
-	void setSan(int s);
 	void setDept(string d);
 
 	void setUrgency();
@@ -79,8 +75,6 @@ protected:
 
     bool flag_urgency = false;	// Pls display urgent patients first in all caller functions
 
-	int hp;		// has range of 1-5
-	int san;	// has range of 1-5
 	string dept;	// range within defined departments
 
 	// Determined by pre-process
