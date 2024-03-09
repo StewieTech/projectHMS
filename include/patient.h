@@ -18,8 +18,6 @@ public:
     Patient(int ID, string name, int age, char gender); // need to set initial appointment here
     virtual ~Patient();
 
-    virtual string displayInfo() const;
-
     // Accessors - getters
     int getId() const;  // Retrieve ID. No need to override
 	string getName() const;
@@ -63,12 +61,14 @@ public:
 
     // Member functions
 	Patient* preProcess();
+    virtual void displayInfo() const;
+	/*
 	void confirmInfo(int newAge, char newGender, string address, int phoneNum); //confirm patient info function
     void updateInfo(int newAge, char newGender, string address, int phoneNum); //update patient info function
     void addMedicalProcedure(string procedureName); //add medical procedure function - not sure if I will keep it
+    */
     void displayHealthHistory () const;
     Appointment* getHealthHistory() const; //function to get health history
-    void setAppointment(Appointment* appointment); // Function to set the appointment
 
 protected:
     string name;
@@ -115,16 +115,15 @@ private:
 
     friend class Appointment; // allows access from Appointment objects
 public:
-	InPatient(int ID, string name, int age, char gender, int roomNumber, appointment * appointment));
-	virtual string displayInfo() const override;
+	InPatient(int ID, string name, int age, char gender, int roomNumber, Appointment * appointment));
 
 	// Accessors - getters
-	int getRoomNo() const;
+	int getRoomNum() const;
 	time_t getInTime() const;
 	time_t getInTime() cosnt;
 
 	// Acceessors - setters
-	InPatient* setRoomNo(int r);
+	InPatient* setRoomNum(int r);
 	InPatient* setInTime(time_t it);
 	InPatient* setOutTime(time_t ot);
 
@@ -139,6 +138,7 @@ public:
 	InPatient* exitCured();
 	// A function to gather history appointments and present them
 	void displayHistory();
+	string displayInfo() const override;
 
 protected:
 	int roomNumber;
