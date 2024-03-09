@@ -16,12 +16,6 @@ Patient* searchPatientById(const vector<Patient*>& patients, const int patientId
 // Function to display the list of all patients
 void displayAllPatients(const vector<Patient*>& patients);
 
-// Function to assign a doctor to an appointment
-void assignDoctorToAppointment(Doctor* doctor, Appointment* appointment);
-
-// Function to assign a nurse to an appointment
-void assignNurseToAppointment(Nurse* nurse, Appointment* appointment);
-
 int main() {
     vector<Patient*> patients;
 
