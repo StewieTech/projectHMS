@@ -32,7 +32,7 @@ COUT <<	Confirmation: appoint confirmed!!!!
 
 ## UML Classes
 - Errol	Appointment
-- Myles	Expections (Done)
+- Myles	Exceptions (Done)
 - Olivia	MedicalStaff
 - SW	Patient
 
