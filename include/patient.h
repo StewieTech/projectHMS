@@ -19,7 +19,8 @@ public:
     virtual int getId() const;  // Hypothetical function to retrieve ID
 
     // Member functions 
-    void updateInfo(int newAge, char newGender); //update patient info function
+    void confirmInfo(int newAge, char newGender, string address, int phoneNum); //confirm patient info function
+    void updateInfo(int newAge, char newGender, string address, int phoneNum); //update patient info function
     void addMedicalProcedure(string procedureName); //add medical procedure function
     string getHealthHistory() const; //function to get health history
 
