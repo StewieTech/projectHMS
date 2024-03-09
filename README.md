@@ -8,6 +8,8 @@ Project for Object-Oriented Software Development Using C++
 -  <swu106@myseneca.ca>
 -  <estewart14@myseneca.ca>
 
+-  errol.f.stewart@gmail.com
+
  ## Instructions for git
 - git clone https://github.com/StewieTech/projectHMS.git
 - git pull
