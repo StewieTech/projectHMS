@@ -16,6 +16,9 @@ Patient* searchPatientById(const vector<Patient*>& patients, const int patientId
 // Function to display the list of all patients
 void displayAllPatients(const vector<Patient*>& patients);
 
+// Function to assign medical staff to an appointment
+void assignMedicalStaffToAppointment(MedicalStaff* medicalStaff, Appointment* appointment);
+
 int main() {
     vector<Patient*> patients;
 
@@ -35,12 +38,12 @@ int main() {
     addNewPatient(patients, johnDoe);
     addNewPatient(patients, janeDoe);
 
-    // Assigning medical staff to appointments
-    Doctor* drSmith = new Doctor("Dr. Smith", "Cardiologist", true, "12345");
-    Nurse* nurseJohnson = new Nurse("Nurse Johnson", "ER Nurse", true, 9876);
+    // Assigning medical staff to appointments using MedicalStaffManager
+    MedicalStaff* drSmith = MedicalStaffManager::assignMedicalStaff("Cardiologist");
+    MedicalStaff* nurseJohnson = MedicalStaffManager::assignMedicalStaff("ER Nurse");
 
-    assignDoctorToAppointment(drSmith, johnsAppointment);
-    assignNurseToAppointment(nurseJohnson, janesAppointment);
+    assignMedicalStaffToAppointment(drSmith, johnsAppointment);
+    assignMedicalStaffToAppointment(nurseJohnson, janesAppointment);
 
     // Example: Searching for a patient by ID
     Patient* foundPatient = searchPatientById(patients, 101);
@@ -94,12 +97,7 @@ void displayAllPatients(const vector<Patient*>& patients) {
     }
 }
 
-// Function to assign a doctor to an appointment
-void assignDoctorToAppointment(Doctor* doctor, Appointment* appointment) {
-    doctor->assignToAppointment(appointment);
-}
-
-// Function to assign a nurse to an appointment
-void assignNurseToAppointment(Nurse* nurse, Appointment* appointment) {
-    nurse->assignToAppointment(appointment);
+// Function to assign medical staff to an appointment
+void assignMedicalStaffToAppointment(MedicalStaff* medicalStaff, Appointment* appointment) {
+    medicalStaff->assignToAppointment(appointment);
 }
