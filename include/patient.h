@@ -127,8 +127,6 @@ public:
 	void setInTime(time_t it);
 	void setOutTime(time_t ot);
 
-	void setAppointment(Appointment* appointment);
-
 	//other functions
 	void randomProcess();
 	void redoClassify();
@@ -154,7 +152,7 @@ protected:
 class OutPatient : public Patient {
 	friend class Appointment; // allows access from Appointment objects
 public:
-	OutPatient(string name, int age, char gender, string appointmentDate, string doctorName);
+	OutPatient(string name, int age, char gender, time_t appointmentTime, string doctorName);
 	virtual string displayInfo() const override;
 
 	//Accessors
