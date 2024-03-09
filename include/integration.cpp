@@ -16,6 +16,12 @@ Patient* searchPatientById(const vector<Patient*>& patients, const int patientId
 // Function to display the list of all patients
 void displayAllPatients(const vector<Patient*>& patients);
 
+// Function to assign a doctor to an appointment
+void assignDoctorToAppointment(Doctor* doctor, Appointment* appointment);
+
+// Function to assign a nurse to an appointment
+void assignNurseToAppointment(Nurse* nurse, Appointment* appointment);
+
 int main() {
     vector<Patient*> patients;
 
@@ -35,12 +41,18 @@ int main() {
     addNewPatient(patients, johnDoe);
     addNewPatient(patients, janeDoe);
 
+    // Assigning medical staff to appointments
+    Doctor* drSmith = new Doctor("Dr. Smith", "Cardiologist", true, "12345");
+    Nurse* nurseJohnson = new Nurse("Nurse Johnson", "ER Nurse", true, 9876);
+
+    assignDoctorToAppointment(drSmith, johnsAppointment);
+    assignNurseToAppointment(nurseJohnson, janesAppointment);
+
     // Example: Searching for a patient by ID
     Patient* foundPatient = searchPatientById(patients, 101);
     if (foundPatient) {
         cout << "Patient found:\n" << foundPatient->displayInfo() << endl;
-    }
-    else {
+    } else {
         cout << "Patient not found.\n";
     }
 
@@ -51,6 +63,10 @@ int main() {
     for (auto& patient : patients) {
         delete patient;
     }
+
+    // Clean up medical staff
+    delete drSmith;
+    delete nurseJohnson;
 
     return 0;
 }
@@ -82,4 +98,14 @@ void displayAllPatients(const vector<Patient*>& patients) {
         }
         cout << "--------------------------\n";
     }
+}
+
+// Function to assign a doctor to an appointment
+void assignDoctorToAppointment(Doctor* doctor, Appointment* appointment) {
+    doctor->assignToAppointment(appointment);
+}
+
+// Function to assign a nurse to an appointment
+void assignNurseToAppointment(Nurse* nurse, Appointment* appointment) {
+    nurse->assignToAppointment(appointment);
 }
