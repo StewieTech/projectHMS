@@ -39,7 +39,7 @@ protected:
 
 class Inpatient : public Patient {
 public:
-    Inpatient(string name, int age, char gender, int roomNumber);
+    Inpatient(string name, int age, char gender, int roomNumber, appointment * appointment);
     virtual string displayInfo() const override;
 
 private:
