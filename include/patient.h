@@ -15,7 +15,7 @@ class OutPatient;
 class Patient {
 	friend class Appointment; // allow access from Appointment objects;
 public:
-    Patient(int ID, string name, int age, char gender); // need to set initial appointment here
+    Patient(int patientID, string name, int age, char gender); // need to set initial appointment here
     virtual ~Patient();
 
     // Accessors - getters
@@ -74,9 +74,9 @@ protected:
     string name;
     int age;
     char gender;
-    string insurer;
-    string insuranceNum;
-    int id;  // Assuming each patient has a unique ID
+    string address;
+    string phoneNum;
+    int patientID;  // Assuming each patient has a unique ID
     vector<string> medicalProcedures;  // Store a list of medical procedures
 
     bool flag_urgency = false;	// Pls display urgent patients first in all caller functions
