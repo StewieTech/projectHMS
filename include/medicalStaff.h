@@ -4,10 +4,6 @@
 
 using namespace std;
 
-class MedicalStaffManager {
-public:
-    static MedicalStaff* assignMedicalStaff(const string& specialization);
-};
 
 class MedicalStaff {
 public:
@@ -22,6 +18,7 @@ protected:
     string specialization;
     bool availability;
 };
+
 
 class Doctor : public MedicalStaff {
 public:
@@ -41,6 +38,11 @@ public:
 
 private:
     int employeeId;
+};
+
+class MedicalStaffManager {
+public:
+    static MedicalStaff* assignMedicalStaff(const string& specialization);
 };
 
 #endif // MEDICALSTAFF_H
