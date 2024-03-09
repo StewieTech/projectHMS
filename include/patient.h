@@ -23,10 +23,8 @@ public:
 	string getName() const;
 	int getAge() const;
 	char getGender() const;
-	string getInsurer() const;
-	string getInsuranceNum() const;
-	int getHp() const;
-	int getSan() const;
+	string getAddress() const;
+	int getPhoneNum() const;
 	string getDept() const;
 
 	bool getUrgency() const;
