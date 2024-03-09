@@ -1,6 +1,7 @@
 Team Meeting March 9th
 
-	The Menu						
+	The Menu	
+ 
 CIN	Existing or new			if exisitng then ID			
 COUT	List	12	John				
 		222	George				
@@ -22,17 +23,17 @@ CIN	Appoint ment time
 COUT	Confirmation: appoint confirmed!!!!						
 
 Next Steps
-Add Sizhe code to Github
-Send UML Diagrams to Myles to submit 
-Add UML diagrams to github
-share Draw.io through google drive and we can edit it at real time
+-Add Sizhe code to Github
+-Send UML Diagrams to Myles to submit 
+-Add UML diagrams to github
+-share Draw.io through google drive and we can edit it at real time
 ![image](https://github.com/StewieTech/projectHMS/assets/77213085/e937721a-64b3-4d03-9ea0-d9c7e755a0da)
 
 UML Classes
-Errol	Appointment
-Myles	Expections (Done)
-Olivia	MedicalStaff
-SW	Patient
+-Errol	Appointment
+-Myles	Expections (Done)
+-Olivia	MedicalStaff
+-SW	Patient
 ![image](https://github.com/StewieTech/projectHMS/assets/77213085/a3f7df23-a590-4686-a37f-5b41263e1d08)
 
 Next Meeting 
