@@ -20,7 +20,7 @@ protected:
 
 class Doctor : public MedicalStaff {
 public:
-    Doctor(string name, string specialization, bool availability, string licenseNumber);
+    Doctor(string name, string specialization, bool availability, int employeeID, string licenseNumber);
 
     void displayInfo() const override;  // override the virtual function
 
@@ -30,7 +30,7 @@ private:
 
 class Nurse : public MedicalStaff {
 public:
-    Nurse(string name, string specialization, bool availability, int employeeId);
+    Nurse(string name, string specialization, bool availability, int employeeID);
 
     void displayInfo() const override;  // override the virtual function
 
