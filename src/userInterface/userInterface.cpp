@@ -22,9 +22,9 @@ class AppointmentConflictException : public exception {
 
 // Appointment Scheduling
 class Appointment {
-    private:
+    protected:
         string patient; // Will make a dynamic reference to the patient class from Question 1
-        string medicalStaff;
+        string medicalStaff; // dynamic from MedicalStaff.cpp
         string appointmentTime;
         string procedures;
 
@@ -82,6 +82,7 @@ void displayMenu() {
     cout << "2. Cancel Appointment" << endl; 
     cout << "3. Manage Staff" << endl; 
     cout << "4. Find Patient" << endl; 
+    cout << "5. Referral for Doctor" << endl; // searches for a Doctor // New Patient
     cout << "0. Exit Menu" << endl; 
     cout << "Enter Your Choice" << endl;
 
