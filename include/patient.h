@@ -38,29 +38,29 @@ public:
 	int getTotalInCents() const;
 
 	//Accessors - setters
-	Patient* setID(int i);
-	Patient* setName(string n);
-	Patient* setAge (int i);
-	Patient* setGender(char g);
-	Patient* setInsurer(string i);
-	Patient* setInsuranceNum(string i);
-	Patient* setHp(int h);
-	Patient* setSan(int s);
-	Patient* setDept(string d);
+	void setID(int i);
+	void setName(string n);
+	void setAge (int i);
+	void setGender(char g);
+	void setInsurer(string i);
+	void setInsuranceNum(string i);
+	void setHp(int h);
+	void setSan(int s);
+	void setDept(string d);
 
-	Patient* setUrgency();
-	Patient* resetUrgency();
-	Patient* setInpatient();
-	Patient* resetInpatient();
-	Patient* setOutpatient();
-	Patient* resetOutpatient();
+	void setUrgency();
+	void resetUrgency();
+	void setInpatient();
+	void resetInpatient();
+	void setOutpatient();
+	void resetOutpatient();
 
-	Patient* setAppointment(Appointment* appointment);
-	Patient* setTotalInCents(int t);
+	void setAppointment(Appointment* appointment);
+	void setTotalInCents(int t);
 
 
     // Member functions
-	Patient* preProcess();
+	void preProcess();
     virtual void displayInfo() const;
 	/*
 	void confirmInfo(int newAge, char newGender, string address, int phoneNum); //confirm patient info function
@@ -123,19 +123,18 @@ public:
 	time_t getInTime() cosnt;
 
 	// Acceessors - setters
-	InPatient* setRoomNum(int r);
-	InPatient* setInTime(time_t it);
-	InPatient* setOutTime(time_t ot);
+	void setRoomNum(int r);
+	void setInTime(time_t it);
+	void setOutTime(time_t ot);
 
-	InPatient* setAppointment(Appointment* appointment);
-	InPatient* setTotalInCents(int t);
+	void setAppointment(Appointment* appointment);
 
 	//other functions
-	InPatient* randomProcess();
-	InPatient* redoClassify();
-	InPatient* transferToOutPatient();
-	InPatient* transferOut(string nameHospital);
-	InPatient* exitCured();
+	void randomProcess();
+	void redoClassify();
+	void transferToOutPatient();
+	void transferOut(string nameHospital);
+	void exitCured();
 	// A function to gather history appointments and present them
 	void displayHistory();
 	string displayInfo() const override;
@@ -145,9 +144,11 @@ protected:
 	time_t inTime;
 	time_t outTime;
 
+	/*
+	 * update in constructor
 	bool is_inpatient = true;
 	bool is_outpatient = false;
-
+	*/
 };
 
 class OutPatient : public Patient {
@@ -161,15 +162,15 @@ public:
 	time_t getAppTime();
 	string getDocName();
 	//Accessors - setters
-	OutPatient* setAppTime(time_t at);
-	OutPatient* setDocName(string dn);
+	void setAppTime(time_t at);
+	void setDocName(string dn);
 
 	//Other func
-	OutPatient* randomProcess();
-	OutPatient* redoClassify();
-	OutPatient* transferToInPatient();
-	OutPatient* transferOut(string nameHospital);
-	OutPatient* exitCured();
+	void randomProcess();
+	void redoClassify();
+	void transferToInPatient();
+	void transferOut(string nameHospital);
+	void exitCured();
 	// A function to gather history appointments and present them
 	void displayHistory();
 
