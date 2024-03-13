@@ -5,6 +5,8 @@
 #include<algorithm>
 using namespace std;
 
+#include "../include/userInterface.h"
+
 /*
 Appointment Scheduling (Errol):
    - Implement a class called "Appointment" to represent an appointment. 
@@ -23,8 +25,8 @@ class AppointmentConflictException : public exception {
 // Appointment Scheduling
 class Appointment {
     protected:
-        string patient; // Will make a dynamic reference to the patient class from Question 1
-        string medicalStaff; // dynamic from MedicalStaff.cpp
+        Patient* patient; // Will make a dynamic reference to the patient class from Question 1
+        MedicalStaff* medicalStaff; // dynamic from MedicalStaff.cpp
         string appointmentTime;
         string procedures;
 
