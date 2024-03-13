@@ -6,6 +6,7 @@
 using namespace std;
 
 #include "../include/userInterface.h"
+#include "../include/exceptions.h"
 
 /*
 Appointment Scheduling (Errol):
@@ -14,37 +15,28 @@ It should store the patient information, the medical staff assigned, the appoint
    - Utilize STL containers to handle appointment scheduling, track appointment conflicts, and manage appointment cancellations or rescheduling.
 */
 
-class AppointmentConflictException : public exception {
-    public:
-     const char* what() const noexcept override {
-        return "There's already an appointment for this time";
-     }
-};
+// class AppointmentConflictException : public exception {
+//     public:
+//      const char* what() const noexcept override {
+//         return "There's already an appointment for this time";
+//      }
+// };
 
 
 // Appointment Scheduling
-class Appointment {
-    protected:
-        Patient* patient; // Will make a dynamic reference to the patient class from Question 1
-        MedicalStaff* medicalStaff; // dynamic from MedicalStaff.cpp
-        string appointmentTime;
-        string procedures;
-
-    public:
-        Appointment(string& patInput, const string& mInput, const string& atInput, const string& prInput) : patient(patInput), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
+        Appointment::Appointment(Patient* patInput, MedicalStaff* mInput, const string& atInput, const string& prInput) : patient(patInput), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
 
     // Appointment.h ?
-    string getAppointmentTime() const {
+    string Appointment::getAppointmentTime() const {
         return appointmentTime;
     }
         
-        void displayMenu() const {
+        void Appointment::displayMenu() const {
             cout << "Patient: " << patient << endl;
             cout << "Medical Staff: " << medicalStaff << endl;
             cout << "Appointment Time: " << appointmentTime << endl;
             cout << "Procedures: " << procedures << endl;
         }
-};
 
 void appointmentSchedule(list<Appointment>& appointments, const Appointment& appointment) {
     for (const auto& previousBookedAppointment : appointments) {
