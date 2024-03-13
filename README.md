@@ -39,4 +39,16 @@ Project for Object-Oriented Software Development Using C++
 - g++ -o projectHMS src/*.cpp -Iinclude
   - this compiles the entire project 
 - ./projectHMS
-  - this runs the entire project 
+  - this runs the entire project
+
+## Troubleshooting
+to include header files in .cpp files use <br>
+- #include "../include/userInterface.h"
+- ctrl + shift + p in visual studio code then search for c_cpp_properties.json and add to the include path: <br>
+ "includePath": [
+"${workspaceFolder}/**",
+"${workspaceFolder}/projectHMS/include",
+],
+
+
+
