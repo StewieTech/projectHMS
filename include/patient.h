@@ -5,8 +5,10 @@
 #include <vector>
 #include <time.h>
 #include "Appointment.h" 
+#include "exceptions.h"
 
 using namespace std;
+
 
 class Appointment;
 class InPatient;
@@ -169,4 +171,35 @@ protected:
 	string doctorName;
 };
 
+// Exception handling for invalid age
+class InvalidAgeException : public BaseException {
+public:
+    void invalidAges(int age) {
+        try {
+            if (age <= 0) {
+                throw std::invalid_argument("Age must be a positive number.");
+            }
+            if (age > 150) {
+                throw std::invalid_argument("Age outside normal lifespan.");
+            }
+        } catch (const std::invalid_argument& e) {
+            reportError(e.what());
+        }
+    }
+};
+// Exception handling for invalid name
+class InvalidNameException : public BaseException {
+public:
+    void invalidNames(const std::string& Name) {
+        try {
+            for (char c : Name) {
+                if (!isalpha(c)) {
+                    throw std::invalid_argument("Names must contain letters only.");
+                }
+            }
+        } catch (const std::invalid_argument& e) {
+            reportError(e.what());
+        }
+    }
+};
 #endif // PATIENT_H
