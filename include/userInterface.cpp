@@ -6,9 +6,11 @@
 #include "Appointment.h"
 #include "exceptions.h"
 #include "MedicalStaff.h"
+#include "Patient.h"
+#include "procedure.h"
 
 
-using namespace std;
+// using namespace std;
 
 
 
@@ -31,14 +33,14 @@ Patient* findPatientByName(const string& name, const vector<Patient*>& patients)
        
     }
     return nullptr; // turn this to an exception maybe ?
-}
+};
 
 MedicalStaff* findMedicalStaff(const string& specialization, const vector<MedicalStaff*>& staffMembers ) {
     for (auto& staff : staffMembers) {
         if (staff->getSpecialization() == specialization && staff -> isAvailable()) return staff;
     }
 
-}
+};
 
 // Appointment Scheduling
         Appointment::Appointment(Patient* patInput, MedicalStaff* mInput, const string& atInput, const string& prInput) : patient(patInput), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
@@ -46,14 +48,14 @@ MedicalStaff* findMedicalStaff(const string& specialization, const vector<Medica
     // Appointment.h ?
     string Appointment::getAppointmentTime() const {
         return appointmentTime;
-    }
+    };
         
         void Appointment::displayMenu() const {
             cout << "Patient: " << patient << endl;
             cout << "Medical Staff: " << medicalStaff << endl;
             cout << "Appointment Time: " << appointmentTime << endl;
             cout << "Procedures: " << procedures << endl;
-        }
+        };
 
 void appointmentSchedule(list<Appointment>& appointments, const Appointment& appointment) {
     list<string> scheduledAppointments;
@@ -66,7 +68,7 @@ void appointmentSchedule(list<Appointment>& appointments, const Appointment& app
     }
 
     appointments.push_back(appointment);
-}
+};
 
 void appointmentCancel(list<Appointment>& appointments, const string& appointmentTime) {
     auto iter = find_if(appointments.begin(), appointments.end(), [appointmentTime](const Appointment& appointment) {
@@ -76,7 +78,7 @@ void appointmentCancel(list<Appointment>& appointments, const string& appointmen
     if (iter != appointments.end()) {
         appointments.erase(iter);
     }
-}
+};
 
 
 
@@ -105,7 +107,7 @@ void displayMenu() {
     cout << "0. Exit Menu" << endl; 
     cout << "Enter Your Choice" << endl;
 
-}
+};
 
 // void userInput(::vector<Patient*>& patients, list<Appointment>& appointments)
 void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vector<MedicalStaff*>& staffMembers)
@@ -143,15 +145,15 @@ void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vect
                 if (id == patientID) {
                     isPatientMatched = true;
                     break;
-                }
-            }
+                };
+            };
 
             // Set patientMatched based on search result
             if (isPatientMatched) {
                 patientMatched = nullptr;
             } else {
                 patientMatched = "create patient search function";
-            }
+            };
             if (!patientMatched.empty()) { 
 
                 cout << "Enter the name of the mediacal staff: " ; 
@@ -175,28 +177,28 @@ void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vect
                 list<string> scheduledAppointments;
                 for (const auto& appointment : appointments) {
                     scheduledAppointments.push_back(appointment.getAppointmentTime());
-                }
+                };
 
                 if (find(scheduledAppointments.begin(), scheduledAppointments.end(), appointmentTime) != scheduledAppointments.end()) {
                     throw AppointmentConflictException();
-                }
+                };
 
                 Patient* patientPtr = findPatientByName(name, patients) ;
                 MedicalStaff* staffPtr = findMedicalStaff(medicalStaff, staffMembers);
 
                 if (patientPtr == nullptr) {
                     throw invalid_argument("patient not found");
-                }
+                };
                 if (staffPtr == nullptr) {
                     throw invalid_argument("medical staff not found.");
-                }
+                };
 
                 appointmentSchedule(appointments, Appointment(patientPtr, staffPtr, appointmentTime, procedures));
                 cout << "Your appointment has been scheduled!" << endl;
             } catch (const std::invalid_argument& e) {
                 cout << "Exception: " << e.what() << endl;
-            }
-        }
+            };
+        };
         break;
         
 
@@ -206,7 +208,7 @@ void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vect
                 for (const auto& appointment : appointments) {
                     cout << "Appointment Time: " << appointment.getAppointmentTime() << endl;
                     // Display other relevant appointment information
-                }
+                };
 
                 cout << "Enter the appointment time to cancel: ";
                 cin.ignore();
@@ -218,7 +220,7 @@ void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vect
                 // break;
         }
     } while (choice != 0);
-}
+};
 
 
 
@@ -229,6 +231,6 @@ int main() {
 
     displayMenu();
     userInput(appointments, patients, staffMembers);
-    return 0;
-}
+    return 0;;
+};
 

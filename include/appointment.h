@@ -1,3 +1,4 @@
+
 #ifndef APPOINTMENT_H
 #define APPOINTMENT_H
 
@@ -9,7 +10,8 @@
 #include "Procedure.h" 
 #include "exceptions.h"
 
-using namespace std;
+// using namespace std;
+
 
 // Forward declaration to avoid circular dependencies
 class Patient;
@@ -27,6 +29,14 @@ class OutPatient;
 
 // Appointment Scheduling
 class Appointment {
+protected:
+    string appointmentTime;
+    Patient* patient;
+    InPatient* inPatient;
+    OutPatient* outPatient;
+    string procedures;
+    MedicalStaff* medicalStaff;
+
 public:
     // Constructors
     Appointment();
@@ -41,10 +51,10 @@ public:
 
     // Modifiers
     
-    void setAppointmentTime(const string& appointmentTime);
-    void setPatient(Patient* patient);
-    void setMedicalStaff(MedicalStaff* staff);
-    void setProcedure(Procedure* procedure); // Setter for procedure
+    // void setAppointmentTime(const string& appointmentTime);
+    // void setPatient(Patient* patient);
+    // void setMedicalStaff(MedicalStaff* staff);
+    // void setProcedure(Procedure* procedure); // Setter for procedure
 
     // Current;y Patient does not have friend functions declared for the below
 
@@ -62,13 +72,6 @@ public:
     // Additional functions for appointment scheduling
     void displayMenu() const;
 
-protected:
-    string appointmentTime;
-    Patient* patient;
-    InPatient* inPatient;
-    OutPatient* outPatient;
-    string procedures;
-    MedicalStaff* medicalStaff;
 
     // Procedure* procedure; // Need to update not sure where to get from Member variable representing the associated procedure
 };

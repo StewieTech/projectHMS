@@ -8,7 +8,7 @@
 #include "exceptions.h"
 #include "Procedure.h" 
 
-using namespace std;
+// using namespace std;  // removing as causing compiling issues
 
 // Forward declaration to avoid circular dependencies
 class Appointment;
@@ -90,6 +90,8 @@ protected:
 	Appointment* nextStep;
 	int totalExpenseByCents;
 };
+
+Patient* findPatientByName(const string& name, const vector<Patient*>& patients)
 
 #endif // PATIENT_H
 

@@ -6,14 +6,29 @@
 #include "exceptions.h"
 #include "Procedure.h" 
 
-using namespace std;
+#include "Appointment.h"
+#include "Patient.h"
+
+#include <iostream>
+#include <list>
+#include <algorithm>
+
+
+// using namespace std;
 
 class MedicalStaff {
+protected:
+    string name;
+    string specialization;
+    bool availability;
+    int employeeID;
+    vector<Procedure*> procedures; // Vector to store procedures associated with the medical staff
+    string licenseNumber;
+
+
 public:
     MedicalStaff(string name, string specialization, bool availability, int employeeID);
-
     virtual void displayInfo() const;
-
     bool isAvailable() const;
 
     // Accessor and modifier for procedures
@@ -22,14 +37,11 @@ public:
 
     string getSpecialization() const { return specialization; }
 
-protected:
-    string name;
-    string specialization;
-    bool availability;
-    int employeeID;
-    vector<Procedure*> procedures; // Vector to store procedures associated with the medical staff
     
 };
+
+    MedicalStaff*  findMedicalStaff(const string& specialization, const vector<MedicalStaff*>& staffMembers ) ;
+
 
 
 class Doctor : public MedicalStaff {
