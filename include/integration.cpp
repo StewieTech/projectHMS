@@ -1,6 +1,7 @@
 #include "Patient.h"
 #include "MedicalStaff.h"
 #include "Appointment.h"
+#include "Procedure.h" // Include the Procedure header file
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -23,12 +24,18 @@ int main() {
     vector<Patient*> patients;
 
     // Example: Adding new patients
-    Patient* johnDoe = new Inpatient("John Doe", 35, 'M', 101, "Room 101");
-    Patient* janeDoe = new Outpatient("Jane Doe", 25, 'F', "2024-02-15", "Dr. Smith");
+    Patient* johnDoe = new InPatient("John Doe", 35, 'M', 101, "Room 101");
+    Patient* janeDoe = new OutPatient("Jane Doe", 25, 'F', "2024-02-15", "Dr. Smith");
 
     // Creating appointments
     Appointment* johnsAppointment = new Appointment("2024-02-16 10:00", johnDoe, nullptr);
     Appointment* janesAppointment = new Appointment("2024-02-17 14:30", janeDoe, nullptr);
+
+    // Adding procedures for the patients
+    Procedure* procedure1 = new Procedure("X-Ray", "2024-02-16 10:30");
+    Procedure* procedure2 = new Procedure("Blood Test", "2024-02-17 15:00");
+    johnDoe->addProcedure(procedure1);
+    janeDoe->addProcedure(procedure2);
 
     // Assigning appointments to patients
     johnDoe->setAppointment(johnsAppointment);
@@ -61,6 +68,10 @@ int main() {
         delete patient;
     }
 
+    // Clean up procedures
+    delete procedure1;
+    delete procedure2;
+
     // Clean up medical staff
     delete drSmith;
     delete nurseJohnson;
@@ -88,7 +99,8 @@ Patient* searchPatientById(const vector<Patient*>& patients, const int patientId
 void displayAllPatients(const vector<Patient*>& patients) {
     for (const auto& patient : patients) {
         cout << patient->displayInfo() << endl;
-        cout << patient->getHealthHistory() << endl;
+        cout << "Health History: " << endl;
+        patient->displayHealthHistory(); // Display health history including procedures
         // Display patient's appointment information
         if (patient->getAppointment()) {
             cout << "Appointment Time: " << patient->getAppointment()->getAppointmentTime() << endl;
