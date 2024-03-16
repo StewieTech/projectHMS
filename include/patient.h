@@ -91,7 +91,7 @@ protected:
 	int totalExpenseByCents;
 };
 
-Patient* findPatientByName(const string& name, const vector<Patient*>& patients)
+Patient* findPatientByName(const string& name, const vector<Patient*>& patients)  // may need to remove
 
 #endif // PATIENT_H
 
