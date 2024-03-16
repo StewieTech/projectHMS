@@ -113,3 +113,15 @@ void displayAllPatients(const vector<Patient*>& patients) {
 void assignMedicalStaffToAppointment(MedicalStaff* medicalStaff, Appointment* appointment) {
     medicalStaff->assignToAppointment(appointment);
 }
+
+// Function to add a medical procedure to the patient
+void Patient::addProcedure(Procedure* procedure) {
+    healthHistory.push_back(procedure);
+}
+
+// Function to display the health history including procedures
+void Patient::displayHealthHistory() const {
+    for (const auto& procedure : healthHistory) {
+        cout << "Procedure: " << procedure->getName() << ", Date: " << procedure->getDate() << endl;
+    }
+}
