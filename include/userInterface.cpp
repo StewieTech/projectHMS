@@ -3,26 +3,20 @@
 #include <string>
 #include <list>
 #include <algorithm>
-// #include <ctime>
-
-// #include "../include/userInterface.h"
-// #include "../include/exceptions.h"
-#include "appointment.h"
-// #include "userInterface.h"
-
+#include "Appointment.h"
 #include "exceptions.h"
-#include "medicalStaff.h"
+#include "MedicalStaff.h"
 
 
 using namespace std;
 
 
-/*
-Appointment Scheduling (Errol):
-   - Implement a class called "Appointment" to represent an appointment. 
-It should store the patient information, the medical staff assigned, the appointment time, and any necessary procedures.
-   - Utilize STL containers to handle appointment scheduling, track appointment conflicts, and manage appointment cancellations or rescheduling.
-*/
+
+// Appointment Scheduling (Errol):
+//    - Implement a class called "Appointment" to represent an appointment. 
+// It should store the patient information, the medical staff assigned, the appointment time, and any necessary procedures.
+//    - Utilize STL containers to handle appointment scheduling, track appointment conflicts, and manage appointment cancellations or rescheduling.
+
 
 // class AppointmentConflictException : public exception {
 //     public:
@@ -124,6 +118,7 @@ void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vect
     string appointmentTime;
     string procedures;
     string patientMatched; // FINISH FUNCTION
+    bool isPatientMatched = false;
 
     do {
         cin >> choice;
@@ -143,7 +138,7 @@ void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vect
             patientIDs.push_back(patientID);
 
             // Search for patientID in the list of patientIDs
-            bool isPatientMatched = false;
+            isPatientMatched = false; 
             for (const auto& id : patientIDs) {
                 if (id == patientID) {
                     isPatientMatched = true;
@@ -220,7 +215,7 @@ void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vect
                 appointmentCancel(appointments, appointmentTime);
                 cout << "Appointment canceled successfully!" << endl;
 
-                break;
+                // break;
         }
     } while (choice != 0);
 }
