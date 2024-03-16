@@ -30,46 +30,53 @@ class Appointment {
 public:
     // Constructors
     Appointment();
-    Appointment(const string& appointmentTime, Patient* patient, MedicalStaff* staff, Procedure* procedure);
+    Appointment(Patient* patInput, MedicalStaff* mInput, const string& atInput, const string& prInput);
+    // Appointment(const string& appointmentTime, Patient* patient, MedicalStaff* staff, Procedure* procedure);
 
     // Accessors
-    const string& getAppointmentTime() const;
+    string getAppointmentTime() const;
     Patient* getPatient() const;
     MedicalStaff* getMedicalStaff() const;
     Procedure* getProcedure() const; // Getter for procedure
 
     // Modifiers
+    
     void setAppointmentTime(const string& appointmentTime);
     void setPatient(Patient* patient);
     void setMedicalStaff(MedicalStaff* staff);
     void setProcedure(Procedure* procedure); // Setter for procedure
 
+    // Current;y Patient does not have friend functions declared for the below
+
+
     // Friend function declaration
-    friend void Patient::setPatientAppointment(Patient* patient, Appointment* appointment);
-    friend void InPatient::setPatientAppointment(Patient* patient, Appointment* appointment);
-    friend void OutPatient::setPatientAppointment(Patient* patient, Appointment* appointment);
+    // friend void Patient::setPatientAppointment(Patient* patient, Appointment* appointment);
+    // friend void InPatient::setPatientAppointment(Patient* patient, Appointment* appointment);
+    // friend void OutPatient::setPatientAppointment(Patient* patient, Appointment* appointment);
 
     // Display appointment history
-    friend void Patient::displayHistory();
-    friend void InPatient::displayHistory();
-    friend void OutPatient::displayHistory();
+    // friend void Patient::displayHistory();
+    // friend void InPatient::displayHistory();
+    // friend void OutPatient::displayHistory();
 
     // Additional functions for appointment scheduling
     void displayMenu() const;
 
-private:
+protected:
     string appointmentTime;
     Patient* patient;
     InPatient* inPatient;
     OutPatient* outPatient;
-    MedicalStaff* staff;
-    Procedure* procedure; // Member variable representing the associated procedure
+    string procedures;
+    MedicalStaff* medicalStaff;
+
+    // Procedure* procedure; // Need to update not sure where to get from Member variable representing the associated procedure
 };
 
 // Additional functions for appointment scheduling
 void appointmentSchedule(list<Appointment>& appointments, const Appointment& appointment);
 void appointmentCancel(list<Appointment>& appointments, const Appointment& appointment);
 void displayMenu();
-void userInput(list<Appointment>& appointments);
+void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vector<MedicalStaff*>& staffMembers)
 
 #endif // APPOINTMENT_H

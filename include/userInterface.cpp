@@ -7,14 +7,16 @@
 
 // #include "../include/userInterface.h"
 // #include "../include/exceptions.h"
-// #include "appointment.h"
-#include "userInterface.h"
+#include "appointment.h"
+// #include "userInterface.h"
 
 #include "exceptions.h"
 #include "medicalStaff.h"
 
 
 using namespace std;
+
+
 /*
 Appointment Scheduling (Errol):
    - Implement a class called "Appointment" to represent an appointment. 
@@ -219,15 +221,19 @@ void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vect
                 cout << "Appointment canceled successfully!" << endl;
 
                 break;
+        }
     } while (choice != 0);
 }
-}
+
 
 
 int main() {
     list<Appointment> appointments;
+    vector<Patient*> patients;
+    vector<MedicalStaff*> staffMembers;
 
     displayMenu();
-    userInput(appointments);
-    return 0 ;
+    userInput(appointments, patients, staffMembers);
+    return 0;
 }
+
