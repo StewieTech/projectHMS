@@ -3,11 +3,14 @@
 #include<string>
 #include<list>
 #include<algorithm>
+
+// #include "../include/userInterface.h"
+// #include "../include/exceptions.h"
+#include "userInterface.h"
+#include "exceptions.h"
+
+
 using namespace std;
-
-#include "../include/userInterface.h"
-#include "../include/exceptions.h"
-
 /*
 Appointment Scheduling (Errol):
    - Implement a class called "Appointment" to represent an appointment. 
@@ -22,6 +25,15 @@ It should store the patient information, the medical staff assigned, the appoint
 //      }
 // };
 
+Patient* findPatientByName(const string& name, const vector<Patient*>& patients) {
+    for (auto& p : patients) {
+        if(p->getName() == name) return p;
+       
+    }
+    return nullptr; // turn this to an exception maybe ?
+}
+
+MedicalStaff* findMedicalStaff(const string& specialty, const vector<MedicalStaff*>& )
 
 // Appointment Scheduling
         Appointment::Appointment(Patient* patInput, MedicalStaff* mInput, const string& atInput, const string& prInput) : patient(patInput), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
@@ -72,10 +84,10 @@ User Interface (Errol):
 
 void displayMenu() {
     cout << "HMS Menu Options" << endl;
-    cout << "1. Schedule Appointment" << endl; 
+    cout << "1. Schedule New Patient Appointment" << endl; 
     cout << "2. Cancel Appointment" << endl; 
     cout << "3. Manage Staff" << endl; 
-    cout << "4. Find Patient" << endl; 
+    cout << "4. Find Existing Patient By ID" << endl; 
     cout << "5. Referral for Doctor" << endl; // searches for a Doctor // New Patient
     cout << "0. Exit Menu" << endl; 
     cout << "Enter Your Choice" << endl;
