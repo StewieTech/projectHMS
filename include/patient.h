@@ -6,22 +6,25 @@
 #include <time.h>
 #include "Appointment.h" 
 #include "exceptions.h"
+#include "Procedure.h" 
 
 using namespace std;
 
-
+// Forward declaration to avoid circular dependencies
 class Appointment;
 class InPatient;
 class OutPatient;
 
+class Procedure; // Forward declaration of Procedure class
+
 class Patient {
 	friend class Appointment; // allow access from Appointment objects;
 public:
-    Patient(int patientID, string name, int age, char gender); // need to set initial appointment here
-    virtual ~Patient();
+	Patient(int patientID, string name, int age, char gender); // need to set initial appointment here
+	virtual ~Patient();
 
-    // Accessors - getters
-    int getId() const;  // Retrieve ID. No need to override
+	// Accessors - getters
+	int getId() const;  // Retrieve ID. No need to override
 	string getName() const;
 	int getAge() const;
 	char getGender() const;
@@ -37,10 +40,14 @@ public:
 	Appointment* getNextStep() const;
 	int getTotalInCents() const;
 
+	// Accessor and modifier for procedures
+	const vector<Procedure*>& getProcedures() const;
+	void addProcedure(Procedure* procedure);
+
 	//Accessors - setters
 	void setID(int i);
 	void setName(string n);
-	void setAge (int i);
+	void setAge(int i);
 	void setGender(char g);
 	void setDept(string d);
 
@@ -55,32 +62,32 @@ public:
 	void setTotalInCents(int t);
 
 
-    // Member functions
+	// Member functions
 	void preProcess();
-    virtual void displayInfo() const;
+	virtual void displayInfo() const;
 	/*
 	void confirmInfo(int newAge, char newGender, string address, int phoneNum); //confirm patient info function
-    void updateInfo(int newAge, char newGender, string address, int phoneNum); //update patient info function
-    void addMedicalProcedure(string procedureName); //add medical procedure function - not sure if I will keep it
-    */
-    void displayHealthHistory () const;
-    Appointment* getHealthHistory() const; //function to get health history
+	void updateInfo(int newAge, char newGender, string address, int phoneNum); //update patient info function
+	void addMedicalProcedure(string procedureName); //add medical procedure function - not sure if I will keep it
+	*/
+	void displayHealthHistory() const;
+	Appointment* getHealthHistory() const; //function to get health history
 
 protected:
-    string name;
-    int age;
-    char gender;
-    string address;
-    string phoneNum;
-    int patientID;  // Assuming each patient has a unique ID
-    vector<string> medicalProcedures;  // Store a list of medical procedures
+	string name;
+	int age;
+	char gender;
+	string address;
+	string phoneNum;
+	int patientID;  // Assuming each patient has a unique ID
+	vector<string> medicalProcedures;  // Store a list of medical procedures
 
-    bool flag_urgency = false;	// Pls display urgent patients first in all caller functions
+	bool flag_urgency = false;	// Pls display urgent patients first in all caller functions
 
 	string dept;	// range within defined departments
 
 	// Determined by pre-process
-	/* On the application level, when patient is classified, pls create new objects of derived class accordingly
+	/* On the application level, when patient is classified, to create new objects of derived class accordingly
 	 * We can use "static_cast<Derived*>(this)->derivedMethod();" to do so,
 	 * but creating a pointer to derived class might cause internal memory leak - pls remind me to write lesson learned
 	 */
@@ -99,107 +106,5 @@ protected:
 
 };
 
-class InPatient : public Patient {
-public:
-    InPatient(string name, int age, char gender, int roomNumber, appointment * appointment);
-    virtual string displayInfo() const override;
 
-private:
-    int roomNumber;
-
-    friend class Appointment; // allows access from Appointment objects
-public:
-	InPatient(int ID, string name, int age, char gender, int roomNumber, Appointment * appointment));
-
-	// Accessors - getters
-	int getRoomNum() const;
-	time_t getInTime() const;
-	time_t getInTime() cosnt;
-
-	// Acceessors - setters
-	void setRoomNum(int r);
-	void setInTime(time_t it);
-	void setOutTime(time_t ot);
-
-	//other functions
-	void randomProcess();
-	void redoClassify();
-	void transferToOutPatient();
-	void transferOut(string nameHospital);
-	void exitCured();
-	// A function to gather history appointments and present them
-	void displayHistory();
-	string displayInfo() const override;
-
-protected:
-	int roomNumber;
-	time_t inTime;
-	time_t outTime;
-
-	/*
-	 * update in constructor
-	bool is_inpatient = true;
-	bool is_outpatient = false;
-	*/
-};
-
-class OutPatient : public Patient {
-	friend class Appointment; // allows access from Appointment objects
-public:
-	OutPatient(string name, int age, char gender, time_t appointmentTime, string doctorName);
-	virtual string displayInfo() const override;
-
-	//Accessors
-	//Accessors - getters
-	time_t getAppTime();
-	string getDocName();
-	//Accessors - setters
-	void setAppTime(time_t at);
-	void setDocName(string dn);
-
-	//Other func
-	void randomProcess();
-	void redoClassify();
-	void transferToInPatient();
-	void transferOut(string nameHospital);
-	void exitCured();
-	// A function to gather history appointments and present them
-	void displayHistory();
-
-protected:
-	time_t appointmentTime;
-	string doctorName;
-};
-
-// Exception handling for invalid age
-class InvalidAgeException : public BaseException {
-public:
-    void invalidAges(int age) {
-        try {
-            if (age <= 0) {
-                throw std::invalid_argument("Age must be a positive number.");
-            }
-            if (age > 150) {
-                throw std::invalid_argument("Age outside normal lifespan.");
-            }
-        } catch (const std::invalid_argument& e) {
-            reportError(e.what());
-        }
-    }
-};
-// Exception handling for invalid name
-class InvalidNameException : public BaseException {
-public:
-    void invalidNames(const std::string& Name) {
-        try {
-            for (char c : Name) {
-                if (!isalpha(c)) {
-                    throw std::invalid_argument("Names must contain letters only.");
-                }
-            }
-        } catch (const std::invalid_argument& e) {
-            reportError(e.what());
-        }
-    }
-};
 #endif // PATIENT_H
