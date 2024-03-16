@@ -1,23 +1,31 @@
 #ifndef MEDICALSTAFF_H
 #define MEDICALSTAFF_H
+
 #include <string>
+#include <vector>
 #include "exceptions.h"
+#include "Procedure.h" 
 
 using namespace std;
-
 
 class MedicalStaff {
 public:
     MedicalStaff(string name, string specialization, bool availability, int employeeID);
 
-    virtual void displayInfo() const;  
+    virtual void displayInfo() const;
 
     bool isAvailable() const;
+
+    // Accessor and modifier for procedures
+    const vector<Procedure*>& getProcedures() const;
+    void addProcedure(Procedure* procedure);
 
 protected:
     string name;
     string specialization;
     bool availability;
+    int employeeID;
+    vector<Procedure*> procedures; // Vector to store procedures associated with the medical staff
 };
 
 
@@ -36,16 +44,11 @@ public:
     Nurse(string name, string specialization, bool availability, int employeeID);
 
     void displayInfo() const override;  // override the virtual function
-
-private:
-    int employeeId;
 };
-
-#include "medicalStaff.h"
 
 class MedicalStaffManager {
 public:
-    static class MedicalStaff* assignMedicalStaff(const string& specialization);
+    static MedicalStaff* assignMedicalStaff(const string& specialization);
 };
 
 // Exception handling for invalid name
@@ -58,9 +61,11 @@ public:
                     throw std::invalid_argument("Names must contain letters only.");
                 }
             }
-        } catch (const std::invalid_argument& e) {
+        }
+        catch (const std::invalid_argument& e) {
             reportError(e.what());
         }
     }
 };
+
 #endif // MEDICALSTAFF_H
