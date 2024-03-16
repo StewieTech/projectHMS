@@ -20,12 +20,15 @@ public:
     const vector<Procedure*>& getProcedures() const;
     void addProcedure(Procedure* procedure);
 
+    string getSpecialization() const { return specialization; }
+
 protected:
     string name;
     string specialization;
     bool availability;
     int employeeID;
     vector<Procedure*> procedures; // Vector to store procedures associated with the medical staff
+    
 };
 
 
@@ -52,20 +55,23 @@ public:
 };
 
 // Exception handling for invalid name
-class InvalidNameException : public BaseException {
-public:
-    void invalidNames(const std::string& Name) {
-        try {
-            for (char c : Name) {
-                if (!isalpha(c)) {
-                    throw std::invalid_argument("Names must contain letters only.");
-                }
-            }
-        }
-        catch (const std::invalid_argument& e) {
-            reportError(e.what());
-        }
-    }
-};
+// redifinition of InvalidNameException
+// class InvalidNameException : public BaseException {
+// public:
+//     void invalidNames(const std::string& Name) {
+//         try {
+//             for (char c : Name) {
+//                 if (!isalpha(c)) {
+//                     throw std::invalid_argument("Names must contain letters only.");
+//                 }
+//             }
+//         }
+//         catch (const std::invalid_argument& e) {
+//             reportError(e.what());
+//         }
+//     }
+// };
+
+
 
 #endif // MEDICALSTAFF_H

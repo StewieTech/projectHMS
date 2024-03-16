@@ -17,12 +17,13 @@ class InPatient;
 class OutPatient;
 
 // Exception class for appointment conflicts
-class AppointmentConflictException : public exception {
-public:
-    const char* what() const throw() {
-        return "Appointment conflict detected.";
-    }
-};
+// redefinition of class
+// class AppointmentConflictException : public exception {
+// public:
+//     const char* what() const throw() {
+//         return "Appointment conflict detected.";
+//     }
+// };
 
 // Appointment Scheduling
 class Appointment {
