@@ -8,7 +8,7 @@ using namespace std;
 
 class MedicalStaff {
 public:
-    MedicalStaff(string name, string specialization, bool availability, employeeID);
+    MedicalStaff(string name, string specialization, bool availability, int employeeID);
 
     virtual void displayInfo() const;  
 
@@ -41,9 +41,11 @@ private:
     int employeeId;
 };
 
+#include "medicalStaff.h"
+
 class MedicalStaffManager {
 public:
-    static MedicalStaff* assignMedicalStaff(const string& specialization);
+    static class MedicalStaff* assignMedicalStaff(const string& specialization);
 };
 
 // Exception handling for invalid name

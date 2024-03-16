@@ -1,13 +1,15 @@
 #include <iostream>
-#include<vector>
-#include<string>
-#include<list>
-#include<algorithm>
+#include <vector>
+#include <string>
+#include <list>
+#include <algorithm>
+// #include <ctime>
 
 // #include "../include/userInterface.h"
 // #include "../include/exceptions.h"
 #include "userInterface.h"
 #include "exceptions.h"
+#include "medicalStaff.h"
 
 
 using namespace std;
@@ -33,7 +35,9 @@ Patient* findPatientByName(const string& name, const vector<Patient*>& patients)
     return nullptr; // turn this to an exception maybe ?
 }
 
-MedicalStaff* findMedicalStaff(const string& specialty, const vector<MedicalStaff*>& )
+// medicalStaff* findMedicalStaff(const string& specialty, const vector<MedicalStaff*>& staffMembers ) {
+
+// }
 
 // Appointment Scheduling
         Appointment::Appointment(Patient* patInput, MedicalStaff* mInput, const string& atInput, const string& prInput) : patient(patInput), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
@@ -82,6 +86,10 @@ User Interface (Errol):
 
 */
 
+#include <iostream>
+using namespace std;
+
+
 void displayMenu() {
     cout << "HMS Menu Options" << endl;
     cout << "1. Schedule New Patient Appointment" << endl; 
@@ -98,6 +106,7 @@ void displayMenu() {
 void userInput(list<Appointment>& appointments)
 { 
     int choice;
+    int patientID;
     string name;
     string medicalStaff;
     string appointmentTime;
@@ -114,8 +123,29 @@ void userInput(list<Appointment>& appointments)
             cin.ignore();
             getline(cin, name);
 
-            
-            patientMatched = "create patient search function" ; //FINISH HERE
+            cout << "Enter Patient ID" << endl;
+            cin.ignore();
+            cin >> patientID ;
+
+            // Add patientID to a list of patientIDs
+            list<int> patientIDs;
+            patientIDs.push_back(patientID);
+
+            // Search for patientID in the list of patientIDs
+            bool isPatientMatched = false;
+            for (const auto& id : patientIDs) {
+                if (id == patientID) {
+                    isPatientMatched = true;
+                    break;
+                }
+            }
+
+            // Set patientMatched based on search result
+            if (isPatientMatched) {
+                patientMatched = nullptr;
+            } else {
+                patientMatched = "create patient search function";
+            }
             if (patientMatched != "nullptr ") { 
 
                 cout << "Enter the name of the mediacal staff: " ; 
@@ -128,20 +158,47 @@ void userInput(list<Appointment>& appointments)
                 cout << "Enter the procedure: ";
                 getline(cin, procedures);
             
-
             try {
-                appointmentSchedule(appointments, Appointment(patientMatched, medicalStaff,appointmentTime, procedures));
-                cout << "Your appointment has been scheduled !" << endl;
-            } catch (const AppointmentConflictException& e) {
+                InvalidNameException nameException;
+                nameException.invalidNames(patientMatched);
+
+                InvalidNameException staffException;
+                staffException.invalidNames(medicalStaff);
+
+                AppointmentConflictException appointmentException;
+                std::vector<std::time_t> scheduledAppointments;
+                for (const auto& appointment : appointments) {
+                    scheduledAppointments.push_back(appointment.getAppointmentTime());
+                }
+                appointmentException.appointmentConflicts(appointmentTime, scheduledAppointments);
+
+                appointmentSchedule(appointments, Appointment(patientMatched, medicalStaff, appointmentTime, procedures));
+                cout << "Your appointment has been scheduled!" << endl;
+            } catch (const std::invalid_argument& e) {
                 cout << "Exception: " << e.what() << endl;
-            }        
-        } else {
-            cout << "Sorry, we did not find the patient" << endl;
+            }
         }
         break;
+        
 
-        }
+            case 2:
+                // Cancel Appointment
+                cout << "List of booked appointments:" << endl;
+                for (const auto& appointment : appointments) {
+                    cout << "Appointment Time: " << appointment.getAppointmentTime() << endl;
+                    // Display other relevant appointment information
+                }
+
+                cout << "Enter the appointment time to cancel: ";
+                cin.ignore();
+                getline(cin, appointmentTime);
+
+                appointmentCancel(appointments, appointmentTime);
+                cout << "Appointment canceled successfully!" << endl;
+
+                break;
     } while (choice != 0);
+}
 }
 
 
