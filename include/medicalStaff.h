@@ -3,11 +3,11 @@
 
 #include <string>
 #include <vector>
-#include "exceptions.h"
-#include "Procedure.h" 
+// #include "exceptions.h"
+// #include "Procedure.h" 
 
-#include "Appointment.h"
-#include "Patient.h"
+// #include "Appointment.h"
+// #include "Patient.h"
 
 #include <iostream>
 #include <list>

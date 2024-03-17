@@ -4,13 +4,13 @@
 #include <list>
 #include <algorithm>
 #include "Appointment.h"
-#include "exceptions.h"
-#include "MedicalStaff.h"
+#include "exceptionsVF.h"
+#include "MedicalStaffVF.h"
 #include "Patient.h"
 #include "procedure.h"
 
 
-// using namespace std;
+using namespace std;
 
 
 
@@ -27,6 +27,11 @@
 //      }
 // };
 
+
+
+
+
+
 Patient* findPatientByName(const string& name, const vector<Patient*>& patients) {
     for (auto& p : patients) {
         if(p->getName() == name) return p;
@@ -34,6 +39,13 @@ Patient* findPatientByName(const string& name, const vector<Patient*>& patients)
     }
     return nullptr; // turn this to an exception maybe ?
 };
+// Patient* findPatientByName(const string& name, const vector<Patient*>& patients) {
+//     for (auto& p : patients) {
+//         if(p->getName() == name) return p;
+       
+//     }
+//     return nullptr; // turn this to an exception maybe ?
+// };
 
 MedicalStaff* findMedicalStaff(const string& specialization, const vector<MedicalStaff*>& staffMembers ) {
     for (auto& staff : staffMembers) {

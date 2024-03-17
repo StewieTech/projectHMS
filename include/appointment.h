@@ -5,10 +5,10 @@
 #include <iostream>
 #include <string>
 #include <list>
-#include "Patient.h"
-#include "MedicalStaff.h"
-#include "Procedure.h" 
-#include "exceptions.h"
+// #include "Patient.h"
+// #include "MedicalStaff.h"
+// #include "Procedure.h" 
+// #include "exceptions.h"
 
 // using namespace std;
 
@@ -17,6 +17,8 @@
 class Patient;
 class InPatient;
 class OutPatient;
+class MedicalStaff;
+class Procedure;
 
 // Exception class for appointment conflicts
 // redefinition of class
@@ -30,21 +32,22 @@ class OutPatient;
 // Appointment Scheduling
 class Appointment {
 protected:
-    string appointmentTime;
+    std::string appointmentTime;
     Patient* patient;
     InPatient* inPatient;
     OutPatient* outPatient;
-    string procedures;
+    std::string procedures;
     MedicalStaff* medicalStaff;
+    // Procedure* procedures;
 
 public:
     // Constructors
     Appointment();
-    Appointment(Patient* patInput, MedicalStaff* mInput, const string& atInput, const string& prInput);
+    Appointment(Patient* patInput, MedicalStaff* mInput, const std::string& atInput, const std::string& prInput);
     // Appointment(const string& appointmentTime, Patient* patient, MedicalStaff* staff, Procedure* procedure);
 
     // Accessors
-    string getAppointmentTime() const;
+    std::string getAppointmentTime() const;
     Patient* getPatient() const;
     MedicalStaff* getMedicalStaff() const;
     Procedure* getProcedure() const; // Getter for procedure
@@ -77,9 +80,10 @@ public:
 };
 
 // Additional functions for appointment scheduling
-void appointmentSchedule(list<Appointment>& appointments, const Appointment& appointment);
-void appointmentCancel(list<Appointment>& appointments, const Appointment& appointment);
+void appointmentSchedule(std::list<Appointment>& appointments, const Appointment& appointment);
+void appointmentCancel(std::list<Appointment>& appointments, const Appointment& appointment);
 void displayMenu();
-void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vector<MedicalStaff*>& staffMembers)
+void userInput(std::list<Appointment>& appointments, std::vector<Patient*>& patients, std::vector<MedicalStaff*>& staffMembers);
 
 #endif // APPOINTMENT_H
+

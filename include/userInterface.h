@@ -1,9 +1,10 @@
+/*
 #include <iostream>
 #include <string>
 #include <list>
 
 #include "patient.h"
-// #include "medicalStaff.h"
+#include "medicalStaff.h"
 #include "exceptions.h"
 
 using namespace std;
@@ -44,3 +45,5 @@ void displayMenu();
 void userInput(list<Appointment>& appointments);
 
 #endif // USERINTERFACE_H
+
+*/

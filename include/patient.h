@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 #include <time.h>
-#include "Appointment.h"
-#include "exceptions.h"
-#include "Procedure.h" 
+// #include "Appointment.h"
+// #include "exceptions.h"
+// #include "Procedure.h" 
 
 // using namespace std;  // removing as causing compiling issues
 
@@ -16,35 +16,40 @@ class InPatient;
 class OutPatient;
 class Procedure; // Forward declaration of Procedure class
 
+
+
 class Patient {
 	friend class Appointment; // allow access from Appointment objects;
 public:
-	Patient(int patientID, string name, int age, char gender); // Constructor
+	Patient(int patientID, std::string  name, int age, char gender); // Constructor
 	virtual ~Patient(); // Destructor
 
+	std::string getName() const;
+/*
 	// Accessors - getters
 	int getId() const;
-	string getName() const;
 	int getAge() const;
 	char getGender() const;
-	string getAddress() const;
+	std::string getAddress() const;
 	int getPhoneNum() const;
-	string getDept() const;
+	std::string getDept() const;
 	bool getUrgency() const;
 	bool getStatusInpatient() const;
 	bool getStatusOutpatient() const;
 	Appointment* getInitStep() const;
 	Appointment* getNextStep() const;
 	int getTotalInCents() const;
-	const vector<Procedure*>& getProcedures() const; // Getter for procedures
+	const std::vector<Procedure*>& getProcedures() const; // Getter for procedures
 	void addProcedure(Procedure* procedure); // Function to add a medical procedure
+*/
+/*
 
 	// Accessors - setters
 	void setID(int i);
-	void setName(string n);
+	void setName(std::string n);
 	void setAge(int i);
 	void setGender(char g);
-	void setDept(string d);
+	void setDept(std::string d);
 	void setUrgency();
 	void resetUrgency();
 	void setInpatient();
@@ -53,6 +58,7 @@ public:
 	void resetOutpatient();
 	void setAppointment(Appointment* appointment);
 	void setTotalInCents(int t);
+*/
 
 	// Member functions
 	void preProcess();
@@ -61,15 +67,15 @@ public:
 	Appointment* getHealthHistory() const;
 
 protected:
-	string name;
+	std::string name;
 	int age;
 	char gender;
-	string address;
-	string phoneNum;
+	std::string address;
+	std::string phoneNum;
 	int patientID;
-	vector<Procedure*> procedures; // Store a list of medical procedures
+	std::vector<Procedure*> procedures; // Store a list of medical procedures
 	bool flag_urgency = false;
-	string dept;
+	std::string dept;
 	// Determined by pre-process
 /* On the application level, when patient is classified, to create new objects of derived class accordingly
  * We can use "static_cast<Derived*>(this)->derivedMethod();" to do so,
@@ -91,7 +97,6 @@ protected:
 	int totalExpenseByCents;
 };
 
-Patient* findPatientByName(const string& name, const vector<Patient*>& patients)  // may need to remove
+Patient* findPatientByName(const std::string& name, const std::vector<Patient*>& patients) ; // may need to remove
 
 #endif // PATIENT_H
-
