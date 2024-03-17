@@ -24,7 +24,7 @@ Develop the base class "Patient" and derive the "Inpatient" and "Outpatient" cla
 Implement constructors, destructors, and member functions for each class.
 
 
-Medical Staff Management (Person Joseph and Olivia):
+Medical Staff Management (Olivia):
 Create classes for different medical staff (Doctor, Nurse).
 Utilize STL containers and algorithms to manage medical staff, assign them to appointments, and handle their schedules.
 
