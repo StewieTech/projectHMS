@@ -28,8 +28,8 @@ int main() {
     Patient* janeDoe = new OutPatient("Jane Doe", 25, 'F', "2024-02-15", "Dr. Smith");
 
     // Creating appointments
-    Appointment* johnsAppointment = new Appointment("2024-02-16 10:00", johnDoe, nullptr);
-    Appointment* janesAppointment = new Appointment("2024-02-17 14:30", janeDoe, nullptr);
+    Appointment* johnsAppointment = new Appointment(johnDoe, nullptr, "2024-02-16 10:00", "");
+    Appointment* janesAppointment = new Appointment(janeDoe, nullptr, "2024-02-17 14:30", "");
 
     // Adding procedures for the patients
     Procedure* procedure1 = new Procedure("X-Ray", "2024-02-16 10:30");
@@ -56,7 +56,8 @@ int main() {
     Patient* foundPatient = searchPatientById(patients, 101);
     if (foundPatient) {
         cout << "Patient found:\n" << foundPatient->displayInfo() << endl;
-    } else {
+    }
+    else {
         cout << "Patient not found.\n";
     }
 
@@ -87,7 +88,7 @@ void addNewPatient(vector<Patient*>& patients, Patient* newPatient) {
 Patient* searchPatientById(const vector<Patient*>& patients, const int patientId) {
     auto it = find_if(patients.begin(), patients.end(), [patientId](const Patient* patient) {
         return patient->getId() == patientId;
-    });
+        });
 
     if (it != patients.end()) {
         return *it;
@@ -104,24 +105,40 @@ void displayAllPatients(const vector<Patient*>& patients) {
         // Display patient's appointment information
         if (patient->getAppointment()) {
             cout << "Appointment Time: " << patient->getAppointment()->getAppointmentTime() << endl;
+            cout << "Procedures: " << patient->getAppointment()->getProcedure()->getName() << endl; // Updated line to display procedures
         }
         cout << "--------------------------\n";
     }
 }
 
+
 // Function to assign medical staff to an appointment
 void assignMedicalStaffToAppointment(MedicalStaff* medicalStaff, Appointment* appointment) {
-    medicalStaff->assignToAppointment(appointment);
+    medicalStaff->setAppointment(appointment);
 }
 
-// Function to add a medical procedure to the patient
-void Patient::addProcedure(Procedure* procedure) {
-    healthHistory.push_back(procedure);
+// Constructor
+Procedure::Procedure(const std::string& name, const std::string& description)
+    : name(name), description(description) {}
+
+// Getter methods
+std::string Procedure::getName() const {
+    return name;
 }
 
-// Function to display the health history including procedures
-void Patient::displayHealthHistory() const {
-    for (const auto& procedure : healthHistory) {
-        cout << "Procedure: " << procedure->getName() << ", Date: " << procedure->getDate() << endl;
-    }
+std::string Procedure::getDescription() const {
+    return description;
+}
+
+// Setter methods
+void Procedure::setName(const std::string& newName) {
+    name = newName;
+}
+
+void Procedure::setDescription(const std::string& newDescription) {
+    description = newDescription;
+}
+// Implementation of isAvailable function
+bool MedicalStaff::isAvailable() const {
+    return availability;
 }
