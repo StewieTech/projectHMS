@@ -40,8 +40,8 @@ public:
     Appointment* getInitStep() const;
     Appointment* getNextStep() const;
     int getTotalInCents() const;
-    const vector<Procedure*>& getProcedures() const; // Getter for procedures
-    void addProcedure(Procedure* procedure); // Function to add a medical procedure
+    vector<Procedure*>& getProcedures() const; // Getter for procedures
+
 
     // Accessors - setters
     void setID(int i);
@@ -57,10 +57,11 @@ public:
     void resetOutpatient();
     void setAppointment(Appointment* appointment);
     void setTotalInCents(int t);
+    void addProcedure(Procedure* procedure); // Function to add a medical procedure
 
     // Member functions
     void preProcess();
-    virtual void displayInfo() const;
+    void displayInfo() const;
     void displayHealthHistory() const;
     Appointment* getHealthHistory() const;
 
@@ -85,6 +86,75 @@ protected:
     int totalExpenseByCents;
 };
 
-Patient* findPatientByName(const string& name, const vector<Patient*>& patients);
+class InPatient : public Patient {
+	friend class Appointment; // allows access from Appointment objects
+public:
+    InPatient(int ID, string name, int age, char gender, int roomNumber);
+    virtual string displayInfo() const override;
+
+    // Accessors - getters
+    int getRoomNo() const;
+    time_t getInTime() const;
+    time_t getInTime() cosnt;
+
+    // Acceessors - setters
+    InPatient* setRoomNo(int r);
+    InPatient* setInTime(time_t it);
+    InPatient* setOutTime(time_t ot);
+
+    InPatient* setAppointment(Appointment* appointment);
+    InPatient* setTotalInCents(int t);
+
+    //other functions
+    InPatient* randomProcess();
+    InPatient* redoClassify();
+    InPatient* transferToOutPatient();
+    InPatient* transferOut(string nameHospital);
+    InPatient* exitCured();
+    // A function to gather history appointments and present them
+	void displayHistory();
+
+protected:
+	int roomNumber;
+    time_t inTime;
+    time_t outTime;
+
+    bool is_inpatient = true;
+	bool is_outpatient = false;
+};
+
+
+class OutPatient : public Patient {
+	friend class Appointment; // allows access from Appointment objects
+public:
+    Outpatient(string name, int age, char gender, string appointmentDate, string doctorName);
+    virtual string displayInfo() const override;
+
+    //Accessors
+    //Accessors - getters
+    time_t getAppTime();
+    string getDocName();
+    //Accessors - setters
+    OutPatient* setAppTime(time_t at);
+    OutPatient* setDocName(string dn);
+
+    //Other func
+    OutPatient* randomProcess();
+    OutPatient* redoClassify();
+    OutPatient* transferToInPatient();
+    OutPatient* transferOut(string nameHospital);
+	OutPatient* exitCured();
+    // A function to gather history appointments and present them
+	void displayHistory();
+
+protected:
+    time_t appointmentTime;
+    string doctorName;
+
+    bool flag_urgency = false;
+    bool is_inpatient = false;
+	bool is_outpatient = true;
+};
+
 
 #endif // PATIENT_H
