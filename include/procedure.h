@@ -3,22 +3,24 @@
 
 #include <string>
 
+using namespace std;
+
 class Procedure {
 private:
-    std::string name;
-    std::string description;
+    string name;
+    string description;
 
 public:
     // Constructor
-    Procedure(const std::string& name, const std::string& description);
+    Procedure(const string& name, const string& description);
 
     // Getter methods
-    std::string getName() const;
-    std::string getDescription() const;
+    string getName() const;
+    string getDescription() const;
 
     // Setter methods
-    void setName(const std::string& newName);
-    void setDescription(const std::string& newDescription);
+    void setName(const string& newName);
+    void setDescription(const string& newDescription);
 };
 
 #endif // PROCEDURE_H
