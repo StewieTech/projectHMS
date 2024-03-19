@@ -21,7 +21,7 @@ class Patient {
 
 public:
     // Constructor & Destructor
-    Patient(int pID, string n, int a, char g, string add, string pN, string d, bool urg=false, bool ip=false, bool op=false, Appointment* is, Appointment* ns, int tebc );
+    Patient(int pID, string n, int a, char g, string add="Unknown", string pN="Unknown", string d="Unassigned", bool urg=false, bool ip=false, bool op=false, Appointment* is, Appointment* ns, int tebc=0);
     virtual ~Patient();
 
     string getName() const { return name; }     // Getter method for name
