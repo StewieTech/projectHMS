@@ -362,13 +362,14 @@ void Patient::displayInfo() const;
 void Patient::displayHealthHistory() const;
 Appointment* Patient::getHealthHistory() const;
 
-
+//Derived class: InPatient:
+//Constructor & Destructor
+InPatient(int pID, string n, int a, char g, string add, string pN, string d, int rn, Appointment* is, Appointment* ns, int tebc );
 
 /*
 
 class InPatient : public Patient {
-	friend class Appointment; // allows access from Appointment objects
-public:
+
     InPatient(int ID, string name, int age, char gender, int roomNumber);
     virtual string displayInfo() const override;
 
