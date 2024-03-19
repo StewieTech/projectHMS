@@ -20,8 +20,9 @@ class Patient {
     friend class Appointment; // Allow access from Appointment objects;
 
 public:
-    Patient(int patientID, string name, int age, char gender); // Constructor
-    virtual ~Patient(); // Destructor
+    // Constructor & Destructor
+    Patient(int pID, string n, int a, char g, string add, string pN, string d, bool urg=false, bool ip=false, bool op=false, Appointment* is, Appointment* ns, int tebc );
+    virtual ~Patient();
 
     string getName() const { return name; }     // Getter method for name
 
