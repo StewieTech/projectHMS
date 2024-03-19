@@ -8,11 +8,13 @@
 
 using namespace std;
 
+class Appointment; // Forward declaration of Appointment class
+
 class MedicalStaff {
 protected:
     string name;
     string specialization;
-    bool availability; 
+    bool availability;
     int employeeID;
     vector<Procedure*> procedures; // Vector to store procedures associated with the medical staff
 
@@ -24,6 +26,7 @@ public:
     const vector<Procedure*>& getProcedures() const;
     void addProcedure(Procedure* procedure);
     string getSpecialization() const { return specialization; }
+    void setAppointment(Appointment* appointment); // Forward declaration
 };
 
 class Doctor : public MedicalStaff {
