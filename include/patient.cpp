@@ -404,7 +404,7 @@ void Patient::displayInfo() const
 	cout<<"Next step:"<<nextStep->getProcedure()->getName();
 	cout<<"Scheduled: "<<nextStep->getAppointmentTime();
 	cout<<endl;
-	cout<<"Current bill payables: "<<(totalExpenseByCents/100.0)<<endl;
+	cout<<"Current bill payable: "<<(totalExpenseByCents/100.0)<<endl;
 }
 
 /*	Func name:	displayHealthHistory
@@ -431,7 +431,10 @@ Appointment* Patient::getHealthHistory() const
 
 //Derived class: InPatient:
 //Constructor & Destructor
-InPatient(int pID, string n, int a, char g, string add, string pN, string d, int rn, Appointment* is, Appointment* ns, int tebc );
+InPatient::InPatient(int pID, string n, int a, char g, string add, string pN, string d, int rn, Appointment* is, Appointment* ns, int tebc )
+{
+	int pID, string n, int a, char g, string add, string pN, string d, int rn, Appointment* is, Appointment* ns, int tebc
+}
 
 /*
 
