@@ -433,15 +433,26 @@ Appointment* Patient::getHealthHistory() const
 //Constructor & Destructor
 InPatient::InPatient(int pID, string n, int a, char g, string add, string pN, string d, int rn, Appointment* is, Appointment* ns, int tebc )
 {
-	int pID, string n, int a, char g, string add, string pN, string d, int rn, Appointment* is, Appointment* ns, int tebc
+	patientID=pID;
+	name=n;
+	age=a;
+	gender=g;
+	address= add;
+	phoneNum = pN;
+	dept= d;
+	roomNumber = rn;
+	initStep = is;
+	nextStep= ns;
+	totalExpenseByCents=tebc;
 }
+string displayInfo() const override;
 
 /*
 
 class InPatient : public Patient {
 
     InPatient(int ID, string name, int age, char gender, int roomNumber);
-    virtual string displayInfo() const override;
+    string displayInfo() const override;
 
     // Accessors - getters
     int getRoomNo() const;
