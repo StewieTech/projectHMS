@@ -45,7 +45,6 @@ public:
 
     // Friend function declarations
     friend void setPatientAppointment(Patient* patient, Appointment* appointment);
-    friend void displayHistory(const Patient& patient);
 
     // Additional functions for appointment scheduling
     void displayMenu() const;

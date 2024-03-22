@@ -13,7 +13,7 @@
  *	Summary:	Takes inputs as data fields and generate Patient objects
  *	Author：		SZW
  *	Last Mod:	2023-03-18
- *	Status:		WIP
+ *	Status:		Complete
  */
 Patient::Patient(int pID, string n, int a, char g, string add="Unknown", string pN="Unknown", string d="Unassigned", bool urg=false, bool ip=false, bool op=false, Appointment* is, Appointment* ns, int tebc=0 ){
 	name=n;
@@ -24,9 +24,6 @@ Patient::Patient(int pID, string n, int a, char g, string add="Unknown", string 
 	address = add;
 	phoneNum = pN;
 	dept = d;
-
-	//WIP
-	vector<Procedure*> procedures; // Store a list of medical procedures
 
 	flag_urgency = urg;
 	is_inpatient = ip;
@@ -183,17 +180,6 @@ int Patient:: getTotalInCents() const
 	return totalExpenseByCents;
 }
 
-/*	Func name:	getProcedures
- *	Summary:
- *	Author：		SZW
- *	Last Mod:	2023-03-18
- *	Status:		WIP: a global procedure needs to be created
- */
-const vector<Procedure*>& Patient::getProcedures() const // Getter for procedures
-{
-	//WIP
-}
-
 /*	Func name:	setID
  *	Summary:
  *	Author：		SZW
@@ -341,32 +327,12 @@ void Patient::setTotalInCents(int t)
 	totalExpenseByCents = i;
 }
 
-/*	Func name:	addProcedures
- *	Summary:
- *	Author：		SZW
- *	Last Mod:	2023-03-18
- *	Status:		WIP: a global procedure needs to be created
- */
-void Patient:: addProcedure(Procedure* procedure) // Function to add a medical procedure
-
-
 //Member Functions
-/*	Func name:	preProcedures
- *	Summary:
- *	Author：		SZW
- *	Last Mod:	2023-03-18
- *	Status:		WIP: might be better to move to preocedures.h
- */
-void Patient::preProcess()
-{
-	//WIP
-}
-
 /*	Func name:	displayInfo
  *	Summary:
  *	Author：		SZW
  *	Last Mod:	2023-03-18
- *	Status:		WIP: might be better to move to preocedures.h
+ *	Status:		Complete
  */
 void Patient::displayInfo() const
 {
@@ -407,31 +373,9 @@ void Patient::displayInfo() const
 	cout<<"Current bill payable: "<<(totalExpenseByCents/100.0)<<endl;
 }
 
-/*	Func name:	displayHealthHistory
- *	Summary:
- *	Author：		SZW
- *	Last Mod:	2023-03-18
- *	Status:		WIP: need to create a linked list of appointment objects
- */
-void Patient::displayHealthHistory() const
-{
-	//WIP
-}
-
-/*	Func name:	getHealthHistory
- *	Summary:
- *	Author：		SZW
- *	Last Mod:	2023-03-18
- *	Status:		WIP: need to create a linked list of appointment objects
- */
-Appointment* Patient::getHealthHistory() const
-{
-	//WIP
-}
-
 //Derived class: InPatient:
 //Constructor & Destructor
-InPatient::InPatient(int pID, string n, int a, char g, string add, string pN, string d, int rn, Appointment* is, Appointment* ns, int tebc )
+InPatient::InPatient(int pID, string n, int a, char g, string add, string pN, string d, int rn, Appointment* is, Appointment* ns, int tebc, time_t it, time_t ot )
 {
 	patientID=pID;
 	name=n;
@@ -444,80 +388,231 @@ InPatient::InPatient(int pID, string n, int a, char g, string add, string pN, st
 	initStep = is;
 	nextStep= ns;
 	totalExpenseByCents=tebc;
+	inTime = it;
+	outTime = ot;
+
 }
-string displayInfo() const override;
 
-/*
+/*	Func name:	displayInfo
+ *	Summary:	Outputs info of the inpatient on screen
+ *	Author：		SZW
+ *	Last Mod:	2023-03-21
+ *	Status:		Complete
+ */
+void InPatient::displayInfo() const
+{
+	cout<<"Patient ID: "<<patientID<<endl;
+	cout<<"Name: "<<name<<endl;
+	cout<<"Age: "<<age<<endl;
+	cout<<"Gender: "<<gender<<endl;
+	cout<<"Dept: "<<dept<<endl;
+	cout<<endl;
+	cout<<"Address: "<<address<<endl;
+	cout<<"Phone #: "<<phoneNum<<endl;
+	cout<<"Room #: "<<roomNumber<<endl;
 
-class InPatient : public Patient {
+	if (flag_urgency)
+	{
+		cout<<"Urgency: Y"<<endl;
+	} else
+	{
+		cout<<"Urgency: N"<<endl;
+	}
 
-    InPatient(int ID, string name, int age, char gender, int roomNumber);
-    string displayInfo() const override;
+	if((!is_inpatient)&&(!is_outpatient))
+	{
+		cout<<"Patient Status: Unassigned"<<endl;
+	}
+	if(is_inpatient)
+	{
+		cout<<"Patient Status: In-patient"<<endl;
+		cout<<"Since: "<<ctime(&inTime)<<endl;
+		cout<<"To: "<<ctime(&outTime)<<endl;
+	}
+	if(is_outpatient)
+	{
+		cout<<"Patient Status: Out-Patient"<<endl;
+	}
+}
 
-    // Accessors - getters
-    int getRoomNo() const;
-    time_t getInTime() const;
-    time_t getInTime() cosnt;
+//Accessors - getters
+/*	Func name:	getRoomNo
+ *	Summary:
+ *	Author：		SZW
+ *	Last Mod:	2023-03-21
+ *	Status:		Complete
+ */
+int InPatient::getRoomNo() const
+{
+	return roomNumber;
+}
 
-    // Acceessors - setters
-    InPatient* setRoomNo(int r);
-    InPatient* setInTime(time_t it);
-    InPatient* setOutTime(time_t ot);
+/*	Func name:	getInTime
+ *	Summary:
+ *	Author：		SZW
+ *	Last Mod:	2023-03-21
+ *	Status:		Complete
+ */
+time_t InPatient::getInTime() const
+{
+	return inTime;
+}
 
-    InPatient* setAppointment(Appointment* appointment);
-    InPatient* setTotalInCents(int t);
+/*	Func name:	getOutTime
+ *	Summary:
+ *	Author：		SZW
+ *	Last Mod:	2023-03-21
+ *	Status:		Complete
+ */
+time_t InPatient::getOutTime() const
+{
+	return outTime;
+}
 
-    //other functions
-    InPatient* randomProcess();
-    InPatient* redoClassify();
-    InPatient* transferToOutPatient();
-    InPatient* transferOut(string nameHospital);
-    InPatient* exitCured();
-    // A function to gather history appointments and present them
-	void displayHistory();
+// Acceessors - setters
+/*	Func name:	setRoomNo
+ *	Summary:
+ *	Author：		SZW
+ *	Last Mod:	2023-03-21
+ *	Status:		Complete
+ */
+void InPatient::setRoomNo(int r)
+{
+	roomNumber = r;
+}
 
-protected:
-	int roomNumber;
-    time_t inTime;
-    time_t outTime;
+/*	Func name:	setInTime
+ *	Summary:
+ *	Author：		SZW
+ *	Last Mod:	2023-03-21
+ *	Status:		Complete
+ */
+void InPatient::setInTime(time_t it)
+{
+	inTime = it;
+}
 
-    bool is_inpatient = true;
-	bool is_outpatient = false;
-};
+/*	Func name:	setOutTime
+ *	Summary:
+ *	Author：		SZW
+ *	Last Mod:	2023-03-21
+ *	Status:		Complete
+ */
+void InPatient::setOutTime(time_t ot)
+{
+	outTime = ot;
+}
 
+/*	Func name:	setAppointment
+ *	Summary:
+ *	Author：		SZW
+ *	Last Mod:	2023-03-21
+ *	Status:		Complete
+ */
+void InPatient::setAppointment(Appointment* appointment)
+{
+	nextStep = apoointment
+}
 
-class OutPatient : public Patient {
-	friend class Appointment; // allows access from Appointment objects
-public:
-    Outpatient(string name, int age, char gender, string appointmentDate, string doctorName);
-    virtual string displayInfo() const override;
+/*	Func name:	setTotalInCents
+ *	Summary:
+ *	Author：		SZW
+ *	Last Mod:	2023-03-21
+ *	Status:		Complete
+ */
+void InPatient::setTotalInCents(int t)
+{
+	totalExpenseByCents = t;
+}
 
-    //Accessors
-    //Accessors - getters
-    time_t getAppTime();
-    string getDocName();
-    //Accessors - setters
-    OutPatient* setAppTime(time_t at);
-    OutPatient* setDocName(string dn);
+//other functions
+/*	Func name:	exitCured
+ *	Summary:	Take current time and set as outTime
+ *				Clear next step
+ *				Clear flags
+ *	Author：		SZW
+ *	Last Mod:	2023-03-21
+ *	Status:		Complete
+ */
+void InPatient::exitCured()
+{
+	time(&outTime);
+	nextStep=NULL;
+	flag_urgency = false;
+	bool is_inpatient = false;
+}
 
-    //Other func
-    OutPatient* randomProcess();
-    OutPatient* redoClassify();
-    OutPatient* transferToInPatient();
-    OutPatient* transferOut(string nameHospital);
-	OutPatient* exitCured();
-    // A function to gather history appointments and present them
-	void displayHistory();
+//Derieved class: Outpatient
+//Constructor
+OutPatient::OutPatient(int pID, string n, int a, char g, string add, string pN, string d, Appointment* is, Appointment* ns, int tebc)
+{
+	patientID=pID;
+	name=n;
+	age=a;
+	gender=g;
+	address= add;
+	phoneNum = pN;
+	dept= d;
 
-protected:
-    time_t appointmentTime;
-    string doctorName;
+	initStep = is;
+	nextStep= ns;
+	totalExpenseByCents=tebc;
+}
 
-    bool flag_urgency = false;
-    bool is_inpatient = false;
-	bool is_outpatient = true;
-};
+/*	Func name:	displayInfo
+ *	Summary:
+ *	Author：		SZW
+ *	Last Mod:	2023-03-18
+ *	Status:		Complete
+ */
+string displayInfo() const
+{
+	cout<<"Patient ID: "<<patientID<<endl;
+	cout<<"Name: "<<name<<endl;
+	cout<<"Age: "<<age<<endl;
+	cout<<"Gender: "<<gender<<endl;
+	cout<<"Dept: "<<dept<<endl;
+	cout<<endl;
+	cout<<"Address: "<<address<<endl;
+	cout<<"Phone #: "<<phoneNum<<endl;
 
+	if (flag_urgency)
+	{
+		cout<<"Urgency: Y"<<endl;
+	} else
+	{
+		cout<<"Urgency: N"<<endl;
+	}
 
+	if((!is_inpatient)&&(!is_outpatient))
+	{
+		cout<<"Patient Status: Unassigned"<<endl;
+	}
+	if(is_inpatient)
+	{
+		cout<<"Patient Status: In-patient"<<endl;
+	}
+	if(is_outpatient)
+	{
+		cout<<"Patient Status: Out-patient"<<endl;
+		cout<<"Next step:"<<nextStep->getProcedure()->getName();
+		cout<<"Scheduled: "<<nextStep->getAppointmentTime();
+	}
 
-*/
+	cout<<endl;
+	cout<<"Current bill payable: "<<(totalExpenseByCents/100.0)<<endl;
+}
+
+/*	Func name:	exitCured
+ *	Summary:	Clear next step
+ *				Clear flags
+ *	Author：		SZW
+ *	Last Mod:	2023-03-18
+ *	Status:		Complete
+ */
+void exitCured()
+{
+	nextStep=NULL;
+	flag_urgency = false;
+	bool is_inpatient = false;
+}
