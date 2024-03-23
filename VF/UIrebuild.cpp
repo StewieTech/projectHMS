@@ -192,20 +192,19 @@ if (staffType == "Doctor") {
             specialization = "Emergency Physician";
     }
 
-    // Proceed to create a Doctor object and display procedures
-    // Example values for demonstration
+
     string name = "Dr. Smith";
     bool availability = true;
     int employeeID = 123;
     string licenseNumber = "Lic123456";
 
     medicalStaff = new Doctor(name, specialization, availability, employeeID, licenseNumber);
-    // Assuming 'initializeProcedureList' and 'procedureList' are accessible here
+    
     auto procedures = initializeProcedureList()["Doctor"][specialization];
     cout << "Procedures for " << specialization << ":\n";
     for (const auto& proc : procedures) {
         cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
-        procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";  // Add the procedure to the string
+        procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";  
 
     }
 } 
@@ -213,19 +212,48 @@ if (staffType == "Doctor") {
 
 
          else if (staffType == "Nurse") {
-            // Similar setup for Nurse
-            string name = "Nurse Joy"; // Again, ensure this is correctly set
-            string specialization = "Pediatrics";
-            bool availability = true;
-            int employeeID = 456;
+    cout << "Select the Nurse's specialty:\n";
+    cout << "1. Emergency Nurse\n";
+    cout << "2. Respiratory Nurse\n";
+    cout << "3. Gastrointestinal Nurse\n";
+    cout << "Enter 1, 2, or 3: ";
 
-            medicalStaff = new Nurse(name, specialization, availability, employeeID);
-        } else {
-            cout << "Invalid medical staff type entered. Defaulting to a general doctor." << endl;
-            medicalStaff = new Doctor("Dr. Doe", "General", true, 789, "Lic987654");
-        }
+    int specialtyChoice;
+    cin >> specialtyChoice;
 
-           
+    // Mapping user choice to the specialty string
+    string specialization;
+    switch (specialtyChoice) {
+        case 1:
+            specialization = "Emergency Nurse";
+            break;
+        case 2:
+            specialization = "Respiratory Nurse";
+            break;
+        case 3:
+            specialization = "Gastrointestinal Nurse";
+            break;
+        default:
+            cout << "Invalid choice. Defaulting to Emergency Nurse." << endl;
+            specialization = "Emergency Nurse";
+    }
+
+    // Example values for demonstration
+    string name = "Nurse Joy"; // Ensure this is correctly set
+    bool availability = true;
+    int employeeID = 456;
+
+    medicalStaff = new Nurse(name, specialization, availability, employeeID);
+    // Assuming 'initializeProcedureList' and 'procedureList' are accessible here
+    auto procedures = initializeProcedureList()["Nurse"][specialization];
+    cout << "Procedures for " << specialization << ":\n";
+    for (const auto& proc : procedures) {
+        cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
+        procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";  
+
+    }
+}
+          
 
            
 
