@@ -3,6 +3,8 @@
 #include<string>
 #include<list>
 #include<algorithm>
+#include "medicalStaffVF.h"
+#include "procedureVF.h"
 
 using namespace std;
 
@@ -26,13 +28,17 @@ class Appointment {
     private:
         string patient; // Will make a dynamic reference to the patient class from Question 1
         int patientID;
-        string medicalStaff;
+        MedicalStaff* medicalStaff;
         string appointmentTime;
         string procedures;
 
     public:
-        Appointment(string& patInput, int& inputID, const string& mInput, const string& atInput, const string& prInput) : patient(patInput), patientID(inputID), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
+        Appointment(string& patInput, int& inputID, MedicalStaff* mInput, const string& atInput, const string& prInput) : patient(patInput), patientID(inputID), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
 
+
+    ~Appointment() {
+        delete medicalStaff;
+    }
     // Appointment.h ?
     string getAppointmentTime() const {
         return appointmentTime;
@@ -42,10 +48,10 @@ class Appointment {
         return patientID;
     }
         
-        void displayMenu() const {
+        void displayInfoUI() const {
             cout << "Patient: " << patient << endl;
             cout << "Patient ID: " << patientID << endl;
-            cout << "Medical Staff: " << medicalStaff << endl;
+            cout << "Medical Staff: " << medicalStaff->getName() << ", " << medicalStaff->getSpecialization() << endl;
             cout << "Appointment Time: " << appointmentTime << endl;
             cout << "Procedures: " << procedures << endl;
         }
@@ -93,7 +99,6 @@ void displayMenu() {
     cout << "6. Choose Procedure for Patient WIP" << endl; 
     cout << "0. Exit Menu" << endl; 
     cout << "Enter Your Choice" << endl;
-
 }
 
 // void userInput(::vector<Patient*>& patients, list<Appointment>& appointments)
@@ -105,9 +110,10 @@ void userInput(list<Appointment>& appointments)
     int patientID;
     list<int> patientIDs;
     string patientName;
-    string medicalStaff;
+    MedicalStaff* medicalStaff;
     string appointmentTime;
     string procedures;
+    string staffType;
     
     bool isPatientMatched = false;
 
@@ -145,17 +151,30 @@ void userInput(list<Appointment>& appointments)
                 patientIDs.push_back(patientID);
             }
 
-            
-                cout << "Enter the name of the mediacal staff: " ; 
-                cin.ignore();
-                getline(cin, medicalStaff);
+            // string staffType;
+            cout << "Enter which medical staff is needed (Doctor/Nurse): ";
+            cin.ignore();
+            getline(cin, staffType);
+
+            if (staffType == "Doctor") {
+                            // Update Hardcoded values - Olivia
+            medicalStaff = new Doctor("Dr. Smith", "Cardiology", true, 123, "Lic123456");
+        } else if (staffType == "Nurse") {
+            // Updcate Hardcoded Values - Olivia.
+            medicalStaff = new Nurse("Nurse Joy", "Pediatrics", true, 456);
+        } else {
+            cout << "Invalid medical staff type entered. Defaulting to a general doctor." << endl;
+            medicalStaff = new Doctor("Dr. Doe", "General", true, 789, "Lic987654");
+            }
+
+           
 
                 cout << "Enter the Time of the Appointment: ";
-                cin.ignore();
+                // cin.ignore();
                 getline(cin, appointmentTime);
 
                 cout << "Enter the procedure: ";
-                cin.ignore();
+                // cin.ignore();
                 getline(cin, procedures);
             
 
@@ -175,7 +194,7 @@ void userInput(list<Appointment>& appointments)
 
         cout << "Enter the ID of the Appointment you want to cancel:" << endl;
         for (const auto& appointment : appointments) {
-            appointment.displayMenu();
+            appointment.displayInfoUI();
             cout << endl;
         }
 
@@ -201,7 +220,7 @@ void userInput(list<Appointment>& appointments)
 
             cout << "List of Appointments:" << endl;
             for (const auto& appointment : appointments) {
-                appointment.displayMenu();
+                appointment.displayInfoUI();
                 cout << endl;
             }
     break;
@@ -213,7 +232,7 @@ void userInput(list<Appointment>& appointments)
         for (const auto& appointment : appointments) {
             if (appointment.getPatientID() == patientID) {
         cout << "List of Patients by ID: " << endl;
-                appointment.displayMenu();
+                appointment.displayInfoUI();
             }
         }
 
