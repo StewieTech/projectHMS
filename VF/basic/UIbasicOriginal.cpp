@@ -3,7 +3,6 @@
 #include<string>
 #include<list>
 #include<algorithm>
-
 using namespace std;
 
 /*
@@ -25,13 +24,12 @@ class AppointmentConflictException : public exception {
 class Appointment {
     private:
         string patient; // Will make a dynamic reference to the patient class from Question 1
-        int patientID;
         string medicalStaff;
         string appointmentTime;
         string procedures;
 
     public:
-        Appointment(int& inputID, const string& mInput, const string& atInput, const string& prInput) : patientID(inputID), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
+        Appointment(string& patInput, const string& mInput, const string& atInput, const string& prInput) : patient(patInput), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
 
     // Appointment.h ?
     string getAppointmentTime() const {
@@ -80,9 +78,8 @@ User Interface (Errol):
 
 void displayMenu() {
     cout << "HMS Menu Options" << endl;
-    cout << "1. Schedule New Patient Appointment" << endl; 
+    cout << "1. Schedule Appointment" << endl; 
     cout << "2. Cancel Appointment" << endl; 
-    cout << "3 Display All Available Appointments" << endl; 
     cout << "3. Manage Staff" << endl; 
     cout << "4. Find Patient" << endl; 
     cout << "0. Exit Menu" << endl; 
@@ -92,22 +89,15 @@ void displayMenu() {
 
 // void userInput(::vector<Patient*>& patients, list<Appointment>& appointments)
 void userInput(list<Appointment>& appointments)
-
-
 { 
     int choice;
-    int patientID;
-    list<int> patientIDs;
     string name;
     string medicalStaff;
     string appointmentTime;
     string procedures;
-    
-    bool isPatientMatched = false;
+    string patientMatched; // FINISH FUNCTION
 
     do {
-        displayMenu();
-        // cout << "Select from Menu: " << endl;
         cin >> choice;
 
         switch (choice) {
@@ -117,55 +107,31 @@ void userInput(list<Appointment>& appointments)
             cin.ignore();
             getline(cin, name);
 
-            cout << "Enter Patient ID: ";
-            cin >> patientID ;
-
             
+            patientMatched = "create patient search function" ; //FINISH HERE
+            if (patientMatched != "nullptr ") { 
 
-            // Search for patientID in the list of patientIDs
-            isPatientMatched = false; 
-            for (const auto& id : patientIDs) {
-                if (id == patientID) {
-                    isPatientMatched = true;
-                    cout << "Patient ID already exists" << endl;
-                    break;
-                };
-            };
-
-            // Add patientID to a list of patientIDs only if it doesn't exist in the list
-            if (!isPatientMatched) {
-                patientIDs.push_back(patientID);
-            }
-
-            
                 cout << "Enter the name of the mediacal staff: " ; 
-                cin.ignore();
+                
                 getline(cin, medicalStaff);
 
                 cout << "Enter the Time of the Appointment: ";
-                cin.ignore();
                 getline(cin, appointmentTime);
 
                 cout << "Enter the procedure: ";
-                cin.ignore();
                 getline(cin, procedures);
             
 
             try {
-                appointmentSchedule(appointments, Appointment(patientID, medicalStaff,appointmentTime, procedures));
-                cout << "Your appointment has been scheduled !" << endl << endl;
+                appointmentSchedule(appointments, Appointment(patientMatched, medicalStaff,appointmentTime, procedures));
+                cout << "Your appointment has been scheduled !" << endl;
             } catch (const AppointmentConflictException& e) {
                 cout << "Exception: " << e.what() << endl;
             }        
-
-  
+        } else {
+            cout << "Sorry, we did not find the patient" << endl;
+        }
         break;
-
-        case 0:
-            cout << "Thanks for using our Hospital Management System :)" << endl;
-            break;
-            default: 
-                cout << choice << " Is an invalid input" << endl;
 
         }
     } while (choice != 0);
@@ -175,7 +141,7 @@ void userInput(list<Appointment>& appointments)
 int main() {
     list<Appointment> appointments;
 
-    // displayMenu();
+    displayMenu();
     userInput(appointments);
     return 0 ;
 }

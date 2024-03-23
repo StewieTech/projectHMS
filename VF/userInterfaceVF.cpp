@@ -30,8 +30,6 @@ using namespace std;
 
 
 
-
-
 Patient* findPatientByName(const string& name, const vector<Patient*>& patients) {
     for (auto& p : patients) {
         if(p->getName() == name) return p;
