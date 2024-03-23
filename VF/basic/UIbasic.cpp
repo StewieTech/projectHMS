@@ -31,15 +31,20 @@ class Appointment {
         string procedures;
 
     public:
-        Appointment(int& inputID, const string& mInput, const string& atInput, const string& prInput) : patientID(inputID), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
+        Appointment(string& patInput, int& inputID, const string& mInput, const string& atInput, const string& prInput) : patient(patInput), patientID(inputID), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
 
     // Appointment.h ?
     string getAppointmentTime() const {
         return appointmentTime;
     }
+
+    int getPatientID() const {
+        return patientID;
+    }
         
         void displayMenu() const {
             cout << "Patient: " << patient << endl;
+            cout << "Patient ID: " << patientID << endl;
             cout << "Medical Staff: " << medicalStaff << endl;
             cout << "Appointment Time: " << appointmentTime << endl;
             cout << "Procedures: " << procedures << endl;
@@ -82,9 +87,10 @@ void displayMenu() {
     cout << "HMS Menu Options" << endl;
     cout << "1. Schedule New Patient Appointment" << endl; 
     cout << "2. Cancel Appointment" << endl; 
-    cout << "3 Display All Available Appointments" << endl; 
-    cout << "3. Manage Staff" << endl; 
-    cout << "4. Find Patient" << endl; 
+    cout << "3. Display All Available Appointments" << endl; 
+    cout << "4. Manage Staff WIP" << endl; 
+    cout << "5. Find Patient By ID" << endl; 
+    cout << "6. Choose Procedure for Patient WIP" << endl; 
     cout << "0. Exit Menu" << endl; 
     cout << "Enter Your Choice" << endl;
 
@@ -95,10 +101,10 @@ void userInput(list<Appointment>& appointments)
 
 
 { 
-    int choice;
+    char choice;
     int patientID;
     list<int> patientIDs;
-    string name;
+    string patientName;
     string medicalStaff;
     string appointmentTime;
     string procedures;
@@ -108,22 +114,24 @@ void userInput(list<Appointment>& appointments)
     do {
         displayMenu();
         // cout << "Select from Menu: " << endl;
+       
         cin >> choice;
 
         switch (choice) {
-            case 1:
+            case '1':
             // Schedule Appointment
             cout<< "Enter the name of the patient: ";
             cin.ignore();
-            getline(cin, name);
+            getline(cin, patientName);
 
             cout << "Enter Patient ID: ";
             cin >> patientID ;
 
-            
+
 
             // Search for patientID in the list of patientIDs
             isPatientMatched = false; 
+          
             for (const auto& id : patientIDs) {
                 if (id == patientID) {
                     isPatientMatched = true;
@@ -132,7 +140,7 @@ void userInput(list<Appointment>& appointments)
                 };
             };
 
-            // Add patientID to a list of patientIDs only if it doesn't exist in the list
+            // Add patientID to a list of patientIDs only if it doesn't exist in the list // exceptions.h
             if (!isPatientMatched) {
                 patientIDs.push_back(patientID);
             }
@@ -152,7 +160,7 @@ void userInput(list<Appointment>& appointments)
             
 
             try {
-                appointmentSchedule(appointments, Appointment(patientID, medicalStaff,appointmentTime, procedures));
+                appointmentSchedule(appointments, Appointment(patientName, patientID, medicalStaff,appointmentTime, procedures));
                 cout << "Your appointment has been scheduled !" << endl << endl;
             } catch (const AppointmentConflictException& e) {
                 cout << "Exception: " << e.what() << endl;
@@ -160,9 +168,36 @@ void userInput(list<Appointment>& appointments)
 
   
         break;
+
+        case '2':
+
+        // if no appointments to delete show no appointments to delete //exceptions.h
+
+        cout << "Enter the ID of the Appointment you want to cancel:" << endl;
+        for (const auto& appointment : appointments) {
+            appointment.displayMenu();
+            cout << endl;
+        }
+
+        cin >> patientID;
+        for (auto iter = appointments.begin(); iter != appointments.end(); ) {
+            if (iter->getPatientID() == patientID) {
+                cout << "Appointment has been deleted " << endl << endl;
+           
+                iter = appointments.erase(iter);
+            } else {
+                ++iter; 
+            }
+        }
+
+
+
             
 
-        case 3:
+        case '3' :
+
+        // if there is no appointment cout no appointments to show // exception.h
+        // we can also have a default amount of appointments to show // exception.h
 
             cout << "List of Appointments:" << endl;
             for (const auto& appointment : appointments) {
@@ -171,15 +206,32 @@ void userInput(list<Appointment>& appointments)
             }
     break;
 
+    case '5' :
+        cout << "Enter patient ID to search: ";
+        cin >> patientID;
 
-        case 0:
-            cout << "Thanks for using our Hospital Management System :)" << endl;
+        for (const auto& appointment : appointments) {
+            if (appointment.getPatientID() == patientID) {
+        cout << "List of Patients by ID: " << endl;
+                appointment.displayMenu();
+            }
+        }
 
         break;
-            default: 
-                cout << choice << " Is an invalid input" << endl;
+
+
+        case '0':
+            cout << "Thanks for using our Hospital Management System :)" << endl;
+        break;
+        
+        default: 
+            cout << choice << " Is an invalid input" << endl;
+
         }
-    } while (choice != 0);
+
+        
+
+    } while (choice != '0');
 }
 
 

@@ -44,6 +44,7 @@ class Appointment {
         
         void displayMenu() const {
             cout << "Patient: " << patient << endl;
+            cout << "Patient ID: " << patientID << endl;
             cout << "Medical Staff: " << medicalStaff << endl;
             cout << "Appointment Time: " << appointmentTime << endl;
             cout << "Procedures: " << procedures << endl;
@@ -87,8 +88,9 @@ void displayMenu() {
     cout << "1. Schedule New Patient Appointment" << endl; 
     cout << "2. Cancel Appointment" << endl; 
     cout << "3. Display All Available Appointments" << endl; 
-    cout << "4. Manage Staff" << endl; 
+    cout << "4. Manage Staff WIP" << endl; 
     cout << "5. Find Patient By ID" << endl; 
+    cout << "6. Choose Procedure for Patient WIP" << endl; 
     cout << "0. Exit Menu" << endl; 
     cout << "Enter Your Choice" << endl;
 
@@ -99,7 +101,7 @@ void userInput(list<Appointment>& appointments)
 
 
 { 
-    int choice;
+    char choice;
     int patientID;
     list<int> patientIDs;
     string patientName;
@@ -110,17 +112,13 @@ void userInput(list<Appointment>& appointments)
     bool isPatientMatched = false;
 
     do {
-
-        if (!cin) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>:: max(), '\n');
-        }
         displayMenu();
         // cout << "Select from Menu: " << endl;
+       
         cin >> choice;
 
         switch (choice) {
-            case 1:
+            case '1':
             // Schedule Appointment
             cout<< "Enter the name of the patient: ";
             cin.ignore();
@@ -129,10 +127,11 @@ void userInput(list<Appointment>& appointments)
             cout << "Enter Patient ID: ";
             cin >> patientID ;
 
-            
+
 
             // Search for patientID in the list of patientIDs
             isPatientMatched = false; 
+          
             for (const auto& id : patientIDs) {
                 if (id == patientID) {
                     isPatientMatched = true;
@@ -141,7 +140,7 @@ void userInput(list<Appointment>& appointments)
                 };
             };
 
-            // Add patientID to a list of patientIDs only if it doesn't exist in the list
+            // Add patientID to a list of patientIDs only if it doesn't exist in the list // exceptions.h
             if (!isPatientMatched) {
                 patientIDs.push_back(patientID);
             }
@@ -169,9 +168,36 @@ void userInput(list<Appointment>& appointments)
 
   
         break;
+
+        case '2':
+
+        // if no appointments to delete show no appointments to delete //exceptions.h
+
+        cout << "Enter the ID of the Appointment you want to cancel:" << endl;
+        for (const auto& appointment : appointments) {
+            appointment.displayMenu();
+            cout << endl;
+        }
+
+        cin >> patientID;
+        for (auto iter = appointments.begin(); iter != appointments.end(); ) {
+            if (iter->getPatientID() == patientID) {
+                cout << "Appointment has been deleted " << endl << endl;
+           
+                iter = appointments.erase(iter);
+            } else {
+                ++iter; 
+            }
+        }
+
+
+
             
 
-        case 3 :
+        case '3' :
+
+        // if there is no appointment cout no appointments to show // exception.h
+        // we can also have a default amount of appointments to show // exception.h
 
             cout << "List of Appointments:" << endl;
             for (const auto& appointment : appointments) {
@@ -180,7 +206,7 @@ void userInput(list<Appointment>& appointments)
             }
     break;
 
-    case 5 :
+    case '5' :
         cout << "Enter patient ID to search: ";
         cin >> patientID;
 
@@ -194,8 +220,7 @@ void userInput(list<Appointment>& appointments)
         break;
 
 
-
-        case 0:
+        case '0':
             cout << "Thanks for using our Hospital Management System :)" << endl;
         break;
         
@@ -204,8 +229,9 @@ void userInput(list<Appointment>& appointments)
 
         }
 
+        
 
-    } while (choice != 0);
+    } while (choice != '0');
 }
 
 
