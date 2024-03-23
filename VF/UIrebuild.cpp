@@ -31,11 +31,15 @@ class Appointment {
         string procedures;
 
     public:
-        Appointment(int& inputID, const string& mInput, const string& atInput, const string& prInput) : patientID(inputID), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
+        Appointment(string& patInput, int& inputID, const string& mInput, const string& atInput, const string& prInput) : patient(patInput), patientID(inputID), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
 
     // Appointment.h ?
     string getAppointmentTime() const {
         return appointmentTime;
+    }
+
+    int getPatientID() const {
+        return patientID;
     }
         
         void displayMenu() const {
@@ -82,9 +86,9 @@ void displayMenu() {
     cout << "HMS Menu Options" << endl;
     cout << "1. Schedule New Patient Appointment" << endl; 
     cout << "2. Cancel Appointment" << endl; 
-    cout << "3 Display All Available Appointments" << endl; 
-    cout << "3. Manage Staff" << endl; 
-    cout << "4. Find Patient" << endl; 
+    cout << "3. Display All Available Appointments" << endl; 
+    cout << "4. Manage Staff" << endl; 
+    cout << "5. Find Patient By ID" << endl; 
     cout << "0. Exit Menu" << endl; 
     cout << "Enter Your Choice" << endl;
 
@@ -98,7 +102,7 @@ void userInput(list<Appointment>& appointments)
     int choice;
     int patientID;
     list<int> patientIDs;
-    string name;
+    string patientName;
     string medicalStaff;
     string appointmentTime;
     string procedures;
@@ -106,6 +110,11 @@ void userInput(list<Appointment>& appointments)
     bool isPatientMatched = false;
 
     do {
+
+        if (!cin) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>:: max(), '\n');
+        }
         displayMenu();
         // cout << "Select from Menu: " << endl;
         cin >> choice;
@@ -115,7 +124,7 @@ void userInput(list<Appointment>& appointments)
             // Schedule Appointment
             cout<< "Enter the name of the patient: ";
             cin.ignore();
-            getline(cin, name);
+            getline(cin, patientName);
 
             cout << "Enter Patient ID: ";
             cin >> patientID ;
@@ -152,7 +161,7 @@ void userInput(list<Appointment>& appointments)
             
 
             try {
-                appointmentSchedule(appointments, Appointment(patientID, medicalStaff,appointmentTime, procedures));
+                appointmentSchedule(appointments, Appointment(patientName, patientID, medicalStaff,appointmentTime, procedures));
                 cout << "Your appointment has been scheduled !" << endl << endl;
             } catch (const AppointmentConflictException& e) {
                 cout << "Exception: " << e.what() << endl;
@@ -162,7 +171,7 @@ void userInput(list<Appointment>& appointments)
         break;
             
 
-        case 3:
+        case 3 :
 
             cout << "List of Appointments:" << endl;
             for (const auto& appointment : appointments) {
@@ -171,14 +180,31 @@ void userInput(list<Appointment>& appointments)
             }
     break;
 
+    case 5 :
+        cout << "Enter patient ID to search: ";
+        cin >> patientID;
+
+        for (const auto& appointment : appointments) {
+            if (appointment.getPatientID() == patientID) {
+        cout << "List of Patients by ID: " << endl;
+                appointment.displayMenu();
+            }
+        }
+
+        break;
+
+
 
         case 0:
             cout << "Thanks for using our Hospital Management System :)" << endl;
-            break;
-            default: 
-                cout << choice << " Is an invalid input" << endl;
+        break;
+        
+        default: 
+            cout << choice << " Is an invalid input" << endl;
 
         }
+
+
     } while (choice != 0);
 }
 

@@ -174,10 +174,10 @@ void userInput(list<Appointment>& appointments)
 
         case 0:
             cout << "Thanks for using our Hospital Management System :)" << endl;
-            break;
+
+        break;
             default: 
                 cout << choice << " Is an invalid input" << endl;
-
         }
     } while (choice != 0);
 }
