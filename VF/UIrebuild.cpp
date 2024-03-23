@@ -80,6 +80,7 @@ void displayMenu() {
     cout << "HMS Menu Options" << endl;
     cout << "1. Schedule Appointment" << endl; 
     cout << "2. Cancel Appointment" << endl; 
+    cout << "3 Display All Available Appointments" << endl; 
     cout << "3. Manage Staff" << endl; 
     cout << "4. Find Patient" << endl; 
     cout << "0. Exit Menu" << endl; 
@@ -91,11 +92,14 @@ void displayMenu() {
 void userInput(list<Appointment>& appointments)
 { 
     int choice;
+    int patientID;
+    list<int> patientIDs;
     string name;
     string medicalStaff;
     string appointmentTime;
     string procedures;
     string patientMatched; // FINISH FUNCTION
+    bool isPatientMatched = false;
 
     do {
         cin >> choice;
@@ -106,6 +110,23 @@ void userInput(list<Appointment>& appointments)
             cout<< "Enter the name of the patient: ";
             cin.ignore();
             getline(cin, name);
+
+            cout << "Enter Patient ID" << endl;
+            cin.ignore();
+            cin >> patientID ;
+
+            
+            // Add patientID to a list of patientIDs
+            patientIDs.push_back(patientID);
+
+            // Search for patientID in the list of patientIDs
+            isPatientMatched = false; 
+            for (const auto& id : patientIDs) {
+                if (id == patientID) {
+                    isPatientMatched = true;
+                    break;
+                };
+            };
 
             
             patientMatched = "create patient search function" ; //FINISH HERE
