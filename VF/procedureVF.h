@@ -2,8 +2,12 @@
 #define PROCEDURE_H
 
 #include <string>
+#include <map>
+#include <vector>
 
 using namespace std;
+
+
 
 class Procedure {
 private:
@@ -22,5 +26,6 @@ public:
     void setName(const string& newName);
     void setDescription(const string& newDescription);
 };
+map<string, map<string, vector<Procedure>>> initializeProcedureList();
 
 #endif // PROCEDURE_H

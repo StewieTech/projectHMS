@@ -32,6 +32,10 @@ public:
         return name;  // Added getter method - Errol
     }
 
+    bool getAvailability() const { return availability; } // Added getter method - Errol
+    int getEmployeeID() const { return employeeID; } // Added getter method - Errol
+
+
 };
 
 class Doctor : public MedicalStaff {

@@ -3,12 +3,9 @@
 #include<string>
 #include<list>
 #include<algorithm>
-#include <map>
-
 #include "medicalStaffVF.h"
 #include "procedureVF.h"
 
-// g++ UIrebuild.cpp medicalStaffVF.cpp procedureVF.cpp 
 using namespace std;
 
 /*
@@ -122,7 +119,6 @@ void userInput(list<Appointment>& appointments)
     string appointmentTime;
     string procedures;
     string staffType;
-    string procedureDescriptions;
     
     bool isPatientMatched = false;
 
@@ -165,54 +161,16 @@ void userInput(list<Appointment>& appointments)
             cin.ignore();
             getline(cin, staffType);
 
-if (staffType == "Doctor") {
-    cout << "Select the Doctor's specialty:\n";
-    cout << "1. Emergency Physician\n";
-    cout << "2. Pulmonologist\n";
-    cout << "3. Gastroenterologist\n";
-    cout << "Enter 1, 2, or 3: ";
+            if (staffType == "Doctor") {
+            // Example values for demonstration; replace with actual user inputs or variables as needed.
+            string name = "Dr. Smith"; // Make sure this is correctly set
+            string specialization = "Cardiology";
+            bool availability = true;
+            int employeeID = 123;
+            string licenseNumber = "Lic123456";
 
-    int specialtyChoice;
-    cin >> specialtyChoice;
-
-    // Mapping user choice to the specialty string
-    string specialization;
-    switch (specialtyChoice) {
-        case 1:
-            specialization = "Emergency Physician";
-            break;
-        case 2:
-            specialization = "Pulmonologist";
-            break;
-        case 3:
-            specialization = "Gastroenterologist";
-            break;
-        default:
-            cout << "Invalid choice. Defaulting to Emergency Physician." << endl;
-            specialization = "Emergency Physician";
-    }
-
-    // Proceed to create a Doctor object and display procedures
-    // Example values for demonstration
-    string name = "Dr. Smith";
-    bool availability = true;
-    int employeeID = 123;
-    string licenseNumber = "Lic123456";
-
-    medicalStaff = new Doctor(name, specialization, availability, employeeID, licenseNumber);
-    // Assuming 'initializeProcedureList' and 'procedureList' are accessible here
-    auto procedures = initializeProcedureList()["Doctor"][specialization];
-    cout << "Procedures for " << specialization << ":\n";
-    for (const auto& proc : procedures) {
-        cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
-        procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";  // Add the procedure to the string
-
-    }
-} 
-
-
-
-         else if (staffType == "Nurse") {
+            medicalStaff = new Doctor(name, specialization, availability, employeeID, licenseNumber);
+        } else if (staffType == "Nurse") {
             // Similar setup for Nurse
             string name = "Nurse Joy"; // Again, ensure this is correctly set
             string specialization = "Pediatrics";
@@ -227,22 +185,22 @@ if (staffType == "Doctor") {
 
            
 
-           
-
                 cout << "Enter the Time of the Appointment: ";
-                cin.ignore();
+                // cin.ignore();
                 getline(cin, appointmentTime);
 
-           
+                cout << "Enter the procedure: ";
+                // cin.ignore();
+                getline(cin, procedures);
             
 
             try {
-                appointmentSchedule(appointments, Appointment(patientName, patientID, medicalStaff,appointmentTime, procedureDescriptions));
+                appointmentSchedule(appointments, Appointment(patientName, patientID, medicalStaff,appointmentTime, procedures));
                 cout << "Your appointment has been scheduled !" << endl << endl;
             } catch (const AppointmentConflictException& e) {
                 cout << "Exception: " << e.what() << endl;
             }        
-        
+
   
         break;
 
@@ -309,7 +267,7 @@ if (staffType == "Doctor") {
         
 
     } while (choice != '0');
-};
+}
 
 
 int main() {
