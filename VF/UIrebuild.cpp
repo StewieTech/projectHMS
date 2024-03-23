@@ -160,6 +160,17 @@ void userInput(list<Appointment>& appointments)
 
   
         break;
+            
+
+        case 3:
+
+            cout << "List of Appointments:" << endl;
+            for (const auto& appointment : appointments) {
+                appointment.displayMenu();
+                cout << endl;
+            }
+    break;
+
 
         case 0:
             cout << "Thanks for using our Hospital Management System :)" << endl;
