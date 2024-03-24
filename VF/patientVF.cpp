@@ -15,6 +15,8 @@
  *	Last Mod:	2023-03-18
  *	Status:		Complete
  */
+
+
 Patient::Patient(int pID, string n, int a, char g, string add, string pN, string d, bool urg, bool ip, bool op, Appointment* is, Appointment* ns, int tebc){
 	name=n;
 	age=a;
@@ -32,21 +34,23 @@ Patient::Patient(int pID, string n, int a, char g, string add, string pN, string
 	nextStep = ns;
 	totalExpenseByCents = tebc;
 
-	Procedure p1("check-in","create profile");
-	Procedure p2("pre-process","classify into in-patient and out-patient");
-	Procedure p3("test","default test");
-	Procedure p4("consultation", "default consultation");
-	Procedure p5("exit","patient exit");
-	Procedure pi5("surgery","default surgery");
-	Procedure pi6("care","in-house care");
+	// Procedure p1("check-in","create profile");
+	// Procedure p2("pre-process","classify into in-patient and out-patient");
+	// Procedure p3("test","default test");
+	// Procedure p4("consultation", "default consultation");
+	// Procedure p5("exit","patient exit");
+	// Procedure pi5("surgery","default surgery");
+	// Procedure pi6("care","in-house care");
 
-	procedure.push_back(&p1);
-	procedure.push_back(&p2);
-	procedure.push_back(&p3);
-	procedure.push_back(&p4);
-	procedure.push_back(&p5);
-	procedure.push_back(&pi5);
-	procedure.push_back(&pi6);
+	// procedure.push_back(&p1);
+	// procedure.push_back(&p2);
+	// procedure.push_back(&p3);
+	// procedure.push_back(&p4);
+	// procedure.push_back(&p5);
+	// procedure.push_back(&pi5);
+	// procedure.push_back(&pi6);
+
+
 }
 
 Patient:: ~Patient(){
@@ -403,7 +407,8 @@ void Patient::displayInfo() const
 	}
 
 	cout<<endl;
-	cout<<"Next step:"<<nextStep->getProcedure()->getName();
+	// cout<<"Next step:"<<nextStep->getProcedure()->getName(); Errol Removed
+
 	cout<<"Scheduled: "<<nextStep->getAppointmentTime();
 	cout<<endl;
 	cout<<"Current bill payable: "<<(totalExpenseByCents/100.0)<<endl;
@@ -632,7 +637,7 @@ void OutPatient::displayInfo() const
 	if(is_outpatient)
 	{
 		cout<<"Patient Status: Out-patient"<<endl;
-		cout<<"Next step:"<<nextStep->getProcedure()->getName();
+		// cout<<"Next step:"<<nextStep->getProcedure()->getName();
 		cout<<"Scheduled: "<<nextStep->getAppointmentTime();
 	}
 

@@ -4,10 +4,10 @@
 #include <iostream>
 #include <string>
 #include <list>
-#include "patient.h"
-#include "medicalStaff.h"
-#include "procedure.h" 
-#include "exceptions.h"
+#include "medicalStaffVF.h"
+// #include "patient.h"
+// #include "procedureVF.h" 
+// #include "exceptions.h"
 
 using namespace std;
 
@@ -17,24 +17,51 @@ class MedicalStaff;
 class Procedure;
 
 class Appointment {
-protected:
-    string appointmentTime;
-    Patient* patient;
-    MedicalStaff* medicalStaff;
-    Procedure* procedure;
-    string procedures; // New member variable
+    
+    private:
+        string patient; // Will make a dynamic reference to the patient class from Question 1
+        int patientID;
+        MedicalStaff* medicalStaff;
+        string appointmentTime;
+        string procedures;
 
-public:
-    // Constructors
-    Appointment();
-    Appointment(Patient* patInput, MedicalStaff* mInput, const string& atInput, const string& prInput); // Updated constructor
+    public:
+        Appointment(string& patInput, int& inputID, MedicalStaff* mInput, const string& atInput, const string& prInput) : patient(patInput), patientID(inputID), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
+
+
+    ~Appointment() {
+        // delete medicalStaff;
+    }
+    // Appointment.h ?
+    string getAppointmentTime() const {
+        return appointmentTime;
+    }
+
+    int getPatientID() const {
+        return patientID;
+    }
+        
+        void displayInfoUI() const {
+            cout << "Patient: " << patient << endl;
+            cout << "Patient ID: " << patientID << endl;
+
+           cout << "Medical Staff: " << medicalStaff->getName() << ", " 
+            << medicalStaff->getSpecialization() << ", Availability: " 
+            << (medicalStaff->getAvailability() ? "Available" : "Not Available") << ", Employee ID: " 
+            << medicalStaff->getEmployeeID() << endl;
+
+            cout << "Appointment Time: " << appointmentTime << endl;
+            cout << "Procedures: " << procedures << endl;
+        }
+
 
     // Accessors
-    string getAppointmentTime() const;
-    Patient* getPatient() const;
+    // string getAppointmentTime() const;
+    // Patient* getPatient() const;
     MedicalStaff* getMedicalStaff() const;
     Procedure* getProcedure() const;
     string getProcedures() const; // Getter for procedures
+    //  int getPatientID() const {}
 
     // Modifiers
     void setAppointmentTime(const string& appointmentTime);
@@ -47,13 +74,13 @@ public:
     friend void setPatientAppointment(Patient* patient, Appointment* appointment);
 
     // Additional functions for appointment scheduling
-    void displayMenu() const;
+   
 };
 
 // Additional functions for appointment scheduling
 void appointmentSchedule(list<Appointment>& appointments, const Appointment& appointment);
 void appointmentCancel(list<Appointment>& appointments, const Appointment& appointment);
 void displayMenu();
-void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vector<MedicalStaff*>& staffMembers);
+// void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vector<MedicalStaff*>& staffMembers);
 
 #endif // APPOINTMENT_H

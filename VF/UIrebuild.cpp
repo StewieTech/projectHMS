@@ -7,8 +7,12 @@
 
 #include "medicalStaffVF.h"
 #include "procedureVF.h"
+#include "patientVF.h"
+#include "appointmentVF.h"
+
 
 // g++ UIrebuild.cpp medicalStaffVF.cpp procedureVF.cpp 
+// g++ UIrebuild.cpp medicalStaffVF.cpp procedureVF.cpp patientVF.cpp
 using namespace std;
 
 /*
@@ -17,6 +21,10 @@ Appointment Scheduling (Errol):
 It should store the patient information, the medical staff assigned, the appointment time, and any necessary procedures.
    - Utilize STL containers to handle appointment scheduling, track appointment conflicts, and manage appointment cancellations or rescheduling.
 */
+
+patientManager patManager;
+list<unique_ptr<Patient>> patientList;
+
 
 class AppointmentConflictException : public exception {
     public:
@@ -27,7 +35,9 @@ class AppointmentConflictException : public exception {
 
 
 // Appointment Scheduling
+/*
 class Appointment {
+    
     private:
         string patient; // Will make a dynamic reference to the patient class from Question 1
         int patientID;
@@ -64,6 +74,7 @@ class Appointment {
             cout << "Procedures: " << procedures << endl;
         }
 };
+*/
 
 void appointmentSchedule(list<Appointment>& appointments, const Appointment& appointment) {
     for (const auto& previousBookedAppointment : appointments) {
@@ -110,7 +121,7 @@ void displayMenu() {
 }
 
 // void userInput(::vector<Patient*>& patients, list<Appointment>& appointments)
-void userInput(list<Appointment>& appointments)
+void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patientList, patientManager& patManager )
 
 
 { 
@@ -342,8 +353,10 @@ if (staffType == "Doctor") {
 
 int main() {
     list<Appointment> appointments;
+    list<unique_ptr<Patient>> patientList;
+    patientManager patManager;
 
     // displayMenu();
-    userInput(appointments);
+    userInput(appointments, patientList, patManager);
     return 0 ;
 }

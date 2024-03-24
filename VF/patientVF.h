@@ -8,8 +8,9 @@
 #include <ctime>
 #include <time.h>
 #include "appointmentVF.h"
-#include "exceptionsVF.h"
-#include "procedureVF.h"
+
+// #include "exceptionsVF.h"
+// #include "procedureVF.h"
 
 using namespace std;
 
