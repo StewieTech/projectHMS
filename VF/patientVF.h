@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <string>
 #include <list>
+#include <memory>
 #include <ctime>
 #include <time.h>
 #include "appointmentVF.h"
