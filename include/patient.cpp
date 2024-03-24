@@ -15,7 +15,7 @@
  *	Last Mod:	2023-03-18
  *	Status:		Complete
  */
-Patient::Patient(int pID, string n, int a, char g, string add="Unknown", string pN="Unknown", string d="Unassigned", bool urg=false, bool ip=false, bool op=false, Appointment* is, Appointment* ns, int tebc=0 ){
+Patient::Patient(int pID, string n, int a, char g, string add, string pN, string d, bool urg, bool ip, bool op, Appointment* is, Appointment* ns, int tebc){
 	name=n;
 	age=a;
 	gender=g;
@@ -30,7 +30,23 @@ Patient::Patient(int pID, string n, int a, char g, string add="Unknown", string 
 	is_outpatient = op;
 	initialStep=is;
 	nextStep = ns;
-	totalExpenseByCents = tecp;
+	totalExpenseByCents = tebc;
+
+	Procedure p1("check-in","create profile");
+	Procedure p2("pre-process","classify into in-patient and out-patient");
+	Procedure p3("test","default test");
+	Procedure p4("consultation", "default consultation");
+	Procedure p5("exit","patient exit");
+	Procedure pi5("surgery","default surgery");
+	Procedure pi6("care","in-house care");
+
+	procedure.push_back(&p1);
+	procedure.push_back(&p2);
+	procedure.push_back(&p3);
+	procedure.push_back(&p4);
+	procedure.push_back(&p5);
+	procedure.push_back(&pi5);
+	procedure.push_back(&pi6);
 }
 
 Patient:: ~Patient(){
@@ -98,7 +114,7 @@ string Patient:: getAddress() const
  *	Last Mod:	2023-03-18
  *	Status:		Complete
  */
-int Patient:: getPhoneNum() const
+string Patient:: getPhoneNum() const
 {
 	return phoneNum;
 }
@@ -180,6 +196,10 @@ int Patient:: getTotalInCents() const
 	return totalExpenseByCents;
 }
 
+list<Procedure*> Patient::getProcedure() const
+{
+	return procedure;
+}
 /*	Func name:	setID
  *	Summary:
  *	Author：		SZW
@@ -232,7 +252,17 @@ void Patient::setGender(char g)
  */
 void Patient::setDept(string d)
 {
-	depy = d;
+	dept = d;
+}
+
+void Patient::setAddress(string add)
+{
+	address = add;
+
+}
+void Patient::setPhoneNum(string pN)
+{
+	phoneNum = pN;
 }
 
 /*	Func name:	setUrgency
@@ -324,8 +354,14 @@ void Patient::setAppointment(Appointment* appointment)
  */
 void Patient::setTotalInCents(int t)
 {
-	totalExpenseByCents = i;
+	totalExpenseByCents = t;
 }
+
+void Patient::setProcedure(list<Procedure*> procedureList)
+{
+	procedure = procedureList;
+}
+
 
 //Member Functions
 /*	Func name:	displayInfo
@@ -385,7 +421,7 @@ InPatient::InPatient(int pID, string n, int a, char g, string add, string pN, st
 	phoneNum = pN;
 	dept= d;
 	roomNumber = rn;
-	initStep = is;
+	initialStep = is;
 	nextStep= ns;
 	totalExpenseByCents=tebc;
 	inTime = it;
@@ -426,8 +462,8 @@ void InPatient::displayInfo() const
 	if(is_inpatient)
 	{
 		cout<<"Patient Status: In-patient"<<endl;
-		cout<<"Since: "<<ctime(&inTime)<<endl;
-		cout<<"To: "<<ctime(&outTime)<<endl;
+		cout<<"Since: "<<ctime(&inTime);
+		cout<<"To: "<<ctime(&outTime);
 	}
 	if(is_outpatient)
 	{
@@ -511,7 +547,7 @@ void InPatient::setOutTime(time_t ot)
  */
 void InPatient::setAppointment(Appointment* appointment)
 {
-	nextStep = apoointment
+	nextStep = appointment;
 }
 
 /*	Func name:	setTotalInCents
@@ -524,6 +560,7 @@ void InPatient::setTotalInCents(int t)
 {
 	totalExpenseByCents = t;
 }
+
 
 //other functions
 /*	Func name:	exitCured
@@ -554,7 +591,7 @@ OutPatient::OutPatient(int pID, string n, int a, char g, string add, string pN, 
 	phoneNum = pN;
 	dept= d;
 
-	initStep = is;
+	initialStep = is;
 	nextStep= ns;
 	totalExpenseByCents=tebc;
 }
@@ -565,7 +602,7 @@ OutPatient::OutPatient(int pID, string n, int a, char g, string add, string pN, 
  *	Last Mod:	2023-03-18
  *	Status:		Complete
  */
-string displayInfo() const
+void OutPatient::displayInfo() const
 {
 	cout<<"Patient ID: "<<patientID<<endl;
 	cout<<"Name: "<<name<<endl;
@@ -610,9 +647,192 @@ string displayInfo() const
  *	Last Mod:	2023-03-18
  *	Status:		Complete
  */
-void exitCured()
+void OutPatient::exitCured()
 {
-	nextStep=NULL;
+	nextStep=nullptr;
 	flag_urgency = false;
 	bool is_inpatient = false;
+}
+
+void setPatientAppointment(Patient* patient, Appointment* appointment)
+{
+	patient->setAppointment(appointment);
+}
+
+Patient* patientManager::findPatient(const string& name, const vector<Patient*>& patientList)
+{
+	for (auto& patient : patientList) {
+	        if (patient->getName() == name) {
+	        	cout<<"Patient matched!"<<endl;
+	            return patient;
+	        }
+	    }
+	cout<<"No Patient found!"<<endl;
+	return nullptr;
+}
+
+Patient* patientManager::addNewPatient()
+{
+	string buffer;
+	int pID;
+	string n;
+	int a;
+	char g;
+	string add;
+	string pN;
+	string d="Unassigned";
+	bool urg=false;
+	bool ip=false;
+	bool op=false;
+	Appointment* is=nullptr;
+	Appointment* ns=nullptr;
+	int tebc=0;
+
+	cout<<"Please add new patient:"<<endl;
+	cout<<"Please enter patient ID (integer): "<<endl;
+	cin>>buffer; pID = stoi(buffer);
+	cin.ignore();
+
+	cout<<"Please enter patient name (string):"<<endl;
+	cin>>buffer; n=buffer;
+	cin.ignore();
+
+	cout<<"Please enter patient age (int):"<<endl;
+	cin>>buffer; a=stoi(buffer);
+	cin.ignore();
+
+	cout<<"Please enter patient gender (M or F):"<<endl;
+	cin>>buffer; g=buffer.at(0);
+	cin.ignore();
+
+	cout<<"Please enter patient address (string):"<<endl;
+	cin>>buffer; add = buffer;
+	cin.ignore();
+
+	cout<<"Please enter patient phone number (string):"<<endl;
+	cin>>buffer; pN = buffer;
+	cin.ignore();
+
+	cout<<"Please enter patient department (string):"<<endl;
+	cin>>buffer; d = buffer;
+	cin.ignore();
+
+	cout<<"Patient has urgency? (Y/N)"<<endl;
+	cin>>buffer;
+	if ((buffer=="Y")||buffer=="y"){urg = true;}
+	cin.ignore();
+
+	cout<<"Patient is a defined in-patient? (Y/N)"<<endl;
+	cin>>buffer;
+	if ((buffer=="Y")||buffer=="y")
+	{
+		ip = true;
+		cin.ignore();
+
+		int rn;
+		time_t it;
+		time_t ot;
+
+		int temp_year;
+		int temp_month;
+		int temp_day;
+		int temp_hour;
+
+		cout<<"Please input scheduled room number (integer): "<<endl;
+		cin>>buffer; rn = stoi(buffer);
+		cin.ignore();
+
+		cout<<"Please input in time. Is the year 2024? (Y/N)"<<endl;
+		cin>>buffer;
+		cin.ignore();
+		if((buffer=="Y"||buffer=="y"))
+		{
+			temp_year = 2024;
+		}
+		else
+		{
+			cout<<"Please input year (integer): "<<endl;
+			cin>>buffer;
+			temp_year = stoi(buffer);
+			cin.ignore();
+		}
+
+		cout<<"Please input month (1-12): "<<endl;
+		cin>>buffer; temp_month = stoi(buffer);
+		cin.ignore();
+
+		cout<<"Please input day (1-30): "<<endl;
+		cin>>buffer; temp_day = stoi(buffer);
+		cin.ignore();
+
+		cout<<"Please input hour (0-23):"<<endl;
+		cin>>buffer; temp_hour = stoi(buffer);
+		cin.ignore();
+
+		tm inputTime={0};
+		inputTime.tm_year = temp_year-1900;
+		inputTime.tm_mon = temp_month-1;
+		inputTime.tm_mday = temp_day;
+		inputTime.tm_hour = temp_hour;
+
+		it = mktime(&inputTime);
+		stringstream ss;
+		ss << "Success! In time: ";
+		ss << put_time(&inputTime, "%Y %B %d, %H:%M");
+		cout << ss.str() << endl;
+
+		cout<<"Please input scheduled out time. Is the year 2024? (Y/N)"<<endl;
+		cin>>buffer;
+		cin.ignore();
+		if((buffer=="Y"||buffer=="y"))
+		{
+			temp_year = 2024;
+		}
+		else
+		{
+			cout<<"Please input year (integer): "<<endl;
+			cin>>buffer;
+			temp_year = stoi(buffer);
+			cin.ignore();
+		}
+
+		cout<<"Please input month (1-12): "<<endl;
+		cin>>buffer; temp_month = stoi(buffer);
+		cin.ignore();
+
+		cout<<"Please input day (1-30): "<<endl;
+		cin>>buffer; temp_day = stoi(buffer);
+		cin.ignore();
+
+		cout<<"Please input hour (0-23):"<<endl;
+		cin>>buffer; temp_hour = stoi(buffer);
+		cin.ignore();
+
+		inputTime.tm_year = temp_year-1900;
+		inputTime.tm_mon = temp_month-1;
+		inputTime.tm_mday = temp_day;
+		inputTime.tm_hour = temp_hour;
+
+		ot = mktime(&inputTime);
+		ss << "Success! Out time: ";
+		ss << put_time(&inputTime, "%Y %B %d, %H:%M");
+		cout << ss.str() << endl;
+
+		cout<<a<<endl;
+
+		return new InPatient(pID, n, a, g, add, pN, d, rn, is, ns, 0, it, ot);
+	}
+
+
+	cout<<"Patient is a defined out-patient? (Y/N)"<<endl;
+	cin>>buffer;
+	if ((buffer=="Y")||buffer=="y")
+	{
+		op = true;
+		cin.ignore();
+		return new OutPatient(pID, n, a, g, add, pN, d, is, ns, 0);
+	}
+
+	return new Patient (pID, n, a, g, add, pN, d, urg, ip, op, is, ns, 0);
+
 }
