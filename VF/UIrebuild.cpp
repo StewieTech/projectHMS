@@ -4,6 +4,9 @@
 #include<list>
 #include<algorithm>
 #include <map>
+#include <iomanip>
+#include <ctime>
+
 
 #include "medicalStaffVF.h"
 #include "procedureVF.h"
@@ -86,7 +89,7 @@ void appointmentSchedule(list<Appointment>& appointments, const Appointment& app
     appointments.push_back(appointment);
 }
 
-void appointmentCancel(list<Appointment>& appointments, const string& appointmentTime) {
+void appointmentCancel(list<Appointment>& appointments, time_t appointmentTime) {
     auto iter = find_if(appointments.begin(), appointments.end(), [appointmentTime](const Appointment& appointment) {
         return appointment.getAppointmentTime() == appointmentTime;
     });
@@ -130,7 +133,13 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
     list<int> patientIDs;
     string patientName;
     MedicalStaff* medicalStaff;
-    string appointmentTime;
+    string appointmentDate;
+    string appointmentHour;
+    time_t appointmentTime;
+    istringstream dateStream;
+    istringstream hourStream;
+   
+    tm appointmentTm = {};
     string procedures;
     string staffType;
     string procedureDescriptions;
@@ -280,17 +289,44 @@ if (staffType == "1") {
 }
           
 
-           
+  
 
-                cout << "Enter the Time of the Appointment: ";
+
+            do {
+                cout << "Enter the Date of the Appointment (YYYY-MM-DD):  ";
                 cin.ignore();
-                getline(cin, appointmentTime);
+                getline(cin, appointmentDate);
 
+                dateStream.str(appointmentDate);
+                dateStream >> get_time(&appointmentTm, "%Y-%m-%d");
+
+                if (dateStream.fail()) {
+                    cout << "Invalid input; Please enter a valid date in the format YYYY-MM-DD" << endl;
+                }
+                dateStream.clear(); // Clear the fail state for the next iteration
+            } while (dateStream.fail());
+
+   
+            do {
+                cout << "Enter the Hour of the Appointment (HH:MM) in 24 hour time: ";
+                cin.ignore();
+                getline(cin, appointmentHour);
+
+                hourStream.str(appointmentHour);
+                hourStream >> get_time(&appointmentTm, "%H:%M");
+
+                if (hourStream.fail()) {
+                    cout << "Invalid input; Please enter a valid hour in the format" << endl;
+                }
+                hourStream.clear(); 
+            } while (hourStream.fail());
+
+            appointmentTime = mktime(&appointmentTm);
            
             
 
             try {
-                appointmentSchedule(appointments, Appointment(patientName, patientID, medicalStaff,appointmentTime, procedureDescriptions));
+                appointmentSchedule(appointments, Appointment(patientName, patientID, medicalStaff, appointmentTime, procedureDescriptions));
                 cout << "Your appointment has been scheduled !" << endl << endl;
             } catch (const AppointmentConflictException& e) {
                 cout << "Exception: " << e.what() << endl;
@@ -366,6 +402,7 @@ if (staffType == "1") {
 
 
 int main() {
+    locale::global(locale("C"));    
     list<Appointment> appointments;
     list<unique_ptr<Patient>> patientList;
     patientManager patManager;
