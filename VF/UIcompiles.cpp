@@ -7,6 +7,8 @@
 
 #include "medicalStaffVF.h"
 #include "procedureVF.h"
+#include "patientVF.h"
+#include "appointmentVF.h"
 
 // g++ UIrebuild.cpp medicalStaffVF.cpp procedureVF.cpp 
 using namespace std;
@@ -162,120 +164,120 @@ void userInput(list<Appointment>& appointments)
 				cout<<"------------------------------"<<endl;
 			}
 
-			// SZW: Updated the part to detect whether it's a new patient. Not sure about the next part
-			// SZW: Don't forget to add pointer to initial step to Patient object
 
-            // string staffType;
-            cout << "Enter which medical staff is needed (Doctor/Nurse): ";
-            cin.ignore();
-            getline(cin, staffType);
+		// string staffType;
+		cout << "Enter which medical staff is needed (Doctor/Nurse): ";
+		cin.ignore();
+		getline(cin, staffType);
 
-if (staffType == "Doctor") {
-    cout << "Select the Doctor's specialty:\n";
-    cout << "1. Emergency Physician\n";
-    cout << "2. Pulmonologist\n";
-    cout << "3. Gastroenterologist\n";
-    cout << "Enter 1, 2, or 3: ";
+	if (staffType == "Doctor") {
+		cout << "Select the Doctor's specialty:\n";
+		cout << "1. Emergency Physician\n";
+		cout << "2. Pulmonologist\n";
+		cout << "3. Gastroenterologist\n";
+		cout << "Enter 1, 2, or 3: ";
 
-    int specialtyChoice;
-    cin >> specialtyChoice;
+		int specialtyChoice;
+		cin >> specialtyChoice;
+		cin.ignore();
 
-    // Mapping user choice to the specialty string
-    string specialization;
-    switch (specialtyChoice) {
-        case 1:
-            specialization = "Emergency Physician";
-            break;
-        case 2:
-            specialization = "Pulmonologist";
-            break;
-        case 3:
-            specialization = "Gastroenterologist";
-            break;
-        default:
-            cout << "Invalid choice. Defaulting to Emergency Physician." << endl;
-            specialization = "Emergency Physician";
-    }
-
-
-    string name = "Dr. Smith";
-    bool availability = true;
-    int employeeID = 123;
-    string licenseNumber = "Lic123456";
-
-    medicalStaff = new Doctor(name, specialization, availability, employeeID, licenseNumber);
-    
-    auto procedures = initializeProcedureList()["Doctor"][specialization];
-    cout << "Procedures for " << specialization << ":\n";
-    for (const auto& proc : procedures) {
-        cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
-        procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";  
-
-    }
-} 
+		// Mapping user choice to the specialty string
+		string specialization;
+		switch (specialtyChoice) {
+			case 1:
+				specialization = "Emergency Physician";
+				break;
+			case 2:
+				specialization = "Pulmonologist";
+				break;
+			case 3:
+				specialization = "Gastroenterologist";
+				break;
+			default:
+				cout << "Invalid choice. Defaulting to Emergency Physician." << endl;
+				specialization = "Emergency Physician";
+		}
 
 
 
-         else if (staffType == "Nurse") {
-    cout << "Select the Nurse's specialty:\n";
-    cout << "1. Emergency Nurse\n";
-    cout << "2. Respiratory Nurse\n";
-    cout << "3. Gastrointestinal Nurse\n";
-    cout << "Enter 1, 2, or 3: ";
+		string name = "Dr. Smith";
+		bool availability = true;
+		int employeeID = 123;
+		string licenseNumber = "Lic123456";
+		patientsList.back()->setDept.(specialization);
 
-    int specialtyChoice;
-    cin >> specialtyChoice;
+		medicalStaff = new Doctor(name, specialization, availability, employeeID, licenseNumber);
 
-    // Mapping user choice to the specialty string
-    string specialization;
-    switch (specialtyChoice) {
-        case 1:
-            specialization = "Emergency Nurse";
-            break;
-        case 2:
-            specialization = "Respiratory Nurse";
-            break;
-        case 3:
-            specialization = "Gastrointestinal Nurse";
-            break;
-        default:
-            cout << "Invalid choice. Defaulting to Emergency Nurse." << endl;
-            specialization = "Emergency Nurse";
-    }
+		auto procedures = initializeProcedureList()["Doctor"][specialization];
+		cout << "Procedures for " << specialization << ":\n";
+		for (const auto& proc : procedures) {
+			cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
+			procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";
 
-    // Example values for demonstration
-    string name = "Nurse Joy"; // Ensure this is correctly set
-    bool availability = true;
-    int employeeID = 456;
+		}
+	}
 
-    medicalStaff = new Nurse(name, specialization, availability, employeeID);
-    // Assuming 'initializeProcedureList' and 'procedureList' are accessible here
-    auto procedures = initializeProcedureList()["Nurse"][specialization];
-    cout << "Procedures for " << specialization << ":\n";
-    for (const auto& proc : procedures) {
-        cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
-        procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";  
 
-    }
-}
+
+	else if (staffType == "Nurse") {
+		cout << "Select the Nurse's specialty:\n";
+		cout << "1. Emergency Nurse\n";
+		cout << "2. Respiratory Nurse\n";
+		cout << "3. Gastrointestinal Nurse\n";
+		cout << "Enter 1, 2, or 3: ";
+
+		int specialtyChoice;
+		cin >> specialtyChoice;
+
+		// Mapping user choice to the specialty string
+		string specialization;
+		switch (specialtyChoice) {
+			case 1:
+				specialization = "Emergency Nurse";
+				break;
+			case 2:
+				specialization = "Respiratory Nurse";
+				break;
+			case 3:
+				specialization = "Gastrointestinal Nurse";
+				break;
+			default:
+				cout << "Invalid choice. Defaulting to Emergency Nurse." << endl;
+				specialization = "Emergency Nurse";
+		}
+
+		// Example values for demonstration
+		string name = "Nurse Joy"; // Ensure this is correctly set
+		bool availability = true;
+		int employeeID = 456;
+		patientsList.back()->setDept.(specialization);
+
+		medicalStaff = new Nurse(name, specialization, availability, employeeID);
+		// Assuming 'initializeProcedureList' and 'procedureList' are accessible here
+		auto procedures = initializeProcedureList()["Nurse"][specialization];
+		cout << "Procedures for " << specialization << ":\n";
+		for (const auto& proc : procedures) {
+			cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
+			procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";
+
+		}
+	}
           
 
-           
+	cout << "Enter the Time of the Appointment: ";
+	cin.ignore();
+	getline(cin, appointmentTime);
 
-                cout << "Enter the Time of the Appointment: ";
-                cin.ignore();
-                getline(cin, appointmentTime);
 
-           
-            
 
-            try {
-                appointmentSchedule(appointments, Appointment(patientName, patientID, medicalStaff,appointmentTime, procedureDescriptions));
-                cout << "Your appointment has been scheduled !" << endl << endl;
-            } catch (const AppointmentConflictException& e) {
-                cout << "Exception: " << e.what() << endl;
-            }        
-        
+
+	try {
+		appointmentSchedule(appointments, Appointment(patientName, patientID, medicalStaff,appointmentTime, procedureDescriptions));
+		cout << "Your appointment has been scheduled !" << endl << endl;
+	} catch (const AppointmentConflictException& e) {
+		cout << "Exception: " << e.what() << endl;
+	}
+
   
         break;
 

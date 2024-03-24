@@ -79,8 +79,8 @@ protected:
     string dept;
     bool is_inpatient = false;
     bool is_outpatient = false;
-    Appointment* initialStep;
-    Appointment* nextStep;
+    Appointment* initialStep;		// this part is already addressed in appointment so no need to implement
+    Appointment* nextStep;			// this part is already addressed in appointment so no need to implement
     int totalExpenseByCents;
     list<Procedure*> procedure;
 
