@@ -1,8 +1,9 @@
 #include <iostream>
-#include<vector>
-#include<string>
-#include<list>
-#include<algorithm>
+#include <vector>
+#include <string>
+#include <list>
+#include <memory>
+#include <algorithm>
 #include <map>
 #include <iomanip>
 #include <ctime>
