@@ -31,6 +31,22 @@ Patient::Patient(int pID, string n, int a, char g, string add="Unknown", string 
 	initialStep=is;
 	nextStep = ns;
 	totalExpenseByCents = tecp;
+
+	Procedure p1("check-in","create profile");
+	Procedure p2("pre-process","classify into in-patient and out-patient");
+	Procedure p3("test","default test");
+	Procedure p4("consultation", "default consultation");
+	Procedure p5("exit","patient exit");
+	Procedure pi5("surgery","default surgery");
+	Procedure pi6("care","in-house care");
+
+	procedure.push_back(&p1);
+	procedure.push_back(&p2);
+	procedure.push_back(&p3);
+	procedure.push_back(&p4);
+	procedure.push_back(&p5);
+	procedure.push_back(&pi5);
+	procedure.push_back(&p6);
 }
 
 Patient:: ~Patient(){
@@ -180,6 +196,10 @@ int Patient:: getTotalInCents() const
 	return totalExpenseByCents;
 }
 
+list<Procedure*>& Patient::getProcedure() const
+{
+	return procedure;
+}
 /*	Func name:	setID
  *	Summary:
  *	Author：		SZW
@@ -525,6 +545,11 @@ void InPatient::setTotalInCents(int t)
 	totalExpenseByCents = t;
 }
 
+void setProcedure(list<Procedure*> procedureList)
+{
+	procedure = procedureList;
+}
+
 //other functions
 /*	Func name:	exitCured
  *	Summary:	Take current time and set as outTime
@@ -615,4 +640,9 @@ void exitCured()
 	nextStep=NULL;
 	flag_urgency = false;
 	bool is_inpatient = false;
+}
+
+void setPatientAppointment(Patient* patient, Appointment* appointment)
+{
+	patient->setAppointment(appointment);
 }

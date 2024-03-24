@@ -2,7 +2,7 @@
 #define PATIENT_H
 
 #include <string>
-#include <vector>
+#include <list>
 #include <time.h>
 #include "appointment.h"
 #include "exceptions.h"
@@ -40,6 +40,8 @@ public:
     Appointment* getInitStep() const;
     Appointment* getNextStep() const;
     int getTotalInCents() const;
+    list<Procedure*> getProcedure() const;
+
 
     // Accessors - setters
     void setID(int i);
@@ -55,6 +57,7 @@ public:
     void resetOutpatient();
     void setAppointment(Appointment* appointment);
     void setTotalInCents(int t);
+    void setProcedure(list<Procedure*> procedureList);
 
     // Member functions
     virtual void displayInfo() const;
@@ -76,6 +79,8 @@ protected:
     Appointment* initialStep;
     Appointment* nextStep;
     int totalExpenseByCents;
+    list<Procedure*> procedure;
+
 };
 
 class InPatient : public Patient {
