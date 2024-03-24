@@ -124,6 +124,9 @@ void userInput(list<Appointment>& appointments)
     string staffType;
     string procedureDescriptions;
     
+    patientManager pM1;
+    list<unique_ptr<Patient>> patientsList;
+
     bool isPatientMatched = false;
 
     do {
@@ -135,30 +138,32 @@ void userInput(list<Appointment>& appointments)
         switch (choice) {
             case '1':
             // Schedule Appointment
-            cout<< "Enter the name of the patient: ";
-            cin.ignore();
-            getline(cin, patientName);
-
             cout << "Enter Patient ID: ";
             cin >> patientID ;
-
-
+            cin.ignore();
 
             // Search for patientID in the list of patientIDs
             isPatientMatched = false; 
-          
-            for (const auto& id : patientIDs) {
-                if (id == patientID) {
-                    isPatientMatched = true;
-                    cout << "Patient ID already exists" << endl;
-                    break;
-                };
-            };
 
-            // Add patientID to a list of patientIDs only if it doesn't exist in the list // exceptions.h
-            if (!isPatientMatched) {
-                patientIDs.push_back(patientID);
-            }
+            foundPatient = pM1.findPatientById(patientID, patientsList);
+
+			if (foundPatient != nullptr) {
+				isPatientMatched = true;
+				foundPatient->displayInfo();
+				cout << "Patient ID: " << patientID <<"already exists"<< endl;
+			} else {
+				cout << "Patient with ID: " << idToFind << " not found. Pls add new patient" << endl;
+				//new patient
+				unique_ptr<Patient> p1(pM1.addNewPatient());
+				patientIDs.push_back(p1->getID());
+				patientsList.push_back(move(p1));
+				patientsList.back()->displayInfo();
+				cout<<"Patient successfully added!"<<endl;
+				cout<<"------------------------------"<<endl;
+			}
+
+			// SZW: Updated the part to detect whether it's a new patient. Not sure about the next part
+			// SZW: Don't forget to add pointer to initial step to Patient object
 
             // string staffType;
             cout << "Enter which medical staff is needed (Doctor/Nurse): ";

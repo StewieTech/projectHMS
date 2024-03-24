@@ -1,8 +1,11 @@
 #ifndef PATIENT_H
 #define PATIENT_H
 
+#include <iostream>
+#include <iomanip>
 #include <string>
 #include <list>
+#include <ctime>
 #include <time.h>
 #include "appointment.h"
 #include "exceptions.h"
@@ -21,18 +24,16 @@ class Patient {
 
 public:
     // Constructor & Destructor
-    Patient(int pID, string n, int a, char g, string add="Unknown", string pN="Unknown", string d="Unassigned", bool urg=false, bool ip=false, bool op=false, Appointment* is, Appointment* ns, int tebc=0);
+    Patient(int pID=0, string n="Unknown", int a=0, char g='M', string add="Unknown", string pN="Unknown", string d="Unassigned", bool urg=false, bool ip=false, bool op=false, Appointment* is=nullptr, Appointment* ns=nullptr, int tebc=0);
     virtual ~Patient();
-
-    string getName() const { return name; }     // Getter method for name
-
 
     // Accessors - getters
     int getId() const;
+    string getName() const;
     int getAge() const;
     char getGender() const;
     string getAddress() const;
-    int getPhoneNum() const;
+    string getPhoneNum() const;
     string getDept() const;
     bool getUrgency() const;
     bool getStatusInpatient() const;
@@ -48,6 +49,8 @@ public:
     void setName(string n);
     void setAge(int i);
     void setGender(char g);
+    void setAddress(string add);
+    void setPhoneNum(string pN);
     void setDept(string d);
     void setUrgency();
     void resetUrgency();
@@ -118,8 +121,8 @@ protected:
 class OutPatient : public Patient {
 	friend class Appointment; // allows access from Appointment objects
 public:
-    OutPatient(string name, int age, char gender, string appointmentDate, string doctorName);
-    string displayInfo() const;
+    OutPatient(int pID, string n, int a, char g, string add, string pN, string d, Appointment* is, Appointment* ns, int tebc);
+    void displayInfo() const;
 
     //Accessors
 
@@ -132,5 +135,13 @@ protected:
 	bool is_outpatient = true;
 };
 
+class patientManager
+{
+public:
+	static Patient* findPatient(const string& name, const vector<Patient*>& patientList);
+
+	//prompt for adding new patient
+	Patient* addNewPatient();
+};
 
 #endif // PATIENT_H
