@@ -1,0 +1,30 @@
+UI options should be :
+search patient 
+add patient
+Schedule appointment
+Reschedule appointment
+Cancel appointment
+display all available appointments
+display booked appointments
+exit
+
+search patient - prompt for name and ID (check for valid input and also if patient not found then prompt for that) otherwise ask to confirm - then it displays the patient info and gives options to edit/print 
+
+add patient - prompt for all the fields (there need to be specific formats for each field like ID should be int, bday should be dd/mm/yyyy format, etc) - display asking to confirm - if select confirm then it will display the patient info if not confirm then let the user edit.
+
+for schedule appointment the first question should be "is this a new or existing patient" if existing - prompt to search for patient; if new, prompt for adding patient information.
+THEN it should ask to confirm the patient 
+then - enter which medical staff is needed (1 for Doctor, 2 for Nurse) (if neither option is entered should be invalid input pick 1 or 2)
+then it should prompt for doctor's specialty. (the menu rn has 1 2 or 3 as options for specialty - should flag for invalid input also)
+THEN it should prompt asking if more staff if needed y/n (flag for invalid input)
+If yes - then enter another medical staff etc. If no, then it should list appointment times for user to select from. Then it should ask to confirm the details. then confirm and display the details. the details it outputs should be the patient info, medical staff info, and appointment
+
+for reschedule appointment it should prompt asking for patient id/name (check for invalid input) and then display their appointments for you to pick one
+when selected then it should give list of available appointment times for the already assigned medical staff
+input one picked (invalid input check) ask to confirm
+if confirmed then display patient info medical staff info and appointment time - if not confirmed then display available appointment times again 
+
+for cancel appointment prompt to search patient info (check for invalid input) then list patients appts to pick from to cancel - pick one (check for invalid input) and then ask to confirm - confirm cancel
+
+display all available appointments - should list available appointments for each doctor/nurse 
+display booked appointments - should list booked appointments showing patient ID and name, appointment time, and medical staff assigned
