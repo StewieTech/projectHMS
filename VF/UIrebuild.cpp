@@ -117,7 +117,7 @@ void displayMenu() {
     cout << "5. Find Patient By ID" << endl; 
     cout << "6. Choose Procedure for Patient WIP" << endl; 
     cout << "0. Exit Menu" << endl; 
-    cout << "Enter Your Choice" << endl;
+    cout << "Enter Your Choice: ";
 }
 
 // void userInput(::vector<Patient*>& patients, list<Appointment>& appointments)
@@ -142,9 +142,12 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
         // cout << "Select from Menu: " << endl;
        
         cin >> choice;
+        cin.ignore();
+
 
         switch (choice) {
             case '1':
+        
             // Schedule Appointment
             cout<< "Enter the name of the patient: ";
             cin.ignore();
@@ -152,6 +155,12 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
 
             cout << "Enter Patient ID: ";
             cin >> patientID ;
+            // cin.ignore();
+            // if ( !(patientID > 0) )  {
+            //    cout << "Invalid input; Please enter a valid postive number only" << endl;
+            //    cin.ignore();
+            //    break ;
+            // }
 
 
 
@@ -172,11 +181,14 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
             }
 
             // string staffType;
-            cout << "Enter which medical staff is needed (Doctor/Nurse): ";
+            cout << "Enter which medical staff is needed: " << endl;
+            cout << "1. Doctor " << endl;
+            cout << "2. Nurse " << endl;
+            cout << "Enter 1 or 2: ";
             cin.ignore();
             getline(cin, staffType);
 
-if (staffType == "Doctor") {
+if (staffType == "1") {
     cout << "Select the Doctor's specialty:\n";
     cout << "1. Emergency Physician\n";
     cout << "2. Pulmonologist\n";
@@ -220,9 +232,7 @@ if (staffType == "Doctor") {
     }
 } 
 
-
-
-         else if (staffType == "Nurse") {
+         else if (staffType == "2") {
     cout << "Select the Nurse's specialty:\n";
     cout << "1. Emergency Nurse\n";
     cout << "2. Respiratory Nurse\n";
@@ -263,6 +273,10 @@ if (staffType == "Doctor") {
         procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";  
 
     }
+} else {
+    cout << "Invalid Selection; Please choose 1 or 2 only " << endl << endl; 
+    displayMenu();
+
 }
           
 

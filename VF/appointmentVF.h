@@ -4,16 +4,18 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <ctime>
+
 #include "medicalStaffVF.h"
-// #include "patient.h"
-// #include "procedureVF.h" 
-// #include "exceptions.h"
+
 
 using namespace std;
 
 // Forward declarations to avoid circular dependencies
 class Patient;
 class MedicalStaff;
+// time_t appointmentTime;
+
 class Procedure;
 
 class Appointment {
@@ -83,4 +85,4 @@ void appointmentCancel(list<Appointment>& appointments, const Appointment& appoi
 void displayMenu();
 // void userInput(list<Appointment>& appointments, vector<Patient*>& patients, vector<MedicalStaff*>& staffMembers);
 
-#endif // APPOINTMENT_H
+#endif // APPOINTMENT_H 
