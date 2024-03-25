@@ -46,7 +46,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
             case '1': // Add patient
             {
                 string id, name, age, gender, address, phoneNumber, urgency, department, inPatient, outPatient;
-
+                int ageInt;
         // Input patient's ID
         bool validIDEntered = false;
         while (!validIDEntered) {
@@ -76,10 +76,9 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
         while (!validAgeEntered) {
             try {
                 cout << "Enter patient's age: ";
-                string ageString;
-                getline(cin, ageString);
-                int age = stoi(ageString); // Convert age input to integer
-                validAgeEntered = InvalidAgeException::invalidAges(age);
+                getline(cin, age);
+                ageInt = stoi(age); // Convert age input to integer
+                validAgeEntered = InvalidAgeException::invalidAges(ageInt);
             } catch (const invalid_argument& e) {
                 cerr << "Error: " << e.what() << endl;
             }
@@ -186,8 +185,10 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
 
         // Create and add the patient to the list
         int newPatientID = 0;
+        string newPatientAge;
+        newPatientAge = age;
         newPatientID = stoi(id); // convert id from string to int to work
-        unique_ptr<Patient> newPatient = make_unique<Patient>(newPatientID, name, 0, gender[0], "", phoneNumber, "", false, false, false, nullptr, nullptr, 0);
+        unique_ptr<Patient> newPatient = make_unique<Patient>(newPatientID, name, ageInt, gender[0], "", phoneNumber, "", false, false, false, nullptr, nullptr, 0);
         patientList.push_back(move(newPatient));
         cout << "Patient added successfully." << endl;
 
