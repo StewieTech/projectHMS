@@ -3,10 +3,10 @@
 Project for Object-Oriented Software Development Using C++
 
 ## Contact
--  <mjlovsin-lablans@myseneca.ca>;
--  <ocostantino1@myseneca.ca>;
--  <swu106@myseneca.ca>
--  <estewart14@myseneca.ca>
+-  <mjlovsin-lablans@myseneca.ca>; - mjlovsin/legitmuffinman
+-  <ocostantino1@myseneca.ca>; - ocplusplus
+-  <swu106@myseneca.ca> - akdunwu
+-  <estewart14@myseneca.ca> - stewietech
 
 
  ## Instructions for git
