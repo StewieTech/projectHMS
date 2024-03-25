@@ -31,60 +31,13 @@ patientManager patManager;
 list<unique_ptr<Patient>> patientList;
 
 
-
-
-
-  
-        Appointment::Appointment(Patient* patInput, MedicalStaff* mInput, time_t atInput, const string& prInput) : patient(patInput), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
-
-       
-
-        time_t Appointment::getAppointmentTime() const {
-            return appointmentTime;
-        }
-
-        int Appointment::getPatientID() const {
-            return patient ? patient->getId() : 0; 
-        }
-
-        Appointment::~Appointment() {
-   
-              }
-
-        void Appointment::displayInfoUI(const list<unique_ptr<Patient>>& patientList) const {
-            if (patient != nullptr) {
-                cout << "Appointment Time: " << ctime(&appointmentTime) << endl;
-                cout << "Patient: " << patient->getName() << endl;
-                cout << "Patient ID: " << patient->getId() << endl;
-                cout << "Medical Staff: " << medicalStaff->getName() << ", Specialization: " << medicalStaff->getSpecialization() << endl;
-                cout << "Procedures: " << procedures << endl;
-                cout << "---------------------------------------" << endl;
-            } else {
-                cout << "Patient information not available." << endl;
-            }
-        };
-
-        MedicalStaff* getMedicalStaff() ;
-        string getProcedures() ;
-
-        void Appointment::setAppointmentTime(time_t newAppointmentTime) {
-            if(newAppointmentTime < time(nullptr)) {
-                throw invalid_argument("Please select a future date");
-            }
-            appointmentTime = newAppointmentTime;
-        }
-
-        void setPatient(Patient* patient);
-        void setMedicalStaff(MedicalStaff* staff);
-        void setProcedures(const string& procedures);
-
-
 class AppointmentConflictException : public exception {
     public:
      const char* what() const noexcept override {
         return "There's already an appointment for this time";
      }
 };
+
 
 // Appointment Scheduling
 /*
@@ -162,13 +115,14 @@ User Interface (Errol):
 
 void displayMenu() {
     cout << "HMS Menu Options" << endl;
+    cout << "7.Search Existing patient" << endl; 
     cout << "1. Schedule New Patient Appointment" << endl; 
     cout << "2. Cancel Appointment" << endl; 
     cout << "3. Display All Available Appointments" << endl; 
     cout << "4. Manage Staff WIP" << endl; 
     cout << "5. Find Patient By ID" << endl; 
+    cout << "6. Choose Procedure for Patient WIP" << endl; 
     cout << "7. Add New Patient" << endl; 
-    cout << "8. Display Patient Information" << endl; 
     cout << "0. Exit Menu" << endl; 
     cout << "Enter Your Choice: ";
 }
@@ -182,10 +136,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
     int patientID;
     list<int> patientIDs;
     string patientName;
-    int pID;
-    string n;
     MedicalStaff* medicalStaff;
-    Patient* newPatient;
     string appointmentDate;
     string appointmentHour;
     time_t appointmentTime;
@@ -209,46 +160,22 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
 
         switch (choice) {
 
-        case '1': {
-           
-            string input;
+            case '1':
+        
+            // Schedule Appointment
+            cout<< "Enter the name of the patient: ";
+            cin.ignore();
+            getline(cin, patientName);
 
-            cout << "Adding a new patient to the system." << endl;
-            
-            while (true) {
-                cout << "Please enter patient ID (integer): ";
-                getline(cin, input); 
-                stringstream ss(input);
-                if (ss >> patientID && !(ss >> input)) { // Check if conversion to integer is successful 
-                    // Valid integer input
-                    break;
-                } else {
-                    // Invalid input, prompt user again
-                    cout << "Invalid input. Please enter a valid integer for patient ID." << endl;
-                    cin.clear(); // Clear any error flags
-                }
-            }
+            cout << "Enter Patient ID: ";
+            cin >> patientID ;
+            // cin.ignore();
+            // if ( !(patientID > 0) )  {
+            //    cout << "Invalid input; Please enter a valid postive number only" << endl;
+            //    cin.ignore();
+            //    break ;
+            // }
 
-//                 for (const auto& patient : patientList) {
-//             if (patient->getId() == patientID) {
-//                 newPatient = patient.get();
-//                 break;
-//     }
-// }
-
-
-                                cout << "Please enter patient name: ";
-                getline(cin, patientName);
-
-                try {
-                    unique_ptr<Patient> newPatient = make_unique<Patient>(patientID, patientName);
-                    newPatient->setName(patientName);
-                    patientList.push_back(move(newPatient));
-                    cout << "New patient (" << patientName << ") added successfully." << endl;
-                } catch (const exception& e) {
-                    cout << "An error occurred: " << e.what() << endl;
-                }
-        }
 
 
             // Search for patientID in the list of patientIDs
@@ -404,7 +331,7 @@ if (staffType == "1") {
             
 
             try {
-                appointmentSchedule(appointments, Appointment(newPatient,  medicalStaff, appointmentTime, procedureDescriptions));
+                appointmentSchedule(appointments, Appointment(patientName, patientID, medicalStaff, appointmentTime, procedureDescriptions));
                 cout << "Your appointment has been scheduled !" << endl << endl;
             } catch (const AppointmentConflictException& e) {
                 cout << "Exception: " << e.what() << endl;
@@ -419,7 +346,7 @@ if (staffType == "1") {
 
         cout << "Enter the ID of the Appointment you want to cancel:" << endl;
         for (const auto& appointment : appointments) {
-            appointment.displayInfoUI(patientList);
+            appointment.displayInfoUI();
             cout << endl;
         }
 
@@ -438,57 +365,37 @@ if (staffType == "1") {
 
             
 
-case '3': { // Display all appointments
-    if (appointments.empty()) {
-        cout << "No scheduled appointments to display." << endl;
-    } else {
-        for (const auto& appointment : appointments) {
-            appointment.displayInfoUI(patientList); 
-        }
-    }
-    break;
-}
+        case '3' :
 
-        case '5': {
-            cout << "Enter patient ID to search: ";
-            int searchId;
-            cin >> searchId;
-            
-            // Using patientManager to find a patient by ID
-            Patient* foundPatient = patientManager::findPatientById(searchId, patientList);
-            
-            if (foundPatient != nullptr) {
-                cout << "Patient found:" << endl;
-                foundPatient->displayInfo();  // Assuming displayInfo is a method within your Patient class
-            } else {
-                cout << "No patient found with ID: " << searchId << endl;
+        // if there is no appointment cout no appointments to show // exception.h
+        // we can also have a default amount of appointments to show // exception.h
+
+            cout << "List of Appointments:" << endl;
+            for (const auto& appointment : appointments) {
+                appointment.displayInfoUI();
+                cout << endl;
             }
-            break;
+    break;
+
+    case '5' :
+        cout << "Enter patient ID to search: ";
+        cin >> patientID;
+
+        for (const auto& appointment : appointments) {
+            if (appointment.getPatientID() == patientID) {
+        cout << "List of Patients by ID: " << endl;
+                appointment.displayInfoUI();
+            }
         }
 
         break;
 
-case '7': {
-    cout << "Please add new patient:" << endl;
-    try {
-        unique_ptr<Patient> newPatient = unique_ptr<Patient>(patManager.addNewPatient());
-        patientList.push_back(move(newPatient));
-        cout << "New patient added successfully." << endl;
-    } catch (const exception& e) {
-        cout << "Error adding new patient: " << e.what() << endl;
-    }
-    break;
-}
+        case '7': {
 
-case '8': {
-    cout << "Displaying information of all patients:" << endl;
-    for (const auto& patientPtr : patientList) {
-        patientPtr->displayInfo();
-        cout << "---------------------------------------" << endl;
-    }
-    break;
-}
-
+            Patient* newPatient = patManager.addNewPatient();
+            break;
+        }
+        
 
         case '0':
             cout << "Thanks for using our Hospital Management System :)" << endl;

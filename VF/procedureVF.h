@@ -1,5 +1,5 @@
-#ifndef PROCEDUREVF_H
-#define PROCEDUREVF_H
+#ifndef PROCEDURE_H
+#define PROCEDURE_H
 
 #include <string>
 #include <map>
@@ -28,4 +28,4 @@ public:
 };
 map<string, map<string, vector<Procedure>>> initializeProcedureList();
 
-#endif // PROCEDUREVF_H
+#endif // PROCEDURE_H
