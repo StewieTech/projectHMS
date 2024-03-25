@@ -71,7 +71,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
     int patientID;
     list<int> patientIDs;
     string patientName;
-    MedicalStaff* medicalStaff;
+    MedicalStaff* medicalStaff = nullptr;
     string appointmentTime;
     string procedures;
     string staffType;
