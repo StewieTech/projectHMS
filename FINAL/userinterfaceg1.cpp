@@ -51,7 +51,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
         bool validIDEntered = false;
         while (!validIDEntered) {
             try {
-                cout << "Enter patient's ID: ";
+                cout << "Enter patient's ID (6 digits): ";
                 getline(cin, id);
                 validIDEntered = InvalidIDException::validateID(id);
             } catch (const invalid_argument& e) {
@@ -243,128 +243,149 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
             }
             break;
         case '4': // Schedule appointment
+{
+    try {
+        // Implement schedule appointment functionality with input validation
+        bool validIDEntered = false;
+        string patientID;
+        while (!validIDEntered) {
             try {
-                // Implement schedule appointment functionality with input validation
-                string patientID;
                 cout << "Enter the patient's ID: ";
-                cin >> patientID;
-
-                // Search for the patient by ID
-                auto patient = searchPatientById(stoi(patientID), patientList);
-                if (patient == nullptr) {
-                    cerr << "Patient with ID " << patientID << " not found." << endl;
-                    break;
-                }
-
-                // Choose medical staff type
-                string staffType;
-                cout << "Select the type of medical staff (1. Doctor, 2. Nurse): ";
-                cin >> staffType;
-                if (staffType != "1" && staffType != "2") {
-                    cerr << "Invalid selection. Please choose 1 for Doctor or 2 for Nurse." << endl;
-                    break;
-                }
-
-                // Prompt for doctor or nurse specialties based on user choice
-                string specialization;
-                if (staffType == "1") { // Doctor
-                    cout << "Select the Doctor's specialty:\n";
-                    cout << "1. Emergency Physician\n";
-                    cout << "2. Pulmonologist\n";
-                    cout << "3. Gastroenterologist\n";
-                    cout << "Enter 1, 2, or 3: ";
-
-                    int specialtyChoice;
-                    cin >> specialtyChoice;
-
-                    // Mapping user choice to the specialty string
-                    switch (specialtyChoice) {
-                    case 1:
-                        specialization = "Emergency Physician";
-                        break;
-                    case 2:
-                        specialization = "Pulmonologist";
-                        break;
-                    case 3:
-                        specialization = "Gastroenterologist";
-                        break;
-                    default:
-                        cerr << "Invalid choice. Defaulting to Emergency Physician." << endl;
-                        specialization = "Emergency Physician";
-                    }
-                }
-                else { // Nurse
-                    cout << "Select the Nurse's specialty:\n";
-                    cout << "1. Emergency Nurse\n";
-                    cout << "2. Respiratory Nurse\n";
-                    cout << "3. Gastrointestinal Nurse\n";
-                    cout << "Enter 1, 2, or 3: ";
-
-                    int specialtyChoice;
-                    cin >> specialtyChoice;
-
-                    // Mapping user choice to the specialty string
-                    switch (specialtyChoice) {
-                    case 1:
-                        specialization = "Emergency Nurse";
-                        break;
-                    case 2:
-                        specialization = "Respiratory Nurse";
-                        break;
-                    case 3:
-                        specialization = "Gastrointestinal Nurse";
-                        break;
-                    default:
-                        cerr << "Invalid choice. Defaulting to Emergency Nurse." << endl;
-                        specialization = "Emergency Nurse";
-                    }
-                }
-
-                // Choose appointment time
-                string appointmentTime;
-                cout << "Enter the appointment time (YYYY-MM-DD HH:MM): ";
-                cin.ignore(); // Ignore newline character left in the buffer
-                getline(cin, appointmentTime);
-
-                // Validate appointment time format
-                if (!isValidAppointmentTimeFormat(appointmentTime)) {
-                    throw invalid_argument("Invalid appointment time format. Please use the format YYYY-MM-DD HH:MM.");
-                }
-
-                // Create the medical staff object
-                MedicalStaff* medicalStaff;
-                if (staffType == "1") { // Doctor
-                    // Create Doctor object based on specialization
-                    // Example values for demonstration
-                    string name = "Dr. Smith";
-                    bool availability = true;
-                    int employeeID = 123;
-                    string licenseNumber = "Lic123456";
-
-                    medicalStaff = new Doctor(name, specialization, availability, employeeID, licenseNumber);
-                }
-                else { // Nurse
-                    // Create Nurse object based on specialization
-                    // Example values for demonstration
-                    string name = "Nurse Joy"; // Ensure this is correctly set
-                    bool availability = true;
-                    int employeeID = 456;
-
-                    medicalStaff = new Nurse(name, specialization, availability, employeeID);
-                }
-
-                // Create the appointment
-                Appointment newAppointment(patient->getName(), patient->getId(), medicalStaff, appointmentTime, "");
-
-                // Schedule the appointment
-                appointmentSchedule(appointments, newAppointment);
-
-                cout << "Appointment successfully scheduled" << endl;
-            }
-            catch (const invalid_argument& e) {
+                getline(cin, patientID);
+                validIDEntered = InvalidIDException::validateID(patientID);
+            } catch (const invalid_argument& e) {
                 cerr << "Error: " << e.what() << endl;
             }
+        }
+
+        // Search for the patient by ID
+        auto patient = searchPatientById(stoi(patientID), patientList);
+        if (patient == nullptr) {
+            cerr << "Patient with ID " << patientID << " not found." << endl;
             break;
+        }
+
+        // Choose medical staff type
+        string staffType;
+        cout << "Select the type of medical staff (1. Doctor, 2. Nurse): ";
+        cin >> staffType;
+        if (staffType != "1" && staffType != "2") {
+            cerr << "Invalid selection. Please choose 1 for Doctor or 2 for Nurse." << endl;
+            break;
+        }
+
+        // Prompt for doctor or nurse specialties based on user choice
+string specialization;
+
+if (staffType == "1") { // Doctor
+    while (true) {
+        cout << "Select the Doctor's specialty:\n";
+        cout << "1. Emergency Physician\n";
+        cout << "2. Pulmonologist\n";
+        cout << "3. Gastroenterologist\n";
+        cout << "Enter 1, 2, or 3: ";
+
+        int specialtyChoice;
+        cin >> specialtyChoice;
+
+        // Mapping user choice to the specialty string
+        switch (specialtyChoice) {
+            case 1:
+                specialization = "Emergency Physician";
+                break;
+            case 2:
+                specialization = "Pulmonologist";
+                break;
+            case 3:
+                specialization = "Gastroenterologist";
+                break;
+            default:
+                cerr << "Invalid choice. Please enter 1, 2, or 3." << endl;
+                continue; // Continue looping if the choice is invalid
+        }
+
+        // Break out of the loop if a valid choice is made
+        if (!specialization.empty()) {
+            break;
+        }
+    }
+} else { // Nurse
+    while (true) {
+        cout << "Select the Nurse's specialty:\n";
+        cout << "1. Emergency Nurse\n";
+        cout << "2. Respiratory Nurse\n";
+        cout << "3. Gastrointestinal Nurse\n";
+        cout << "Enter 1, 2, or 3: ";
+
+        int specialtyChoice;
+        cin >> specialtyChoice;
+
+        // Mapping user choice to the specialty string
+        switch (specialtyChoice) {
+            case 1:
+                specialization = "Emergency Nurse";
+                break;
+            case 2:
+                specialization = "Respiratory Nurse";
+                break;
+            case 3:
+                specialization = "Gastrointestinal Nurse";
+                break;
+            default:
+                cerr << "Invalid choice. Please enter 1, 2, or 3." << endl;
+                continue; // Continue looping if the choice is invalid
+        }
+
+        // Break out of the loop if a valid choice is made
+        if (!specialization.empty()) {
+            break;
+        }
+    }
+}
+        // Choose appointment time
+        string appointmentTime;
+        cout << "Enter the appointment time (YYYY-MM-DD HH:MM): ";
+        cin.ignore(); // Ignore newline character left in the buffer
+        getline(cin, appointmentTime);
+
+        // Validate appointment time format
+        if (!isValidAppointmentTimeFormat(appointmentTime)) {
+            throw invalid_argument("Invalid appointment time format. Please use the format YYYY-MM-DD HH:MM.");
+        }
+
+        // Create the medical staff object
+        MedicalStaff* medicalStaff;
+        if (staffType == "1") { // Doctor
+            // Create Doctor object based on specialization
+            // Example values for demonstration
+            string name = "Dr. Smith";
+            bool availability = true;
+            int employeeID = 123;
+            string licenseNumber = "Lic123456";
+
+            medicalStaff = new Doctor(name, specialization, availability, employeeID, licenseNumber);
+        } else { // Nurse
+            // Create Nurse object based on specialization
+            // Example values for demonstration
+            string name = "Nurse Joy"; // Ensure this is correctly set
+            bool availability = true;
+            int employeeID = 456;
+
+            medicalStaff = new Nurse(name, specialization, availability, employeeID);
+        }
+
+        // Create the appointment
+        Appointment newAppointment(patient->getName(), patient->getId(), medicalStaff, appointmentTime, "");
+
+        // Schedule the appointment
+        appointmentSchedule(appointments, newAppointment);
+
+        cout << "Appointment successfully scheduled" << endl;
+    } catch (const invalid_argument& e) {
+        cerr << "Error: " << e.what() << endl;
+    }
+    break;
+}
 
 case '5': // Reschedule appointment
     try {
