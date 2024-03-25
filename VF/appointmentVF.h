@@ -14,6 +14,7 @@ using namespace std;
 // Forward declarations to avoid circular dependencies
 class Patient;
 class MedicalStaff;
+// time_t appointmentTime;
 
 class Procedure;
 
@@ -23,18 +24,18 @@ class Appointment {
         string patient; // Will make a dynamic reference to the patient class from Question 1
         int patientID;
         MedicalStaff* medicalStaff;
-        time_t appointmentTime;
+        string appointmentTime;
         string procedures;
 
     public:
-        Appointment(string& patInput, int& inputID, MedicalStaff* mInput, time_t atInput, const string& prInput) : patient(patInput), patientID(inputID), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
+        Appointment(string& patInput, int& inputID, MedicalStaff* mInput, const string& atInput, const string& prInput) : patient(patInput), patientID(inputID), medicalStaff(mInput), appointmentTime(atInput), procedures(prInput) {}
 
 
     ~Appointment() {
         // delete medicalStaff;
     }
     // Appointment.h ?
-    time_t getAppointmentTime() const {
+    string getAppointmentTime() const {
         return appointmentTime;
     }
 
@@ -51,7 +52,7 @@ class Appointment {
             << (medicalStaff->getAvailability() ? "Available" : "Not Available") << ", Employee ID: " 
             << medicalStaff->getEmployeeID() << endl;
 
-            cout << "Appointment Time: " << ctime(&appointmentTime) << endl;
+            cout << "Appointment Time: " << appointmentTime << endl;
             cout << "Procedures: " << procedures << endl;
         }
 
@@ -65,12 +66,7 @@ class Appointment {
     //  int getPatientID() const {}
 
     // Modifiers
-    void setAppointmentTime(time_t newAppointmentTime) {
-        if(newAppointmentTime < time(nullptr)) {
-            throw invalid_argument("Please select a future date");
-        }
-        appointmentTime = newAppointmentTime;
-    }
+    void setAppointmentTime(const string& appointmentTime);
     void setPatient(Patient* patient);
     void setMedicalStaff(MedicalStaff* staff);
     void setProcedure(Procedure* procedure);
