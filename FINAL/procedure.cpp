@@ -5,11 +5,11 @@
 
 using namespace std;
 
-// Constructor
+// procedure obj const
 Procedure::Procedure(const string& name, const string& description)
     : name(name), description(description) {}
 
-// Getter methods
+// Getters
 string Procedure::getName() const {
     return name;
 }
@@ -18,7 +18,7 @@ string Procedure::getDescription() const {
     return description;
 }
 
-// Setter methods
+// Setters
 void Procedure::setName(const string& newName) {
     name = newName;
 }
@@ -27,7 +27,7 @@ void Procedure::setDescription(const string& newDescription) {
     description = newDescription;
 }
 
-// Function to initialize and return a map of procedures by specialization
+// map function for procedures
 map<string, map<string, vector<Procedure>>> initializeProcedureList() {
     map<string, map<string, vector<Procedure>>> procedureList;
 
