@@ -1,5 +1,5 @@
-#ifndef MEDICALSTAFF_H
-#define MEDICALSTAFF_H
+#ifndef MEDICALSTAFFVF_H
+#define MEDICALSTAFFVF_H
 
 #include <string>
 #include <vector>
@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class Appointment; // Forward declaration of Appointment class
+// class Appointment; // Forward declaration of Appointment class
 
 class MedicalStaff {
 protected:
@@ -26,7 +26,7 @@ public:
     const vector<Procedure*>& getProcedures() const;
     void addProcedure(Procedure* procedure);
     string getSpecialization() const { return specialization; }
-    void setAppointment(Appointment* appointment); // Forward declaration
+    // void setAppointment(Appointment* appointment); // Forward declaration
 
     string getName() const {
         return name;  // Added getter method - Errol
@@ -59,4 +59,4 @@ public:
     static MedicalStaff* findMedicalStaff(const string& specialization, const vector<MedicalStaff*>& staffMembers);
 };
 
-#endif // MEDICALSTAFF_H
+#endif // MEDICALSTAFFVF_H
