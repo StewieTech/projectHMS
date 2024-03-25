@@ -337,10 +337,6 @@ Patient* searchPatientById(int id, const list<unique_ptr<Patient>>& patientList)
     return nullptr; // Patient with the specified ID not found
 }
 
-// Function to validate appointment time format
-//bool isValidAppointmentTimeFormat(const string& time) {
-
-//}
 
 // Function to display all available appointments
 void displayAvailableAppointments(const list<Appointment>& appointments) {
