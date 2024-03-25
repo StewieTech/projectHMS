@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//function to validate date/time format
 bool isValidAppointmentTimeFormat(const string& time) {
     // Check if the time string has the correct format (YYYY-MM-DD HH:MM)
     if (time.size() != 16) // Check if the string length is correct
