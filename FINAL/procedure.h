@@ -8,18 +8,19 @@ using namespace std;
 
 class Procedure {
 private:
+    //string variables for functions
     string name;
     string description;
 
 public:
-    // Constructor
+    // Const procedure obj
     Procedure(const string& name, const string& description);
 
-    // Getter methods
+    // Getters
     string getName() const;
     string getDescription() const;
 
-    // Setter methods
+    // Setters
     void setName(const string& newName);
     void setDescription(const string& newDescription);
 };
