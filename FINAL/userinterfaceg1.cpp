@@ -35,6 +35,16 @@ void displayMenu() {
     cout << "Enter your choice: ";
 }
 
+// Function to check if a patient ID is unique
+bool isPatientIDUnique(int patientID, const list<unique_ptr<Patient>>& patientList) {
+    for (const auto& patient : patientList) {
+        if (patient->getId() == patientID) {
+            return false; // Patient ID already exists
+        }
+    }
+    return true; // Patient ID is unique
+}
+
 void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patientList) {
     char choice;
     do {
@@ -46,18 +56,20 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
             case '1': // Add patient
             {
                 string id, name, age, gender, address, phoneNumber, urgency, department, inPatient, outPatient;
-                int ageInt;
-        // Input patient's ID
-        bool validIDEntered = false;
-        while (!validIDEntered) {
-            try {
-                cout << "Enter patient's ID (6 digits): ";
-                getline(cin, id);
-                validIDEntered = InvalidIDException::validateID(id);
-            } catch (const invalid_argument& e) {
-                cerr << "Error: " << e.what() << endl;
-            }
-        }
+
+                // Input patient's ID
+                int patientID;
+                bool validIDEntered = false;
+                while (!validIDEntered) {
+                    cout << "Enter patient's ID (6 digits): ";
+                    cin >> patientID;
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear input buffer
+                    if (!isPatientIDUnique(patientID, patientList)) {
+                        cerr << "Error: Patient ID already exists. Please enter a unique ID." << endl;
+                    } else {
+                        validIDEntered = true;
+                    }
+                }
 
         // Input patient's name
         bool validNameEntered = false;
