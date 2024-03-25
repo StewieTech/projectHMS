@@ -30,9 +30,8 @@ void displayMenu() {
     cout << "4. Schedule appointment" << endl;
     cout << "5. Reschedule appointment" << endl;
     cout << "6. Cancel appointment" << endl;
-    cout << "7. Display all available appointments" << endl;
-    cout << "8. Display booked appointments" << endl;
-    cout << "9. Exit" << endl;
+    cout << "7. Display booked appointments" << endl;
+    cout << "8. Exit" << endl;
     cout << "Enter your choice: ";
 }
 
@@ -445,20 +444,14 @@ case '5': // Reschedule appointment
             displayAvailableAppointments(appointments);
             break;
 
-        case '8': // Display booked appointments
-            // Implement display booked appointments functionality
-            cout << "Booked Appointments:" << endl;
-            displayBookedAppointments();
-            break;
-
-        case '9': // Exit
+        case '8': // Exit
             cout << "Thanks for using our Hospital Management System :)" << endl;
             break;
 
         default:
             cout << choice << " Is an invalid input" << endl;
         }
-    } while (choice != '9');
+    } while (choice != '8');
 }
 
 // Function to search a patient by ID
