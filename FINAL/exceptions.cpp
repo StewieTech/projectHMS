@@ -29,7 +29,7 @@ void BaseException::reportError(const string& errorMessage) {
 }
 
 // checks for positive number and that the person is within a normal human lifespan (isnt 10 thousand years old)
-void InvalidAgeException::invalidAges(int age) {
+bool InvalidAgeException::invalidAges(int age) {
     try {
         if (age <= 0) {
             throw invalid_argument("Age must be a positive number.");
@@ -37,11 +37,14 @@ void InvalidAgeException::invalidAges(int age) {
         if (age > 150) {
             throw invalid_argument("Age outside normal lifespan.");
         }
+        return true; // If no exception is thrown, the age is valid
     }
     catch (const invalid_argument& e) {
         BaseException::reportError(e.what());
+        return false; // Return false if an exception is caught
     }
 }
+
 
 // checks if appointment time is already taken and if the time has already passed (dont want to schedule an appointment in the past)
 class AvailabilityException {
@@ -58,21 +61,24 @@ public:
     }
 };
 // checks that a name is only characters (cant be named X Æ A-12 sorry Elon)
-void InvalidNameException::invalidNames(const string& Name) {
+bool InvalidNameException::invalidNames(const string& Name) {
     try {
         for (char c : Name) {
-            if (!isalpha(c)) {
-                throw invalid_argument("Names must contain letters only.");
+            if (isdigit(c)) { // Check if character is numeric
+                throw invalid_argument("Names must not contain numbers.");
             }
         }
+        // If no exception is thrown, the name is valid
+        return true;
     }
     catch (const invalid_argument& e) {
         BaseException::reportError(e.what());
+        return false;
     }
 }
 
 // throws if ID isnt 6 of length, isnt all numeral or already exists
-void InvalidIDException::validateID(const string& id) {
+bool InvalidIDException::validateID(const string& id) {
     try {
         // Check if ID length is 6 characters
         if (id.length() != 6) {
@@ -85,14 +91,19 @@ void InvalidIDException::validateID(const string& id) {
                 throw invalid_argument("ID must contain numerals only.");
             }
         }
+
+        // If no exception is thrown, the ID is valid
+        return true;
     }
     catch (const invalid_argument& e) {
         BaseException::reportError(e.what());
+        return false; // Return false if an exception is caught
     }
 }
 
-// overloaded to throw if ID exists 
-void InvalidIDException::validateID(const string& id, const vector<string>& existingIDs) {
+
+// overloaded to throw if ID exists
+bool InvalidIDException::validateID(const string& id, const vector<string>& existingIDs) {
     try {
         // Check if ID length is 6 characters
         if (id.length() != 6) {
@@ -112,29 +123,37 @@ void InvalidIDException::validateID(const string& id, const vector<string>& exis
                 throw invalid_argument("ID already exists.");
             }
         }
+
+        // If no exception is thrown, the ID is valid
+        return true;
     }
     catch (const invalid_argument& e) {
         BaseException::reportError(e.what());
+        return false; // Return false if an exception is caught
     }
 }
 
+
 // asks for a single character for gender will take 3 options M,F,O
-void GenderException::validateGender(const string& gender) {
+bool GenderException::validateGender(const string& gender) {
     try {
         if (gender.length() != 1) {
             throw invalid_argument("Gender must be a single character.");
         }
-        else if (gender[0] != 'M' && gender[0] != 'F' && gender[0] != 'O') {
+        char g = tolower(gender[0]); // Convert the gender character to lowercase
+        if (g != 'm' && g != 'f' && g != 'o') {
             throw invalid_argument("Invalid gender. Options are 'M' for Male, 'F' for Female, and 'O' for Other.");
         }
+        return true; // If no exception is thrown, the gender is valid
     }
     catch (const invalid_argument& e) {
         BaseException::reportError(e.what());
+        return false; // Return false if an exception is caught
     }
 }
 
 // checks valid phone number based on it being exactly 10 digits
-void PhoneNumberException::validatePhoneNumber(const string& phoneNumber) {
+bool PhoneNumberException::validatePhoneNumber(const string& phoneNumber) {
     try {
         if (phoneNumber.length() != 10) {
             throw invalid_argument("Phone number must be exactly 10 digits long.");
@@ -144,33 +163,40 @@ void PhoneNumberException::validatePhoneNumber(const string& phoneNumber) {
                 throw invalid_argument("Phone number must contain only digits.");
             }
         }
+        return true; // If no exception is thrown, the phone number is valid
     }
     catch (const invalid_argument& e) {
         BaseException::reportError(e.what());
+        return false; // Return false if an exception is caught
     }
 }
 
+
 // throws if string empty
-void FieldNotEmptyException::validateField(const string& field, const string& fieldName) {
+bool FieldNotEmptyException::validateField(const string& field) {
     try {
         if (field.empty()) {
-            throw invalid_argument(fieldName + " cannot be empty.");
+            throw invalid_argument("Field cannot be empty.");
         }
+        return true; // Field is not empty, so return true
     }
     catch (const invalid_argument& e) {
         BaseException::reportError(e.what());
+        return false; // Field is empty, so return false
     }
 }
 
 // throws if bool is empty
-void BoolMustBeSetException::validateBool(bool flag, const string& flagName) {
+bool BoolMustBeSetException::validateBool(bool flag) {
     try {
         if (!flag) {
-            throw invalid_argument(flagName + " must be set.");
+            throw invalid_argument("Flag must be set.");
         }
+        return true; // Flag is set, so return true
     }
     catch (const invalid_argument& e) {
         BaseException::reportError(e.what());
+        return false; // Flag is not set, so return false
     }
 }
 

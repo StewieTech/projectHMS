@@ -11,13 +11,13 @@ using namespace std;
 
 class BaseException {
 public:
-    static void reportError(const 
+    static void reportError(const
         string& errorMessage);
 };
 
 class InvalidAgeException {
 public:
-    static void invalidAges(int age);
+    static bool invalidAges(int age);
 };
 
 class AppointmentConflictException {
@@ -27,33 +27,33 @@ public:
 
 class InvalidNameException {
 public:
-    static void invalidNames(const  string& Name);
+    static bool invalidNames(const std::string& Name);
 };
 
 class InvalidIDException {
 public:
-    static void validateID(const  string& id);
-    static void validateID(const  string& id, const  vector< string>& existingIDs);
+    static bool validateID(const std::string& id);
+    static bool validateID(const std::string& id, const std::vector<std::string>& existingIDs);
 };
 
 class GenderException {
 public:
-    static void validateGender(const  string& gender);
+    static bool validateGender(const  string& gender);
 };
 
 class PhoneNumberException {
 public:
-    static void validatePhoneNumber(const  string& phoneNumber);
+    static bool validatePhoneNumber(const  string& phoneNumber);
 };
 
 class FieldNotEmptyException {
 public:
-    static void validateField(const  string& field, const  string& fieldName);
+    static bool validateField(const  string& field);
 };
 
 class BoolMustBeSetException {
 public:
-    static void validateBool(bool flag, const  string& flagName);
+    static bool validateBool(bool flag);
 };
 
 class InvalidAppointmentTimeFormat : public invalid_argument {
@@ -62,7 +62,7 @@ public:
         : invalid_argument(msg) {}
 };
 
-bool isValidAppointmentTimeFormat(const string& time); 
+bool isValidAppointmentTimeFormat(const string& time);
 
 
 void confirmationException(const  string& errorMessage, bool& confirmed);
