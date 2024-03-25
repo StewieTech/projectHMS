@@ -86,6 +86,10 @@ void Appointment::rescheduleAppointment(list<Appointment>& appointments, const s
 }
 
 // Cancel Appointment
+void Appointment::cancelAppointment() {
+    canceled = true;
+}
+
 void cancelAppointment(list<Appointment>& appointments, const string& appointmentID) {
     int targetAppointmentID = stoi(appointmentID);
     for (auto& appointment : appointments) {

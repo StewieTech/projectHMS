@@ -96,3 +96,10 @@ MedicalStaff* MedicalStaffManager::findMedicalStaff(const  string& specializatio
     }
     return nullptr;
 }
+string MedicalStaff::getName() const {
+    return name;
+}
+
+string MedicalStaff::getSpecialization() const {
+    return specialization;
+}
