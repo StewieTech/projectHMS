@@ -186,7 +186,9 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
         }
 
         // Create and add the patient to the list
-        unique_ptr<Patient> newPatient = make_unique<Patient>(0, name, 0, gender[0], "", phoneNumber, "", false, false, false, nullptr, nullptr, 0); // Here, 0 is used as a placeholder for ID and age, you may need to change this depending on your requirements
+        int newPatientID = 0;
+        newPatientID = stoi(id); // convert id from string to int to work
+        unique_ptr<Patient> newPatient = make_unique<Patient>(newPatientID, name, 0, gender[0], "", phoneNumber, "", false, false, false, nullptr, nullptr, 0);
         patientList.push_back(move(newPatient));
         cout << "Patient added successfully." << endl;
 
@@ -195,33 +197,45 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
 
         case '2': // Search patient
         {
-            // Implement search patient functionality
+    string patientID;
+    bool validIDEntered = false;
+    while (!validIDEntered) {
+        try {
             cout << "Enter patient's ID: ";
-            string patientID;
-            cin >> patientID;
-
-            // Convert patientID to integer
-            int id;
-            try {
-                id = stoi(patientID);
+            getline(cin, patientID);
+            // Check if input is empty
+            if (patientID.empty()) {
+                cerr << "Error: Please enter a valid ID." << endl;
+                continue; // Skip further processing
             }
-            catch (const invalid_argument&) {
-                cerr << "Invalid ID format. Please enter a valid integer ID." << endl;
-                break;
+            // Validating ID
+            validIDEntered = InvalidIDException::validateID(patientID);
+            if (!validIDEntered) {
+                cerr << "Error: Invalid ID format. Please enter a valid ID." << endl;
             }
-
-            // Search for the patient by ID
-            auto patient = Patient::searchById(id, patientList);
-            if (patient == nullptr) {
-                cerr << "Patient with ID " << id << " not found." << endl;
-            }
-            else {
-                // Patient found, display patient information
-                cout << "Patient found:" << endl;
-                patient->displayInfo();
-            }
-            break;
+        } catch (const invalid_argument& e) {
+            cerr << "Error: " << e.what() << endl;
         }
+    }
+    int id;
+    try {
+        id = stoi(patientID);
+    } catch (const invalid_argument&) {
+        cerr << "Invalid ID format. Please enter a valid integer ID." << endl;
+        break;
+    }
+
+    // Search for the patient by ID
+    auto patient = Patient::searchById(id, patientList);
+    if (patient == nullptr) {
+        cerr << "Patient with ID " << id << " not found." << endl;
+    } else {
+        // Patient found, display patient information
+        cout << "Patient found:" << endl;
+        patient->displayInfo();
+    }
+    break;
+}
         case '3': // Display all patients
             cout << "All Patients:" << endl;
             for (const auto& patient : patientList) {
