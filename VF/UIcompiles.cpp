@@ -1,23 +1,15 @@
 #include <iostream>
-#include <sstream>
-#include <vector>
-#include <string>
-#include <list>
-#include <memory>
-#include <algorithm>
+#include<vector>
+#include<string>
+#include<list>
+#include<algorithm>
 #include <map>
-#include <iomanip>
-#include <ctime>
-
 
 #include "medicalStaffVF.h"
 #include "procedureVF.h"
 #include "patientVF.h"
-#include "appointmentVF.h"
-
 
 // g++ UIrebuild.cpp medicalStaffVF.cpp procedureVF.cpp 
-// g++ UIrebuild.cpp medicalStaffVF.cpp procedureVF.cpp patientVF.cpp
 using namespace std;
 
 /*
@@ -40,9 +32,7 @@ class AppointmentConflictException : public exception {
 
 
 // Appointment Scheduling
-/*
 class Appointment {
-    
     private:
         string patient; // Will make a dynamic reference to the patient class from Question 1
         int patientID;
@@ -79,7 +69,6 @@ class Appointment {
             cout << "Procedures: " << procedures << endl;
         }
 };
-*/
 
 void appointmentSchedule(list<Appointment>& appointments, const Appointment& appointment) {
     for (const auto& previousBookedAppointment : appointments) {
@@ -91,7 +80,7 @@ void appointmentSchedule(list<Appointment>& appointments, const Appointment& app
     appointments.push_back(appointment);
 }
 
-void appointmentCancel(list<Appointment>& appointments, time_t appointmentTime) {
+void appointmentCancel(list<Appointment>& appointments, const string& appointmentTime) {
     auto iter = find_if(appointments.begin(), appointments.end(), [appointmentTime](const Appointment& appointment) {
         return appointment.getAppointmentTime() == appointmentTime;
     });
@@ -115,16 +104,14 @@ User Interface (Errol):
 
 void displayMenu() {
     cout << "HMS Menu Options" << endl;
-    cout << "7.Search Existing patient" << endl; 
     cout << "1. Schedule New Patient Appointment" << endl; 
     cout << "2. Cancel Appointment" << endl; 
     cout << "3. Display All Available Appointments" << endl; 
     cout << "4. Manage Staff WIP" << endl; 
     cout << "5. Find Patient By ID" << endl; 
     cout << "6. Choose Procedure for Patient WIP" << endl; 
-    cout << "7. Add New Patient" << endl; 
     cout << "0. Exit Menu" << endl; 
-    cout << "Enter Your Choice: ";
+    cout << "Enter Your Choice" << endl;
 }
 
 // void userInput(::vector<Patient*>& patients, list<Appointment>& appointments)
@@ -137,13 +124,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
     list<int> patientIDs;
     string patientName;
     MedicalStaff* medicalStaff;
-    string appointmentDate;
-    string appointmentHour;
-    time_t appointmentTime;
-    istringstream dateStream;
-    istringstream hourStream;
-   
-    tm appointmentTm = {};
+    string appointmentTime;
     string procedures;
     string staffType;
     string procedureDescriptions;
@@ -155,13 +136,9 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
         // cout << "Select from Menu: " << endl;
        
         cin >> choice;
-        cin.ignore();
-
 
         switch (choice) {
-
             case '1':
-        
             // Schedule Appointment
             cout<< "Enter the name of the patient: ";
             cin.ignore();
@@ -169,12 +146,6 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
 
             cout << "Enter Patient ID: ";
             cin >> patientID ;
-            // cin.ignore();
-            // if ( !(patientID > 0) )  {
-            //    cout << "Invalid input; Please enter a valid postive number only" << endl;
-            //    cin.ignore();
-            //    break ;
-            // }
 
 
 
@@ -195,14 +166,11 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
             }
 
             // string staffType;
-            cout << "Enter which medical staff is needed: " << endl;
-            cout << "1. Doctor " << endl;
-            cout << "2. Nurse " << endl;
-            cout << "Enter 1 or 2: ";
+            cout << "Enter which medical staff is needed (Doctor/Nurse): ";
             cin.ignore();
             getline(cin, staffType);
 
-if (staffType == "1") {
+if (staffType == "Doctor") {
     cout << "Select the Doctor's specialty:\n";
     cout << "1. Emergency Physician\n";
     cout << "2. Pulmonologist\n";
@@ -246,7 +214,9 @@ if (staffType == "1") {
     }
 } 
 
-         else if (staffType == "2") {
+
+
+         else if (staffType == "Nurse") {
     cout << "Select the Nurse's specialty:\n";
     cout << "1. Emergency Nurse\n";
     cout << "2. Respiratory Nurse\n";
@@ -287,51 +257,20 @@ if (staffType == "1") {
         procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";  
 
     }
-} else {
-    cout << "Invalid Selection; Please choose 1 or 2 only " << endl << endl; 
-    displayMenu();
-
 }
           
 
-  
+           
 
-
-            do {
-                cout << "Enter the Date of the Appointment (YYYY-MM-DD):  ";
+                cout << "Enter the Time of the Appointment: ";
                 cin.ignore();
-                getline(cin, appointmentDate);
+                getline(cin, appointmentTime);
 
-                dateStream.str(appointmentDate);
-                dateStream >> get_time(&appointmentTm, "%Y-%m-%d");
-
-                if (dateStream.fail()) {
-                    cout << "Invalid input; Please enter a valid date in the format YYYY-MM-DD" << endl;
-                }
-                dateStream.clear(); // Clear the fail state for the next iteration
-            } while (dateStream.fail());
-
-   
-            do {
-                cout << "Enter the Hour of the Appointment (HH:MM) in 24 hour time: ";
-                cin.ignore();
-                getline(cin, appointmentHour);
-
-                hourStream.str(appointmentHour);
-                hourStream >> get_time(&appointmentTm, "%H:%M");
-
-                if (hourStream.fail()) {
-                    cout << "Invalid input; Please enter a valid hour in the format" << endl;
-                }
-                hourStream.clear(); 
-            } while (hourStream.fail());
-
-            appointmentTime = mktime(&appointmentTm);
            
             
 
             try {
-                appointmentSchedule(appointments, Appointment(patientName, patientID, medicalStaff, appointmentTime, procedureDescriptions));
+                appointmentSchedule(appointments, Appointment(patientName, patientID, medicalStaff,appointmentTime, procedureDescriptions));
                 cout << "Your appointment has been scheduled !" << endl << endl;
             } catch (const AppointmentConflictException& e) {
                 cout << "Exception: " << e.what() << endl;
@@ -390,17 +329,11 @@ if (staffType == "1") {
 
         break;
 
-        case '7': {
-
-            Patient* newPatient = patManager.addNewPatient();
-            break;
-        }
-        
 
         case '0':
             cout << "Thanks for using our Hospital Management System :)" << endl;
         break;
-
+        
         default: 
             cout << choice << " Is an invalid input" << endl;
 
@@ -413,7 +346,6 @@ if (staffType == "1") {
 
 
 int main() {
-    locale::global(locale("C"));    
     list<Appointment> appointments;
     list<unique_ptr<Patient>> patientList;
     patientManager patManager;
