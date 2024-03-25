@@ -213,51 +213,53 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
 
         switch (choice) {
 
-        case '1':
-           
+        case '1': {
+
             string input;
 
             cout << "Adding a new patient to the system." << endl;
-            
+
             while (true) {
                 cout << "Please enter patient ID (integer): ";
-                getline(cin, input); 
+                getline(cin, input);
                 stringstream ss(input);
                 if (ss >> patientID && !(ss >> input)) { // Check if conversion to integer is successful 
                     // Valid integer input
                     break;
-                } else {
+                }
+                else {
                     // Invalid input, prompt user again
                     cout << "Invalid input. Please enter a valid integer for patient ID." << endl;
                     cin.clear(); // Clear any error flags
                 }
             }
 
-//                 for (const auto& patient : patientList) {
-//             if (patient->getId() == patientID) {
-//                 newPatient = patient.get();
-//                 break;
-//     }
-// }
+            //                 for (const auto& patient : patientList) {
+            //             if (patient->getId() == patientID) {
+            //                 newPatient = patient.get();
+            //                 break;
+            //     }
+            // }
 
 
-                cout << "Please enter patient name: ";
-                getline(cin, patientName);
+            cout << "Please enter patient name: ";
+            getline(cin, patientName);
 
-                try {
-                    unique_ptr<Patient> newPatient = make_unique<Patient>(patientID, patientName);
-                    newPatient->setName(patientName);
-                    patientList.push_back(move(newPatient));
-                    cout << "New patient (" << patientName << ") added successfully." << endl;
-                } catch (const exception& e) {
-                    cout << "An error occurred: " << e.what() << endl;
-                }
+            try {
+                unique_ptr<Patient> newPatient = make_unique<Patient>(patientID, patientName);
+                newPatient->setName(patientName);
+                patientList.push_back(move(newPatient));
+                cout << "New patient (" << patientName << ") added successfully." << endl;
+            }
+            catch (const exception& e) {
+                cout << "An error occurred: " << e.what() << endl;
+            }
 
 
 
             // Search for patientID in the list of patientIDs
-            isPatientMatched = false; 
-          
+            isPatientMatched = false;
+
             for (const auto& id : patientIDs) {
                 if (id == patientID) {
                     isPatientMatched = true;
@@ -292,18 +294,18 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
                 // Mapping user choice to the specialty string
                 string specialization;
                 switch (specialtyChoice) {
-                    case 1:
-                        specialization = "Emergency Physician";
-                        break;
-                    case 2:
-                        specialization = "Pulmonologist";
-                        break;
-                    case 3:
-                        specialization = "Gastroenterologist";
-                        break;
-                    default:
-                        cout << "Invalid choice. Defaulting to Emergency Physician." << endl;
-                        specialization = "Emergency Physician";
+                case 1:
+                    specialization = "Emergency Physician";
+                    break;
+                case 2:
+                    specialization = "Pulmonologist";
+                    break;
+                case 3:
+                    specialization = "Gastroenterologist";
+                    break;
+                default:
+                    cout << "Invalid choice. Defaulting to Emergency Physician." << endl;
+                    specialization = "Emergency Physician";
                 }
 
 
@@ -312,66 +314,67 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
                 int employeeID = 123;
                 string licenseNumber = "Lic123456";
 
-    medicalStaff = new Doctor(name, specialization, availability, employeeID, licenseNumber);
-    
-    auto procedures = initializeProcedureList()["Doctor"][specialization];
-    cout << "Procedures for " << specialization << ":\n";
-    for (const auto& proc : procedures) {
-        cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
-        procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";  
+                medicalStaff = new Doctor(name, specialization, availability, employeeID, licenseNumber);
 
-        }
-    } 
+                auto procedures = initializeProcedureList()["Doctor"][specialization];
+                cout << "Procedures for " << specialization << ":\n";
+                for (const auto& proc : procedures) {
+                    cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
+                    procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";
 
-         else if (staffType == "2") {
-    cout << "Select the Nurse's specialty:\n";
-    cout << "1. Emergency Nurse\n";
-    cout << "2. Respiratory Nurse\n";
-    cout << "3. Gastrointestinal Nurse\n";
-    cout << "Enter 1, 2, or 3: ";
+                }
+            }
 
-    int specialtyChoice;
-    cin >> specialtyChoice;
+            else if (staffType == "2") {
+                cout << "Select the Nurse's specialty:\n";
+                cout << "1. Emergency Nurse\n";
+                cout << "2. Respiratory Nurse\n";
+                cout << "3. Gastrointestinal Nurse\n";
+                cout << "Enter 1, 2, or 3: ";
 
-    // Mapping user choice to the specialty string
-    string specialization;
-    switch (specialtyChoice) {
-        case 1:
-            specialization = "Emergency Nurse";
-            break;
-        case 2:
-            specialization = "Respiratory Nurse";
-            break;
-        case 3:
-            specialization = "Gastrointestinal Nurse";
-            break;
-        default:
-            cout << "Invalid choice. Defaulting to Emergency Nurse." << endl;
-            specialization = "Emergency Nurse";
-    }
+                int specialtyChoice;
+                cin >> specialtyChoice;
 
-    // Example values for demonstration
-    string name = "Nurse Joy"; // Ensure this is correctly set
-    bool availability = true;
-    int employeeID = 456;
+                // Mapping user choice to the specialty string
+                string specialization;
+                switch (specialtyChoice) {
+                case 1:
+                    specialization = "Emergency Nurse";
+                    break;
+                case 2:
+                    specialization = "Respiratory Nurse";
+                    break;
+                case 3:
+                    specialization = "Gastrointestinal Nurse";
+                    break;
+                default:
+                    cout << "Invalid choice. Defaulting to Emergency Nurse." << endl;
+                    specialization = "Emergency Nurse";
+                }
 
-    medicalStaff = new Nurse(name, specialization, availability, employeeID);
-    // Assuming 'initializeProcedureList' and 'procedureList' are accessible here
-    auto procedures = initializeProcedureList()["Nurse"][specialization];
-    cout << "Procedures for " << specialization << ":\n";
-    for (const auto& proc : procedures) {
-        cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
-        procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";  
+                // Example values for demonstration
+                string name = "Nurse Joy"; // Ensure this is correctly set
+                bool availability = true;
+                int employeeID = 456;
 
-    }
-} else {
-    cout << "Invalid Selection; Please choose 1 or 2 only " << endl << endl; 
-    displayMenu();
+                medicalStaff = new Nurse(name, specialization, availability, employeeID);
+                // Assuming 'initializeProcedureList' and 'procedureList' are accessible here
+                auto procedures = initializeProcedureList()["Nurse"][specialization];
+                cout << "Procedures for " << specialization << ":\n";
+                for (const auto& proc : procedures) {
+                    cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
+                    procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";
 
-}
-          
+                }
+            }
+            else {
+                cout << "Invalid Selection; Please choose 1 or 2 only " << endl << endl;
+                displayMenu();
 
-  
+            }
+
+
+
 
 
             do {
@@ -388,7 +391,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
                 dateStream.clear(); // Clear the fail state for the next iteration
             } while (dateStream.fail());
 
-   
+
             do {
                 cout << "Enter the Hour of the Appointment (HH:MM) in 24 hour time: ";
                 cin.ignore();
@@ -400,22 +403,24 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
                 if (hourStream.fail()) {
                     cout << "Invalid input; Please enter a valid hour in the format" << endl;
                 }
-                hourStream.clear(); 
+                hourStream.clear();
             } while (hourStream.fail());
 
             appointmentTime = mktime(&appointmentTm);
-           
-            
+
+
 
             try {
-                appointmentSchedule(appointments, Appointment(newPatient,  medicalStaff, appointmentTime, procedureDescriptions));
+                appointmentSchedule(appointments, Appointment(newPatient, medicalStaff, appointmentTime, procedureDescriptions));
                 cout << "Your appointment has been scheduled !" << endl << endl;
-            } catch (const AppointmentConflictException& e) {
+            }
+            catch (const AppointmentConflictException& e) {
                 cout << "Exception: " << e.what() << endl;
-            }        
-        
-  
-        break;
+            }
+
+
+            break;
+        }
 
         case '2':
 
