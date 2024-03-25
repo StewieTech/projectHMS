@@ -24,8 +24,8 @@ void displayBookedAppointments();
 // Function definitions
 void displayMenu() {
     cout << "Hospital Management System Menu:" << endl;
-    cout << "1. Search patient" << endl;
-    cout << "2. Add patient" << endl;
+    cout << "1. Add patient" << endl;
+    cout << "2. Search patient" << endl;
     cout << "3. Display all patients" << endl;
     cout << "4. Schedule appointment" << endl;
     cout << "5. Reschedule appointment" << endl;
@@ -43,10 +43,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
         cin >> choice;
         cin.ignore();
         switch (choice) {
-        case '1': // Search patient
-            // Implement search patient functionality
-            break;
-        case '2': // Add patient
+        case '1': // Add patient
             try {
                 // Implement add patient functionality with input validation
                 string name, id, gender, phoneNumber;
@@ -76,7 +73,35 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
                 cerr << "Error: " << e.what() << endl;
             }
             break;
+        case '2': // Search patient
+        {
+            // Implement search patient functionality
+            cout << "Enter patient's ID: ";
+            string patientID;
+            cin >> patientID;
 
+            // Convert patientID to integer
+            int id;
+            try {
+                id = stoi(patientID);
+            }
+            catch (const invalid_argument&) {
+                cerr << "Invalid ID format. Please enter a valid integer ID." << endl;
+                break;
+            }
+
+            // Search for the patient by ID
+            auto patient = Patient::searchById(id, patientList);
+            if (patient == nullptr) {
+                cerr << "Patient with ID " << id << " not found." << endl;
+            }
+            else {
+                // Patient found, display patient information
+                cout << "Patient found:" << endl;
+                patient->displayInfo();
+            }
+            break;
+        }
         case '3': // Display all patients
             cout << "All Patients:" << endl;
             for (const auto& patient : patientList) {
