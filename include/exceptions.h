@@ -1,36 +1,64 @@
 #ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 
-#include <stdexcept>
-#include <vector>
-#include <ctime>
-#include <string>
 #include <iostream>
-
-using namespace std;
+#include <string>
+#include <vector>
+#include <stdexcept>
+#include <ctime>
 
 class BaseException {
 public:
-    // Common error reporting functionality
-    void reportError(const string& errorMessage);
+    static void reportError(const std::string& errorMessage);
 };
 
-// Exception handling for invalid age
-class InvalidAgeException : public BaseException {
+class InvalidAgeException {
 public:
-    void invalidAges(int age);
+    static void invalidAges(int age);
 };
 
-// Exception handling for appointment conflict
-class AppointmentConflictException : public BaseException {
+class AppointmentConflictException {
 public:
-    void appointmentConflicts(time_t requestedApp, const vector<time_t>& scheduledApps);
+    static void appointmentConflicts(time_t requestedApp, const std::vector<time_t>& scheduledApps);
 };
 
-// Exception handling for invalid name
-class InvalidNameException : public BaseException {
+class InvalidNameException {
 public:
-    void invalidNames(const string& Name);
+    static void invalidNames(const std::string& Name);
 };
+
+class InvalidIDException {
+public:
+    static void validateID(const std::string& id);
+    static void validateID(const std::string& id, const std::vector<std::string>& existingIDs);
+};
+
+class GenderException {
+public:
+    static void validateGender(const std::string& gender);
+};
+
+class PhoneNumberException {
+public:
+    static void validatePhoneNumber(const std::string& phoneNumber);
+};
+
+class FieldNotEmptyException {
+public:
+    static void validateField(const std::string& field, const std::string& fieldName);
+};
+
+class BoolMustBeSetException {
+public:
+    static void validateBool(bool flag, const std::string& flagName);
+};
+
+class TotalExpensesException {
+public:
+    static void validateTotalExpenses(int totalExpensesCents);
+};
+
+void confirmationException(const std::string& errorMessage, bool& confirmed);
+void confirmationException(const std::string& errorMessage, bool& confirmed, const std::string& lastInput);
 
 #endif // EXCEPTIONS_H
