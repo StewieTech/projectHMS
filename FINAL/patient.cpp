@@ -4,14 +4,14 @@
 
 using namespace std;
 
-// Constructor
+// patient obj const
 Patient::Patient(int pID, string n, int a, char g, string add, string pN, string d, bool urg, bool ip, bool op, Appointment* is, Appointment* ns, int tebc)
     : name(n), age(a), gender(g), address(add), phoneNum(pN), patientID(pID), flagUrgency(urg), dept(d), isInpatient(ip), isOutpatient(op), initialStep(is), nextStep(ns) {}
 
-// Destructor
+// Destructor for patient
 Patient::~Patient() {}
 
-// Accessors - getters
+// getters for patient obj variables
 int Patient::getId() const {
     return patientID;
 }
@@ -60,7 +60,7 @@ Appointment* Patient::getNextStep() const {
     return nextStep;
 }
 
-// Setters
+// Setters for patient
 void Patient::setId(int id) {
     patientID = id;
 }
@@ -109,7 +109,7 @@ void Patient::setNextStep(Appointment* nextStep) {
     this->nextStep = nextStep;
 }
 
-// Member functions
+// patient display info 
 void Patient::displayInfo() const {
     cout << "Patient ID: " << patientID << endl;
     cout << "Name: " << name << endl;
@@ -122,12 +122,13 @@ void Patient::displayInfo() const {
     cout << "Status: " << (isInpatient ? "Inpatient" : "Outpatient") << endl;
 }
 
+// create appointment
 void Patient::addAppointment(const Appointment& appointment) {
     appointments.push_back(appointment);
 }
 
+// display all appointments
 void Patient::displayAppointments() const {
-    // Display appointments for the patient
     for (const auto& appointment : appointments) {
         cout << "Appointment Time: " << appointment.getAppointmentTime() << endl;
         cout << "Medical Staff: " << appointment.getMedicalStaff()->getName() << endl;
