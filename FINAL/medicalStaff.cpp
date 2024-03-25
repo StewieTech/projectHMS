@@ -4,18 +4,18 @@
 
 using namespace std;
 
-// Constructor for MedicalStaff
+// Const object for MedicalStaff
 MedicalStaff::MedicalStaff( string name,  string specialization, bool availability, int employeeID)
     : name(name), specialization(specialization), availability(availability), employeeID(employeeID) {}
 
-// Destructor for MedicalStaff
+// Destructor for medical staff obj
 MedicalStaff::~MedicalStaff() {
     for (Procedure* procedure : procedures) {
         delete procedure;
     }
 }
 
-// Display information about MedicalStaff
+// Display function for medical staff info
 void MedicalStaff::displayInfo() const {
      cout << "Name: " << name <<  endl;
      cout << "Specialization: " << specialization <<  endl;
@@ -28,12 +28,12 @@ void MedicalStaff::displayInfo() const {
      cout <<  endl;
 }
 
-// Check if MedicalStaff is available
+// bool function to see if MedicalStaff is available
 bool MedicalStaff::isAvailable() const {
     return availability;
 }
 
-// Get the list of procedures associated with MedicalStaff
+// list out procedures associated with MedicalStaff
 const  vector<Procedure*>& MedicalStaff::getProcedures() const {
     return procedures;
 }
@@ -49,7 +49,6 @@ void MedicalStaff::setAppointment(Appointment* appointment) {
         if (!availability) {
             throw AppointmentConflictException(); // Change here
         }
-        // Perform appointment setting logic here
     }
     catch (const invalid_argument& e) {
         cerr << "Error: " << e.what() << endl;
@@ -57,26 +56,26 @@ void MedicalStaff::setAppointment(Appointment* appointment) {
 }
 
 
-// Constructor for Doctor
+// doctor obj const
 Doctor::Doctor( string name,  string specialization, bool availability, int employeeID,  string licenseNumber)
     : MedicalStaff(name, specialization, availability, employeeID), licenseNumber(licenseNumber) {}
 
-// Display information about Doctor
+// call display info for Doctor obj
 void Doctor::displayInfo() const {
-    MedicalStaff::displayInfo(); // Call base class displayInfo method
+    MedicalStaff::displayInfo(); 
      cout << "License Number: " << licenseNumber <<  endl;
 }
 
-// Constructor for Nurse
+// Const obj for Nurse
 Nurse::Nurse( string name,  string specialization, bool availability, int employeeID)
     : MedicalStaff(name, specialization, availability, employeeID) {}
 
-// Display information about Nurse
+// call display info for nurse obj
 void Nurse::displayInfo() const {
     MedicalStaff::displayInfo(); // Call base class displayInfo method
 }
 
-// Static method to assign MedicalStaff based on specialization
+// assign staff based on specialization
 MedicalStaff* MedicalStaffManager::assignMedicalStaff(const  string& specialization) {
     if (specialization == "Doctor") {
         return new Doctor("Dr. John Doe", specialization, true, 12345, "123456789");
@@ -87,7 +86,7 @@ MedicalStaff* MedicalStaffManager::assignMedicalStaff(const  string& specializat
     return nullptr; // Return nullptr if specialization is not recognized
 }
 
-// Method to find MedicalStaff by specialization
+// find staff by specialization
 MedicalStaff* MedicalStaffManager::findMedicalStaff(const  string& specialization, const  vector<MedicalStaff*>& staffMembers) {
     for (auto& staff : staffMembers) {
         if (staff->getSpecialization() == specialization && staff->isAvailable()) {
@@ -96,10 +95,13 @@ MedicalStaff* MedicalStaffManager::findMedicalStaff(const  string& specializatio
     }
     return nullptr;
 }
+
+// returns name
 string MedicalStaff::getName() const {
     return name;
 }
 
+// returns specialization
 string MedicalStaff::getSpecialization() const {
     return specialization;
 }
