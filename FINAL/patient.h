@@ -19,7 +19,7 @@ public:
     Patient(int pID = 0, string n = "Unknown", int a = 0, char g = 'M', string add = "Unknown", string pN = "Unknown", string d = "Unassigned", bool urg = false, bool ip = false, bool op = false, Appointment* is = nullptr, Appointment* ns = nullptr, int tebc = 0);
     ~Patient();
 
-    // Accessors - getters
+    // Getters
     int getId() const;
     string getName() const;
     int getAge() const;
@@ -48,26 +48,26 @@ public:
     void setNextStep(Appointment* nextStep);
 
     // Member functions
-    void displayInfo() const;
-    void addAppointment(const Appointment& appointment);
-    void displayAppointments() const;
+    void displayInfo() const; //display patient information
+    void addAppointment(const Appointment& appointment); //add appointment for the patient
+    void displayAppointments() const; //display all appointments for the patient
 
     // Static member function to search for a patient by ID
     static Patient* searchById(int id, const list<unique_ptr<Patient>>& patientList);
 
 private:
-    string name;
-    int age;
-    char gender;
-    string address;
-    string phoneNum;
-    int patientID;
-    bool flagUrgency;
-    string dept;
-    bool isInpatient;
-    bool isOutpatient;
-    Appointment* initialStep;
-    Appointment* nextStep;
+    string name; //patient name
+    int age; //patient age
+    char gender; //patient gender
+    string address; //patient address
+    string phoneNum; //patient phone number
+    int patientID; //patient ID
+    bool flagUrgency; //flag for whether patient needs urgent care
+    string dept; //department associated with patient
+    bool isInpatient; //flag for whether patient is in-patient
+    bool isOutpatient; //flag or whether patient is out-patient
+    Appointment* initialStep; //intial appointment for patient
+    Appointment* nextStep; //subsequent appointment(s) for patient
     list<Appointment> appointments; // List of appointments for the patient
 };
 
