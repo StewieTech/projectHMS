@@ -2,6 +2,7 @@
 #define PATIENT_H
 
 #include <iostream>
+#include <sstream>
 #include <iomanip>
 #include <string>
 #include <list>

@@ -99,7 +99,7 @@ int Patient:: getAge() const
  */
 char Patient:: getGender() const
 {
-	return age;
+	return gender;
 }
 
 /*	Func name:	getAddress
@@ -580,7 +580,7 @@ void InPatient::setTotalInCents(int t)
 void InPatient::exitCured()
 {
 	time(&outTime);
-	nextStep=NULL;
+	nextStep=nullptr;
 	flag_urgency = false;
 	bool is_inpatient = false;
 }
