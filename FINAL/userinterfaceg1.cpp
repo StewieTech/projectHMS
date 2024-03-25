@@ -34,9 +34,6 @@ void displayMenu() {
     cout << "8. Exit" << endl;
     cout << "Enter your choice: ";
 }
-
-//startofinsert
-// Function to check if a patient ID is unique
 bool isPatientIDUnique(int patientID, const list<unique_ptr<Patient>>& patientList) {
     for (const auto& patient : patientList) {
         if (patient->getId() == patientID) {
@@ -45,7 +42,7 @@ bool isPatientIDUnique(int patientID, const list<unique_ptr<Patient>>& patientLi
     }
     return true; // Patient ID is unique
 }
-//replacestartof user input
+
 void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patientList) {
     char choice;
     do {
@@ -54,25 +51,24 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
         cin.ignore(); // Clear input buffer
 
         switch (choice) {
-        case '1': // Add patient
-        {
-            string id, name, age, gender, address, phoneNumber, urgency, department, inPatient, outPatient;
+            case '1': // Add patient
+            {
+                string id, name, age, gender, address, phoneNumber, urgency, department, inPatient, outPatient;
+                int ageInt;
+                int patientID;
 
-            // Input patient's ID
-            int patientID;
-            bool validIDEntered = false;
-            while (!validIDEntered) {
+        bool validIDEntered = false;
+        while (!validIDEntered) {
+        // Input patient's ID
+            try {
                 cout << "Enter patient's ID (6 digits): ";
-                cin >> patientID;
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear input buffer
-                if (!isPatientIDUnique(patientID, patientList)) {
-                    cerr << "Error: Patient ID already exists. Please enter a unique ID." << endl;
-                }
-                else {
-                    validIDEntered = true;
-                }
+                getline(cin, id);
+                validIDEntered = InvalidIDException::validateID(id);
+            } catch (const invalid_argument& e) {
+                cerr << "Error: " << e.what() << endl;
             }
-            //endofinsert
+        }
+
         // Input patient's name
         bool validNameEntered = false;
         while (!validNameEntered) {
