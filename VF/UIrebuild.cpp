@@ -52,16 +52,20 @@ list<unique_ptr<Patient>> patientList;
               }
 
         void Appointment::displayInfoUI(const list<unique_ptr<Patient>>& patientList) const {
-            if (patient != nullptr) {
+            if (patient != nullptr && medicalStaff != nullptr) {
                 cout << "Appointment Time: " << ctime(&appointmentTime) << endl;
                 cout << "Patient: " << patient->getName() << endl;
                 cout << "Patient ID: " << patient->getId() << endl;
                 cout << "Medical Staff: " << medicalStaff->getName() << ", Specialization: " << medicalStaff->getSpecialization() << endl;
                 cout << "Procedures: " << procedures << endl;
                 cout << "---------------------------------------" << endl;
-            } else {
+            } else if (patient != nullptr) {
                 cout << "Patient information not available." << endl;
             }
+            else {
+                cout << "Medical staff information not available." << endl;
+            }
+
         };
 
         MedicalStaff* getMedicalStaff() ;
@@ -209,7 +213,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
 
         switch (choice) {
 
-        case '1': {
+        case '1':
            
             string input;
 
@@ -237,7 +241,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
 // }
 
 
-                                cout << "Please enter patient name: ";
+                cout << "Please enter patient name: ";
                 getline(cin, patientName);
 
                 try {
@@ -248,7 +252,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
                 } catch (const exception& e) {
                     cout << "An error occurred: " << e.what() << endl;
                 }
-        }
+
 
 
             // Search for patientID in the list of patientIDs
@@ -275,38 +279,38 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
             cin.ignore();
             getline(cin, staffType);
 
-if (staffType == "1") {
-    cout << "Select the Doctor's specialty:\n";
-    cout << "1. Emergency Physician\n";
-    cout << "2. Pulmonologist\n";
-    cout << "3. Gastroenterologist\n";
-    cout << "Enter 1, 2, or 3: ";
+            if (staffType == "1") {
+                cout << "Select the Doctor's specialty:\n";
+                cout << "1. Emergency Physician\n";
+                cout << "2. Pulmonologist\n";
+                cout << "3. Gastroenterologist\n";
+                cout << "Enter 1, 2, or 3: ";
 
-    int specialtyChoice;
-    cin >> specialtyChoice;
+                int specialtyChoice;
+                cin >> specialtyChoice;
 
-    // Mapping user choice to the specialty string
-    string specialization;
-    switch (specialtyChoice) {
-        case 1:
-            specialization = "Emergency Physician";
-            break;
-        case 2:
-            specialization = "Pulmonologist";
-            break;
-        case 3:
-            specialization = "Gastroenterologist";
-            break;
-        default:
-            cout << "Invalid choice. Defaulting to Emergency Physician." << endl;
-            specialization = "Emergency Physician";
-    }
+                // Mapping user choice to the specialty string
+                string specialization;
+                switch (specialtyChoice) {
+                    case 1:
+                        specialization = "Emergency Physician";
+                        break;
+                    case 2:
+                        specialization = "Pulmonologist";
+                        break;
+                    case 3:
+                        specialization = "Gastroenterologist";
+                        break;
+                    default:
+                        cout << "Invalid choice. Defaulting to Emergency Physician." << endl;
+                        specialization = "Emergency Physician";
+                }
 
 
-    string name = "Dr. Smith";
-    bool availability = true;
-    int employeeID = 123;
-    string licenseNumber = "Lic123456";
+                string name = "Dr. Smith";
+                bool availability = true;
+                int employeeID = 123;
+                string licenseNumber = "Lic123456";
 
     medicalStaff = new Doctor(name, specialization, availability, employeeID, licenseNumber);
     
@@ -316,8 +320,8 @@ if (staffType == "1") {
         cout << "- " << proc.getName() << ": " << proc.getDescription() << endl;
         procedureDescriptions += proc.getName() + ": " + proc.getDescription() + "\n";  
 
-    }
-} 
+        }
+    } 
 
          else if (staffType == "2") {
     cout << "Select the Nurse's specialty:\n";
@@ -469,7 +473,6 @@ case '3': { // Display all appointments
         break;
 
 case '7': {
-    cout << "Please add new patient:" << endl;
     try {
         unique_ptr<Patient> newPatient = unique_ptr<Patient>(patManager.addNewPatient());
         patientList.push_back(move(newPatient));

@@ -644,7 +644,11 @@ void OutPatient::displayInfo() const
 	{
 		cout<<"Patient Status: Out-patient"<<endl;
 		// cout<<"Next step:"<<nextStep->getProcedure()->getName();
-		cout<<"Scheduled: "<<nextStep->getAppointmentTime();
+		if (nextStep != nullptr)
+		{
+			cout << "Scheduled: " << nextStep->getAppointmentTime();
+		}
+	
 	}
 
 	cout<<endl;
@@ -689,15 +693,23 @@ Patient* patientManager::addNewPatient()
 
 	cout<<"Please add new patient:"<<endl;
 	cout<<"Please enter patient ID (integer): "<<endl;
-	cin>>buffer; pID = stoi(buffer);
+	cin>>buffer; 
+	pID = stoi(buffer);
 	cin.ignore();
 
 	cout<<"Please enter patient name (string):"<<endl;
 	cin>>buffer; n=buffer;
-	cin.ignore();
+	cin.ignore(); 
+	while ((getchar()) != '\n'); //clears out buffer
 
 	cout<<"Please enter patient age (int):"<<endl;
-	cin>>buffer; a=stoi(buffer);
+	cin>>buffer; 
+	try {
+		a = stoi(buffer);
+	}
+	catch (...) {
+		cout << "Invalid Input. Try again." << endl;
+	}
 	cin.ignore();
 
 	cout<<"Please enter patient gender (M or F):"<<endl;
