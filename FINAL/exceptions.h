@@ -56,6 +56,13 @@ public:
     static void validateBool(bool flag, const  string& flagName);
 };
 
+class InvalidAppointmentTimeFormat : public invalid_argument {
+public:
+    InvalidAppointmentTimeFormat(const string& msg)
+        : invalid_argument(msg) {}
+};
+
+bool isValidAppointmentTimeFormat(const string& time); 
 
 
 void confirmationException(const  string& errorMessage, bool& confirmed);

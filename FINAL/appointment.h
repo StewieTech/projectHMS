@@ -39,6 +39,7 @@ public:
     void setMedicalStaff(MedicalStaff* staff);
     void setProcedures(const string& procedures);
     void cancelAppointment();
+    static void rescheduleAppointment(list<Appointment>& appointments, const string& appointmentID, const string& newTime);
 };
 
 void appointmentSchedule(list<Appointment>& appointments, const Appointment& appointment);

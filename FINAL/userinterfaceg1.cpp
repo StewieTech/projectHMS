@@ -49,28 +49,26 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
         case '2': // Add patient
             try {
                 // Implement add patient functionality with input validation
-                string name;
+                string name, id, gender, phoneNumber;
+
                 cout << "Enter patient's name: ";
                 getline(cin, name);
                 InvalidNameException::invalidNames(name);
 
-                string id;
                 cout << "Enter patient's ID: ";
                 getline(cin, id);
                 // Implement your ID validation logic here
 
-                string gender;
                 cout << "Enter patient's gender (M/F/O): ";
                 getline(cin, gender);
                 GenderException::validateGender(gender);
 
-                string phoneNumber;
                 cout << "Enter patient's phone number: ";
                 getline(cin, phoneNumber);
                 PhoneNumberException::validatePhoneNumber(phoneNumber);
 
                 // Create and add the patient to the list
-                unique_ptr<Patient> newPatient = make_unique<Patient>(name, id, gender[0], "", phoneNumber, "", false, false, false, nullptr, nullptr, 0);
+                unique_ptr<Patient> newPatient = make_unique<Patient>(0, name, 0, gender[0], "", phoneNumber, "", false, false, false, nullptr, nullptr, 0); // Here, 0 is used as a placeholder for ID and age, you may need to change this depending on your requirements
                 patientList.push_back(move(newPatient));
                 cout << "Patient added successfully." << endl;
             }
@@ -78,6 +76,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
                 cerr << "Error: " << e.what() << endl;
             }
             break;
+
         case '3': // Display all patients
             cout << "All Patients:" << endl;
             for (const auto& patient : patientList) {
@@ -209,47 +208,47 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
             }
             break;
 
-        case '5': // Reschedule appointment
-            try {
-                // Implement reschedule appointment functionality
-                cout << "Enter the patient's ID: ";
-                string patientID;
-                cin >> patientID;
+case '5': // Reschedule appointment
+    try {
+        // Implement reschedule appointment functionality
+        cout << "Enter the patient's ID: ";
+        string patientID;
+        cin >> patientID;
 
-                // Search for the patient by ID
-                auto patient = searchPatientById(stoi(patientID), patientList);
-                if (patient == nullptr) {
-                    cerr << "Patient with ID " << patientID << " not found." << endl;
-                    break;
-                }
-
-                // Display the patient's appointments
-                cout << "Patient's Appointments:" << endl;
-                patient->displayAppointments();
-
-                cout << "Enter the ID of the appointment to reschedule: ";
-                string appointmentID;
-                cin >> appointmentID;
-
-                // Get the new date and time for the appointment
-                string newTime;
-                cout << "Enter the new date and time for the appointment (YYYY-MM-DD HH:MM): ";
-                cin.ignore(); // Ignore newline character left in the buffer
-                getline(cin, newTime);
-
-                // Validate appointment time format
-                if (!isValidAppointmentTimeFormat(newTime)) {
-                    throw invalid_argument("Invalid appointment time format. Please use the format YYYY-MM-DD HH:MM.");
-                }
-
-                // Reschedule the appointment
-                appointment->setDateTime(newTime);
-                cout << "Appointment successfully rescheduled." << endl;
-            }
-            catch (const invalid_argument& e) {
-                cerr << "Error: " << e.what() << endl;
-            }
+        // Search for the patient by ID
+        auto patient = searchPatientById(stoi(patientID), patientList);
+        if (patient == nullptr) {
+            cerr << "Patient with ID " << patientID << " not found." << endl;
             break;
+        }
+
+        // Display the patient's appointments
+        cout << "Patient's Appointments:" << endl;
+        patient->displayAppointments();
+
+        cout << "Enter the ID of the appointment to reschedule: ";
+        string appointmentID;
+        cin >> appointmentID;
+
+        // Get the new date and time for the appointment
+        string newTime;
+        cout << "Enter the new date and time for the appointment (YYYY-MM-DD HH:MM): ";
+        cin.ignore(); // Ignore newline character left in the buffer
+        getline(cin, newTime);
+
+        // Validate appointment time format
+        if (!isValidAppointmentTimeFormat(newTime)) {
+            throw invalid_argument("Invalid appointment time format. Please use the format YYYY-MM-DD HH:MM.");
+        }
+
+        // Reschedule the appointment using the rescheduleAppointment function
+        Appointment::rescheduleAppointment(appointments, appointmentID, newTime);
+    }
+    catch (const invalid_argument& e) {
+        cerr << "Error: " << e.what() << endl;
+    }
+    break;
+
 
         case '6': // Cancel appointment
             try {
@@ -284,7 +283,7 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
         case '7': // Display all available appointments
             // Implement display all available appointments functionality
             cout << "Available Appointments:" << endl;
-            displayAvailableAppointments();
+            displayAvailableAppointments(appointments);
             break;
 
         case '8': // Display booked appointments
@@ -355,6 +354,6 @@ void displayBookedAppointments(const list<Appointment>& appointments) {
 int main() {
     list<Appointment> appointments;
     list<unique_ptr<Patient>> patientList;
-    userInput(appointments, patientList);
+    userInput(appointments, patientList); 
     return 0;
 }

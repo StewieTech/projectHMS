@@ -1,7 +1,27 @@
 #include "exceptions.h"
 #include <stdexcept>
 
+
 using namespace std;
+
+bool isValidAppointmentTimeFormat(const string& time) {
+    // Check if the time string has the correct format (YYYY-MM-DD HH:MM)
+    if (time.size() != 16) // Check if the string length is correct
+        return false;
+
+    if (time[4] != '-' || time[7] != '-' || time[10] != ' ' || time[13] != ':')
+        return false; // Check if the separators are in the correct positions
+
+    for (int i = 0; i < 16; ++i) {
+        if (i == 4 || i == 7 || i == 10 || i == 13)
+            continue; // Skip separators
+        if (!isdigit(time[i]))
+            return false; // Check if all characters except separators are digits
+    }
+
+    return true; // If all checks pass, the format is valid
+}
+
 
 // base throw message since repetition throughout executions
 void BaseException::reportError(const string& errorMessage) {
