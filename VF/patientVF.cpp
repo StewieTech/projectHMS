@@ -17,6 +17,11 @@
  *	Status:		Complete
  */
 
+// Forward declarations to avoid circular dependencies
+// class Patient;
+// class MedicalStaff;
+// class Procedure;
+class Appointment;
 
 Patient::Patient(int pID, string n, int a, char g, string add, string pN, string d, bool urg, bool ip, bool op, Appointment* is, Appointment* ns, int tebc){
 	name=n;
@@ -732,9 +737,15 @@ Patient* patientManager::addNewPatient()
 		int temp_day;
 		int temp_hour;
 
-		cout<<"Please input scheduled room number (integer): "<<endl;
-		cin>>buffer; rn = stoi(buffer);
-		cin.ignore();
+		cout << "Please input scheduled room number (integer):" << endl;
+		string roomNumberInput;
+		getline(cin, roomNumberInput);
+		try {
+			int roomNumber = stoi(roomNumberInput);
+			// Use roomNumber to add the new patient...
+		} catch (const std::invalid_argument& e) {
+			cout << "Invalid input; Please enter a valid integer for the room number." << endl;
+}
 
 		cout<<"Please input in time. Is the year 2024? (Y/N)"<<endl;
 		cin>>buffer;

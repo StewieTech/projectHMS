@@ -1,5 +1,5 @@
-#ifndef PATIENT_H
-#define PATIENT_H
+#ifndef PATIENTVF_H
+#define PATIENTVF_H
 
 #include <iostream>
 #include <sstream>
@@ -17,7 +17,7 @@
 using namespace std;
 
 // Forward declaration to avoid circular dependencies
-class Appointment;
+// class Appointment;
 class InPatient;
 class OutPatient;
 class Procedure; // Forward declaration of Procedure class
@@ -148,7 +148,7 @@ public:
 	Patient* addNewPatient();
 };
 
-#endif // PATIENT_H
+#endif // PATIENTVF_H
 
 /*
  * Sample run script:
