@@ -41,155 +41,195 @@ void userInput(list<Appointment>& appointments, list<unique_ptr<Patient>>& patie
     do {
         displayMenu();
         cin >> choice;
-        cin.ignore(); // Clear input buffer
-
+        cin.ignore();
         switch (choice) {
-            case '1': // Add patient
-            {
-                string id, name, age, gender, address, phoneNumber, urgency, department, inPatient, outPatient;
-
-        // Input patient's ID
-        bool validIDEntered = false;
-        while (!validIDEntered) {
+        case '1': // Add patient
             try {
-                cout << "Enter patient's ID: ";
-                getline(cin, id);
-                validIDEntered = InvalidIDException::validateID(id);
-            } catch (const invalid_argument& e) {
-                cerr << "Error: " << e.what() << endl;
-            }
-        }
+                // Implement add patient functionality with input validation
+                string name, id, gender, phoneNumber;
 
-        // Input patient's name
-        bool validNameEntered = false;
-        while (!validNameEntered) {
-            try {
                 cout << "Enter patient's name: ";
                 getline(cin, name);
-                validNameEntered = InvalidNameException::invalidNames(name);
-            } catch (const invalid_argument& e) {
-                cerr << "Error: " << e.what() << endl;
-            }
-        }
+                InvalidNameException::invalidNames(name);
 
-        // Input patient's age
-        bool validAgeEntered = false;
-        while (!validAgeEntered) {
-            try {
-                cout << "Enter patient's age: ";
-                string ageString;
-                getline(cin, ageString);
-                int age = stoi(ageString); // Convert age input to integer
-                validAgeEntered = InvalidAgeException::invalidAges(age);
-            } catch (const invalid_argument& e) {
-                cerr << "Error: " << e.what() << endl;
-            }
-        }
+                cout << "Enter patient's ID: ";
+                getline(cin, id);
+                // Implement your ID validation logic here
 
-        // Input patient's gender
-        bool validGenderEntered = false;
-        while (!validGenderEntered) {
-            try {
                 cout << "Enter patient's gender (M/F/O): ";
                 getline(cin, gender);
-                validGenderEntered = GenderException::validateGender(gender);
-            } catch (const invalid_argument& e) {
-                cerr << "Error: " << e.what() << endl;
-            }
-        }
+                GenderException::validateGender(gender);
 
-        // Input patient's address
-        bool validAddressEntered = false;
-        while (!validAddressEntered) {
-            try {
-                cout << "Enter patient's address: ";
-                getline(cin, address);
-                validAddressEntered = FieldNotEmptyException::validateField(address);
-            } catch (const invalid_argument& e) {
-                cerr << "Error: " << e.what() << endl;
-            }
-        }
-
-        // Input patient's phone number
-        bool validPhoneNumEntered = false;
-        while (!validPhoneNumEntered) {
-            try {
                 cout << "Enter patient's phone number: ";
                 getline(cin, phoneNumber);
-                validPhoneNumEntered = PhoneNumberException::validatePhoneNumber(phoneNumber);
-            } catch (const invalid_argument& e) {
+                PhoneNumberException::validatePhoneNumber(phoneNumber);
+
+                // Create and add the patient to the list
+                unique_ptr<Patient> newPatient = make_unique<Patient>(0, name, 0, gender[0], "", phoneNumber, "", false, false, false, nullptr, nullptr, 0); // Here, 0 is used as a placeholder for ID and age, you may need to change this depending on your requirements
+                patientList.push_back(move(newPatient));
+                cout << "Patient added successfully." << endl;
+            }
+            catch (const invalid_argument& e) {
                 cerr << "Error: " << e.what() << endl;
             }
-        }
+            break;
+        case '2': // Search patient
+        {
+            // Implement search patient functionality
+            cout << "Enter patient's ID: ";
+            string patientID;
+            cin >> patientID;
 
-        // Input patient's urgency
-        bool validUrgencyEntered = false;
-        while (!validUrgencyEntered) {
+            // Convert patientID to integer
+            int id;
             try {
-                cout << "Enter 1 for urgent, otherwise 0: ";
-                string input;
-                getline(cin, input);
-                int urgencyValue = stoi(input);
-                if (urgencyValue != 0 && urgencyValue != 1) {
-                    throw invalid_argument("Invalid input. Please enter either 1 for urgent or 0 for not urgent.");
+                id = stoi(patientID);
+            }
+            catch (const invalid_argument&) {
+                cerr << "Invalid ID format. Please enter a valid integer ID." << endl;
+                break;
+            }
+
+            // Search for the patient by ID
+            auto patient = Patient::searchById(id, patientList);
+            if (patient == nullptr) {
+                cerr << "Patient with ID " << id << " not found." << endl;
+            }
+            else {
+                // Patient found, display patient information
+                cout << "Patient found:" << endl;
+                patient->displayInfo();
+            }
+            break;
+        }
+        case '3': // Display all patients
+            cout << "All Patients:" << endl;
+            for (const auto& patient : patientList) {
+                patient->displayInfo();
+                cout << endl;
+            }
+            break;
+        case '4': // Schedule appointment
+            try {
+                // Implement schedule appointment functionality with input validation
+                string patientID;
+                cout << "Enter the patient's ID: ";
+                cin >> patientID;
+
+                // Search for the patient by ID
+                auto patient = searchPatientById(stoi(patientID), patientList);
+                if (patient == nullptr) {
+                    cerr << "Patient with ID " << patientID << " not found." << endl;
+                    break;
                 }
-                validUrgencyEntered = true;
-            } catch (const invalid_argument& e) {
-                cerr << "Error: " << e.what() << endl;
-            }
-        }
 
-        // Input patient's department
-        bool validDepartmentEntered = false;
-        while (!validDepartmentEntered) {
-            try {
-                cout << "Enter patient's department: ";
-                getline(cin, department);
-                validDepartmentEntered = FieldNotEmptyException::validateField(department);
-            } catch (const invalid_argument& e) {
-                cerr << "Error: " << e.what() << endl;
-            }
-        }
-
-        // Input patient's inPatient or outPatient status
-        bool validInPatientEntered = false;
-        while (!validInPatientEntered) {
-            try {
-                cout << "Enter 1 for inpatient, otherwise 0: ";
-                string input;
-                getline(cin, input);
-                int inpatientValue = stoi(input);
-                if (inpatientValue != 0 && inpatientValue != 1) {
-                    throw invalid_argument("Invalid input. Please enter either 1 or 0.");
+                // Choose medical staff type
+                string staffType;
+                cout << "Select the type of medical staff (1. Doctor, 2. Nurse): ";
+                cin >> staffType;
+                if (staffType != "1" && staffType != "2") {
+                    cerr << "Invalid selection. Please choose 1 for Doctor or 2 for Nurse." << endl;
+                    break;
                 }
-                validInPatientEntered = true;
-            } catch (const invalid_argument& e) {
-                cerr << "Error: " << e.what() << endl;
-            }
-        }
 
-        // Input patient's outPatient status
-        bool validOutPatientEntered = false;
-        while (!validOutPatientEntered) {
-            try {
-                cout << "Enter 1 for Outpatient, otherwise 0: ";
-                string input;
-                getline(cin, input);
-                int outpatientValue = stoi(input);
-                if (outpatientValue != 0 && outpatientValue != 1) {
-                    throw invalid_argument("Invalid input. Please enter either 1 or 0.");
+                // Prompt for doctor or nurse specialties based on user choice
+                string specialization;
+                if (staffType == "1") { // Doctor
+                    cout << "Select the Doctor's specialty:\n";
+                    cout << "1. Emergency Physician\n";
+                    cout << "2. Pulmonologist\n";
+                    cout << "3. Gastroenterologist\n";
+                    cout << "Enter 1, 2, or 3: ";
+
+                    int specialtyChoice;
+                    cin >> specialtyChoice;
+
+                    // Mapping user choice to the specialty string
+                    switch (specialtyChoice) {
+                    case 1:
+                        specialization = "Emergency Physician";
+                        break;
+                    case 2:
+                        specialization = "Pulmonologist";
+                        break;
+                    case 3:
+                        specialization = "Gastroenterologist";
+                        break;
+                    default:
+                        cerr << "Invalid choice. Defaulting to Emergency Physician." << endl;
+                        specialization = "Emergency Physician";
+                    }
                 }
-                validOutPatientEntered = true;
-            } catch (const invalid_argument& e) {
-                cerr << "Error: " << e.what() << endl;
+                else { // Nurse
+                    cout << "Select the Nurse's specialty:\n";
+                    cout << "1. Emergency Nurse\n";
+                    cout << "2. Respiratory Nurse\n";
+                    cout << "3. Gastrointestinal Nurse\n";
+                    cout << "Enter 1, 2, or 3: ";
+
+                    int specialtyChoice;
+                    cin >> specialtyChoice;
+
+                    // Mapping user choice to the specialty string
+                    switch (specialtyChoice) {
+                    case 1:
+                        specialization = "Emergency Nurse";
+                        break;
+                    case 2:
+                        specialization = "Respiratory Nurse";
+                        break;
+                    case 3:
+                        specialization = "Gastrointestinal Nurse";
+                        break;
+                    default:
+                        cerr << "Invalid choice. Defaulting to Emergency Nurse." << endl;
+                        specialization = "Emergency Nurse";
+                    }
+                }
+
+                // Choose appointment time
+                string appointmentTime;
+                cout << "Enter the appointment time (YYYY-MM-DD HH:MM): ";
+                cin.ignore(); // Ignore newline character left in the buffer
+                getline(cin, appointmentTime);
+
+                // Validate appointment time format
+                if (!isValidAppointmentTimeFormat(appointmentTime)) {
+                    throw invalid_argument("Invalid appointment time format. Please use the format YYYY-MM-DD HH:MM.");
+                }
+
+                // Create the medical staff object
+                MedicalStaff* medicalStaff;
+                if (staffType == "1") { // Doctor
+                    // Create Doctor object based on specialization
+                    // Example values for demonstration
+                    string name = "Dr. Smith";
+                    bool availability = true;
+                    int employeeID = 123;
+                    string licenseNumber = "Lic123456";
+
+                    medicalStaff = new Doctor(name, specialization, availability, employeeID, licenseNumber);
+                }
+                else { // Nurse
+                    // Create Nurse object based on specialization
+                    // Example values for demonstration
+                    string name = "Nurse Joy"; // Ensure this is correctly set
+                    bool availability = true;
+                    int employeeID = 456;
+
+                    medicalStaff = new Nurse(name, specialization, availability, employeeID);
+                }
+
+                // Create the appointment
+                Appointment newAppointment(patient->getName(), patient->getId(), medicalStaff, appointmentTime, "");
+
+                // Schedule the appointment
+                appointmentSchedule(appointments, newAppointment);
+
+                cout << "Appointment successfully scheduled" << endl;
             }
-        }
-
-        // Create and add the patient to the list
-        unique_ptr<Patient> newPatient = make_unique<Patient>(0, name, 0, gender[0], "", phoneNumber, "", false, false, false, nullptr, nullptr, 0); // Here, 0 is used as a placeholder for ID and age, you may need to change this depending on your requirements
-        patientList.push_back(move(newPatient));
-        cout << "Patient added successfully." << endl;
-
+            catch (const invalid_argument& e) {
+                cerr << "Error: " << e.what() << endl;
             }
             break;
 
@@ -335,6 +375,6 @@ void displayBookedAppointments(const list<Appointment>& appointments) {
 int main() {
     list<Appointment> appointments;
     list<unique_ptr<Patient>> patientList;
-    userInput(appointments, patientList);
+    userInput(appointments, patientList); 
     return 0;
 }
