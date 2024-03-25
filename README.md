@@ -8,7 +8,6 @@ Project for Object-Oriented Software Development Using C++
 -  <swu106@myseneca.ca>
 -  <estewart14@myseneca.ca>
 
--  errol.f.stewart@gmail.com
 
  ## Instructions for git
 - git clone https://github.com/StewieTech/projectHMS.git
@@ -20,34 +19,41 @@ Project for Object-Oriented Software Development Using C++
 
 
 ## File Structure
-- `/src` - contains cpp files used for implementation
-- `main.cpp`
-- `/userInterface`
-  - `userInterface.cpp`
-   
-- `/include` - contains header files used for classes
-- `/userInterface`
-  - `userInterface.h`
+  
+- `/FINAL` - contains header files used for classes and source files
+- `- patient.h
+  - patient.cpp
+  - appointment.h
+  - appointment.cpp
+  - medicalStaff.h
+  - medidalStaff.cpp
+  - procedure.h
+  - procedure.cpp
+  - exceptions.h
+  - exceptions.cpp
+  - main.cpp
    
 - `/docs` - contains documentation
   
 - `/tests` - contains test files
+- /include - contains initial files
+- /VF - contains scrap versions of files
 
 ## Build Instructions
-- g++ userInterface.cpp -o userInterface
+- g++ main.cpp -o userInterface
   - to compile the single file   
-- g++ -o projectHMS src/*.cpp -Iinclude
+- g++ -o projectHMS FINAL/*.cpp -Iinclude
   - this compiles the entire project 
 - ./projectHMS
   - this runs the entire project
 
 ## Troubleshooting
 to include header files in .cpp files use <br>
-- #include "../include/userInterface.h"
+- #include "../FINAL/userInterface.h"
 - ctrl + shift + p in visual studio code then search for c_cpp_properties.json and add to the include path: <br>
  "includePath": [
 "${workspaceFolder}/**",
-"${workspaceFolder}/projectHMS/include",
+"${workspaceFolder}/projectHMS/FINAL",
 ],
 
 
